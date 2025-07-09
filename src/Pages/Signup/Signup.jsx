@@ -13,13 +13,14 @@ import { updateProfile } from "firebase/auth";
 import { auth } from "../../firebase/firebase.config";
 import { BeatLoader } from "react-spinners";
 import toast from "react-hot-toast";
+import { handleSocialLogin } from "../../utils/authHelper";
 
 const SignupPage = () => {
-    const { signUp, googleLogin } = useAuth();
+  const { signUp, googleLogin, facebookLogin } = useAuth();
   const [preview, setPreview] = useState(null);
   const [uploading, setUploading] = useState(false);
-  const navigate = useNavigate()
-  const [disabe, setdisable] = useState(false)
+  const navigate = useNavigate();
+  const [disabe, setdisable] = useState(false);
 
   const {
     register,
@@ -41,33 +42,41 @@ const SignupPage = () => {
     }
   };
 
-//   email pass login
+  //   email pass login
   const onSubmit = async (data) => {
     // console.log("Submitted Data:", { ...data });
-    setdisable(true)
+    setdisable(true);
 
     const userInfo = {
-        name : data?.name,
-        email : data?.email,
-        image : preview
-    }
-
-    // 
+      name: data?.name,
+      email: data?.email,
+      image: preview,
+    };
 
     const result = await signUp(data?.email, data?.password);
     console.log(result.user);
-    if(result?.user){
-         await updateProfile(auth.currentUser, {
-          displayName: data?.name,
-          photoURL : preview,
-        });
+    if (result?.user) {
+      await updateProfile(auth.currentUser, {
+        displayName: data?.name,
+        photoURL: preview,
+      });
 
-        await UserDB(userInfo)
-        // navigate('/')
-        setdisable(false)
-        toast.success("Signup Successful")
+      await UserDB(userInfo);
+      navigate('/')
+      setdisable(false);
+      toast.success("Signup Successful");
     }
   };
+
+  // google Login method
+  const handelGoogleSignin = async () => {
+    handleSocialLogin(googleLogin, navigate, "Google Login Successful")
+  };
+
+//   facebook logind method
+  const handelFacebookLogin = async () => {
+    handleSocialLogin(facebookLogin, navigate, "Facebook Login Successful")
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-tr from-blue-50 via-gray-200 to-green-50 flex justify-center items-center px-4 overflow-hidden">
@@ -190,13 +199,17 @@ const SignupPage = () => {
 
           {/* Social Signup */}
           <div className="space-y-3">
-            <button className="w-full flex items-center justify-center gap-3 border border-blue-500 py-2 rounded-lg hover:bg-blue-50 transition">
+            <button
+              onClick={handelGoogleSignin}
+              className="w-full flex items-center cursor-pointer justify-center gap-3 border border-blue-500 py-2 rounded-lg hover:bg-blue-50 transition"
+            >
               <FcGoogle size={22} />
               <span className="text-blue-700 font-medium">
                 Sign up with Google
               </span>
             </button>
-            <button className="w-full flex items-center justify-center gap-3 border border-blue-700 py-2 rounded-lg text-blue-700 hover:bg-blue-100 transition">
+
+            <button onClick={handelFacebookLogin} className="w-full flex cursor-pointer items-center justify-center gap-3 border border-blue-700 py-2 rounded-lg text-blue-700 hover:bg-blue-100 transition">
               <FaFacebook size={22} />
               <span className="font-medium">Sign up with Facebook</span>
             </button>

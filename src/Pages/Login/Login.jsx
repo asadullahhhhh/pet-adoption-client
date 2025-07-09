@@ -1,10 +1,26 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
 import Lottie from "lottie-react";
 import loginAnim from "../../assets/login.json";
+import useAuth from "../../hooks/useAuth";
+import { handleSocialLogin } from "../../utils/authHelper";
 
 const LoginPage = () => {
+
+  const { googleLogin, facebookLogin } = useAuth();
+  const navigate = useNavigate()
+
+  // google Login method
+    const handelGoogleLogin= async () => {
+      handleSocialLogin(googleLogin, navigate, "Google Login Successful")
+    };
+  
+  //   facebook logind method
+    const handelFacebookLogin = async () => {
+      handleSocialLogin(facebookLogin, navigate, "Facebook Login Successful")
+    }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-100 to-white flex justify-center items-center px-4 relative">
       <div className="w-full max-w-5xl relative bg-white/30 rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row items-center justify-between">
@@ -36,7 +52,7 @@ const LoginPage = () => {
             />
             <button
               type="submit"
-              className="w-full bg-blue-500 text-white font-semibold py-2 rounded-md hover:bg-blue-600 transition"
+              className="w-full cursor-pointer bg-blue-500 text-white font-semibold py-2 rounded-md hover:bg-blue-600 transition"
             >
               Login
             </button>
@@ -51,11 +67,17 @@ const LoginPage = () => {
 
           {/* Social Buttons */}
           <div className="space-y-3">
-            <button className="w-full flex items-center justify-center gap-3 border py-2 rounded-md hover:bg-gray-100 transition">
+            <button
+              onClick={handelGoogleLogin}
+              className="w-full flex cursor-pointer items-center justify-center gap-3 border py-2 rounded-md hover:bg-gray-100 transition"
+            >
               <FcGoogle size={24} />
               <span>Login with Google</span>
             </button>
-            <button className="w-full flex items-center justify-center gap-3 border py-2 rounded-md text-blue-600 hover:bg-gray-100 transition">
+            <button
+              onClick={handelFacebookLogin}
+              className="w-full flex cursor-pointer items-center justify-center gap-3 border py-2 rounded-md text-blue-600 hover:bg-gray-100 transition"
+            >
               <FaFacebook size={24} />
               <span>Login with Facebook</span>
             </button>
