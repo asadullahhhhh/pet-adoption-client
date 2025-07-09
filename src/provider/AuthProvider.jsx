@@ -1,38 +1,62 @@
+import {
+  createUserWithEmailAndPassword,
+  FacebookAuthProvider,
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+} from "firebase/auth";
+import React, { createContext, useEffect, useState } from "react";
+import { auth } from "../firebase/firebase.config";
 
-import { createUserWithEmailAndPassword, FacebookAuthProvider, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import React, { createContext } from 'react';
-import { auth } from '../firebase/firebase.config';
+export const AuthContext = createContext(null);
 
-export const AuthContext = createContext(null)
+const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-const AuthProvider = ({children}) => {
+  console.log(user);
 
-    const gProvider = new GoogleAuthProvider()
-    const fProvider = new FacebookAuthProvider()
+  const gProvider = new GoogleAuthProvider();
+  const fProvider = new FacebookAuthProvider();
 
-    const signUp = (email, password) => {
-        return createUserWithEmailAndPassword(auth, email, password)
+  const signUp = (email, password) => {
+    return createUserWithEmailAndPassword(auth, email, password);
+  };
+
+  const signIn = (email, password) => {
+    return signInWithEmailAndPassword(auth, email, password);
+  };
+
+  const googleLogin = () => {
+    return signInWithPopup(auth, gProvider);
+  };
+
+  const facebookLogin = () => {
+    return signInWithPopup(auth, fProvider);
+  };
+
+  useEffect(() => {
+    const unSubsCribe = onAuthStateChanged(auth, currenUser => {
+        setUser(currenUser)
+        setLoading(false)
+    });
+
+    return () => {
+        return unSubsCribe()
     }
+  }, []);
 
-    const googleLogin = () => {
-        return signInWithPopup(auth, gProvider)
-    }
+  const info = {
+    user,
+    loading,
+    signUp,
+    signIn,
+    googleLogin,
+    facebookLogin,
+  };
 
-    const facebookLogin = () => {
-        return signInWithPopup(auth, fProvider)
-    }
-
-    const info = {
-      signUp,
-      googleLogin,
-      facebookLogin,
-    };
-
-    return <AuthContext.Provider value={info}>
-        {
-            children
-        }
-    </AuthContext.Provider>
+  return <AuthContext.Provider value={info}>{children}</AuthContext.Provider>;
 };
 
 export default AuthProvider;

@@ -1,10 +1,28 @@
 import { AnimatePresence, useAnimation } from "motion/react";
 import { motion } from "motion/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router"; // ✅ Correct import
 
 const Navmenu = () => {
   const [open, setOpen] = useState(false);
+  const dropdownRef = useRef(null); 
+  
+  
+    useEffect(() => {
+      const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+          setOpen(false);
+        }
+      };
+  
+      if (open) {
+        document.addEventListener("mousedown", handleClickOutside);
+      }
+  
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, [open]);
 
   const path1Control = useAnimation()
   const path2Control = useAnimation()
@@ -32,7 +50,7 @@ const Navmenu = () => {
   };
 
   return (
-    <div className="relative block sm:hidden">
+    <div ref={dropdownRef} className="relative block sm:hidden">
       {/* Menu Button */}
       <div
         onClick={() => setOpen(!open)}

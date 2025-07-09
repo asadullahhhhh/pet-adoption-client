@@ -7,7 +7,6 @@ import signupAnim from "../../assets/signup.json";
 import { LuImageUp } from "react-icons/lu";
 import { imageUpload, UserDB } from "../../utils/utility";
 import { useForm } from "react-hook-form";
-import { AuthContext } from "../../provider/AuthProvider";
 import useAuth from "../../hooks/useAuth";
 import { updateProfile } from "firebase/auth";
 import { auth } from "../../firebase/firebase.config";

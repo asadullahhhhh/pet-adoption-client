@@ -5,11 +5,44 @@ import Lottie from "lottie-react";
 import loginAnim from "../../assets/login.json";
 import useAuth from "../../hooks/useAuth";
 import { handleSocialLogin } from "../../utils/authHelper";
+import toast from "react-hot-toast";
+import { UserDB } from "../../utils/utility";
+import { useState } from "react";
+import { BeatLoader } from "react-spinners";
 
 const LoginPage = () => {
 
-  const { googleLogin, facebookLogin } = useAuth();
+  const { signIn, googleLogin, facebookLogin } = useAuth();
   const navigate = useNavigate()
+    const [disabe, setdisable] = useState(false);
+
+  // email password login
+  const handleSubmit = async e => {
+    e.preventDefault()
+    setdisable(true)
+
+    const email = e.target.email.value 
+    const password = e.target.password.value 
+
+    try{
+      const {user} = await signIn(email, password)
+      
+      const userInfo = {
+        name: user?.displayName,
+        email: user?.email,
+        iamge: user?.photoURL,
+      };
+
+      if(user){
+        await UserDB(userInfo)
+        navigate('/')
+        toast.success('Login successful')
+        setdisable(false)
+      }
+    }catch(err){
+      toast.error(err.message)
+    }
+  }
 
   // google Login method
     const handelGoogleLogin= async () => {
@@ -39,22 +72,25 @@ const LoginPage = () => {
             Login to Your Account
           </h2>
 
-          <form className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <input
               type="email"
+              name="email"
               placeholder="Email"
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200"
             />
             <input
               type="password"
+              name="password"
               placeholder="Password"
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200"
             />
             <button
               type="submit"
+              disabled={disabe}
               className="w-full cursor-pointer bg-blue-500 text-white font-semibold py-2 rounded-md hover:bg-blue-600 transition"
             >
-              Login
+              {disabe ? <BeatLoader color="#ffffff" size={8} /> : "Login"}
             </button>
           </form>
 
