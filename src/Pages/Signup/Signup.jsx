@@ -2,7 +2,7 @@ import { Link } from "react-router";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
 import Lottie from "lottie-react";
-// import signupAnim from "../../assets/signup.json"; // optional smaller animation in form side
+import signupAnim from "../../assets/signup.json"; // optional smaller animation in form side
 
 const SignupPage = () => {
   return (
@@ -10,11 +10,11 @@ const SignupPage = () => {
       <div className="w-full max-w-5xl mt-10 relative bg-white/90 backdrop-blur-lg rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row items-center justify-between">
         {/* Left Side - Optional Lottie Animation */}
         <div className="hidden md:block md:w-1/2 p-10">
-          {/* <Lottie
+          <Lottie
             animationData={signupAnim}
             loop={true}
             className="w-full h-[420px]"
-          /> */}
+          />
         </div>
 
         {/* Right Side - Signup Form */}
