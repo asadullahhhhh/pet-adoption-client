@@ -1,9 +1,12 @@
 import React from 'react';
+import Banner from '../../Components/Banner/Banner';
 
 const HomePage = () => {
     return (
       <section className={`bg-[#f9fafb]`}>
-        <h2>I am home</h2>
+        {/* Banner */}
+        <Banner></Banner>
+       
       </section>
     );
 };

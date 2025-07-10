@@ -4,10 +4,11 @@ import Navmenu from "../../Components/NavMenu/Navmenu";
 import useAuth from "../../hooks/useAuth";
 import userImg from '../../assets/user.png'
 import { AnimatePresence, motion } from "motion/react";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
 
-  const { user } = useAuth()
+  const { user, logOut } = useAuth();
   const [open, setOpen] = useState(false)
   const dropdownRef = useRef(null); 
 
@@ -28,6 +29,15 @@ const Navbar = () => {
     };
   }, [open]);
 
+  const handelLogout = () => {
+    try{
+       logOut()
+       toast.success("User sign out successful")
+    }catch(err){
+      toast.error(err.message)
+    }
+  }
+
   
   return (
     <div className="fixed top-0 left-0 w-full backdrop-blur-md bg-white/60  border-white/30 shadow-sm z-50">
@@ -36,7 +46,11 @@ const Navbar = () => {
         <div className="flex items-center gap-7">
           <Navmenu />
           <Link to="/">
-            <img src="/pet.png" className="sm:w-[50px] w-[30px] scale-[2.5]" alt="Logo" />
+            <img
+              src="/pet.png"
+              className="sm:w-[50px] sm:ml-5 w-[30px] scale-[2.5]"
+              alt="Logo"
+            />
           </Link>
         </div>
 
@@ -83,7 +97,12 @@ const Navbar = () => {
                         <Link>Dashboard</Link>
                       </li>
                       <li className="py-2 font-semibold text-gray-700 hover:bg-gray-100 hover:text-black">
-                        <button className="cursor-pointer">Log out</button>
+                        <button
+                          onClick={handelLogout}
+                          className="cursor-pointer"
+                        >
+                          Log out
+                        </button>
                       </li>
                     </ul>
                   </motion.div>
