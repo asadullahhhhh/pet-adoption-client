@@ -4,6 +4,7 @@ import { useInView } from "react-intersection-observer";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useState, useEffect } from "react";
+import { Link } from "react-router";
 
 const fetchPets = async ({ pageParam = 1, queryKey }) => {
   const [_key, { name, category }] = queryKey;
@@ -106,10 +107,10 @@ const PetListing = () => {
             : pets.map((pet) => (
                 <div
                   key={pet._id}
-                  className="rounded shadow bg-white hover:scale-[1.01] duration-200 group overflow-hidden shadow-lg"
+                  className="rounded bg-white hover:scale-[1.01] duration-200 group overflow-hidden shadow-lg"
                 >
                   <img
-                    src={pet.image}
+                    src={pet.images[0]}
                     alt={pet.name}
                     className="w-full h-48 object-cover rounded group-hover:scale-105 duration-300"
                   />
@@ -122,9 +123,11 @@ const PetListing = () => {
                     <h2 className="text-xl font-bold mt-2">{pet.name}</h2>
                     <p>Age: {pet.age}</p>
                     <p>Location: {pet.location}</p>
-                    <button className="bg-red-500 mt-2 hover:bg-red-600 text-white font-semibold px-3 py-1 cursor-pointer rounded-lg shadow-md transition-all">
-                      View Puppies →
-                    </button>
+                    <Link to={`/pet-details/${pet._id}`}>
+                      <button className="bg-red-500 mt-2 hover:bg-red-600 text-white font-semibold px-3 py-1 cursor-pointer rounded-lg shadow-md transition-all">
+                        View Puppies →
+                      </button>
+                    </Link>
                   </div>
                 </div>
               ))}

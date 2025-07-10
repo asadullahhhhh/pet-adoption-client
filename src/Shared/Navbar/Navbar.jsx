@@ -60,7 +60,7 @@ const Navbar = () => {
             <li className="hover:bg-amber-50 px-3 py-2 rounded-lg cursor-pointer">
               <NavLink
                 to="/"
-                className={({ isActive }) => (isActive ? "text-amber-500" : "")}
+                className={({ isActive }) => (isActive ? "text-amber-500 block" : "block")}
               >
                 Home
               </NavLink>
@@ -68,7 +68,7 @@ const Navbar = () => {
             <li className="hover:bg-amber-50 px-3 py-2 rounded-lg cursor-pointer">
               <NavLink
                 to="pet-listing"
-                className={({ isActive }) => (isActive ? "text-amber-500" : "")}
+                className={({ isActive }) => (isActive ? "text-amber-500 block" : "block")}
               >
                 Pet Listing
               </NavLink>

@@ -1,0 +1,175 @@
+[
+    {
+      "name": "Jamie",
+      "gender": "Male",
+      "age": "1 year",
+      "category": "Dog",
+      "size": "Large",
+      "breed": "Labrador",
+      "neutered": true,
+      "vaccinated": true,
+      "description": "Loves to go out for walks and is very inquisitive. He adores human cuddles and loves to snuggle.",
+      "longDescription": "Whiskers is a gentle and affectionate Persian cat with a soft gray coat and sparkling eyes that can melt anyone’s heart. She’s around 8 months old and loves curling up by the window, soaking in the sun while watching birds and people pass by. Whiskers is calm and quiet by nature, making her ideal for apartment living. She’s litter trained, very clean, and has a sweet habit of kneading her paws when content. Though shy at first, she quickly warms up and enjoys being gently petted, especially under her chin. She’s not demanding and doesn’t meow unnecessarily, but she will follow you from room to room, quietly keeping you company. Whiskers enjoys cuddles and has a playful side too—she can spend hours chasing feather toys or batting a ball of yarn. She has been vaccinated and is in good health. Whether you’re a first-time pet owner or someone experienced with cats, Whiskers will bring a calming and affectionate presence to your home. She’s perfect for someone who enjoys quiet evenings with a soft, purring companion by their side. This little feline is looking for a forever family who will love her as much as she’ll love them.",
+
+      "traits": [
+        "Friendly to other dogs",
+        "Good for Apartments",
+        "Friendly with Children"
+      ],
+      "images": [
+        "https://plus.unsplash.com/premium_photo-1663127305918-a789d0f6bf21?q=80&w=1163&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://plus.unsplash.com/premium_photo-1663127291931-aa8aef5aac58?q=80&w=1135&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://plus.unsplash.com/premium_photo-1681883365008-49aee3640625?q=80&w=1147&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      ],
+      "location": "Rangpur",
+      "shortDescription": "Loyal and loves cuddles.",
+      "status": "available",
+      "adoptedAt": null,
+      "isFeatured": false,
+      "views": 12,
+      "likes": 3,
+      "addedBy": {
+        "userId": "user001",
+        "name": "Galib",
+        "email": "galib@example.com"
+      },
+      "createdAt": "2025-07-09T10:00:00Z",
+      "updatedAt": "2025-07-09T10:00:00Z"
+    },
+
+    {
+      "name": "Whiskers",
+      "gender": "Female",
+      "age": "8 months",
+      "category": "Cat",
+      "size": "Small",
+      "breed": "Persian",
+      "neutered": false,
+      "vaccinated": true,
+      "description": "Affectionate and calm. She enjoys long naps on sunny windowsills.",
+      "longDescription": "Snowy is a delightful Angora rabbit with a personality as soft and fluffy as her fur. At only 6 months old, she’s still discovering the world with wide-eyed curiosity. Snowy is gentle, affectionate, and very playful. She loves hopping around, exploring new corners of the house, and digging in soft blankets. Her favorite treats include fresh carrots, leafy greens, and the occasional slice of apple. Although she’s small in size, her presence fills the room with joy. Snowy enjoys being gently brushed and held, especially in a quiet environment where she feels safe. She’s not yet neutered but is in excellent health and shows no signs of aggression. With a little training, she quickly adapts to routines and even learns her name. Her silky fur needs regular grooming, but the bonding time makes it all worthwhile. Snowy would do best in a calm household where she has space to hop around and feel loved. Ideal for children or adults who have time to interact daily, Snowy is more than just a pet—she’s a soft, loving companion. Bring her into your life, and you’ll gain not only a rabbit but a best friend who’ll brighten every day with her charm.",
+
+      "traits": ["Indoor", "Litter Trained", "Quiet"],
+      "images": [
+        "https://images.unsplash.com/photo-1719579761892-cb3c0e576174?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://images.unsplash.com/photo-1719414544001-fc4512afb170?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://plus.unsplash.com/premium_photo-1663127576306-9d9de0a47318?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      ],
+      "location": "Chittagong",
+      "shortDescription": "Loves naps and calm company.",
+      "status": "available",
+      "adoptedAt": null,
+      "isFeatured": true,
+      "views": 30,
+      "likes": 10,
+      "addedBy": {
+        "userId": "user002",
+        "name": "Ayesha",
+        "email": "ayesha@example.com"
+      },
+      "createdAt": "2025-07-08T14:30:00Z",
+      "updatedAt": "2025-07-08T14:30:00Z"
+    },
+
+    {
+      "name": "Snowy",
+      "gender": "Female",
+      "age": "6 months",
+      "category": "Rabbit",
+      "size": "Small",
+      "breed": "Angora",
+      "neutered": false,
+      "vaccinated": false,
+      "description": "Fluffy and energetic. Loves to hop around and nibble on veggies.",
+      "longDescription": "Snowy is a delightful Angora rabbit with a personality as soft and fluffy as her fur. At only 6 months old, she’s still discovering the world with wide-eyed curiosity. Snowy is gentle, affectionate, and very playful. She loves hopping around, exploring new corners of the house, and digging in soft blankets. Her favorite treats include fresh carrots, leafy greens, and the occasional slice of apple. Although she’s small in size, her presence fills the room with joy. Snowy enjoys being gently brushed and held, especially in a quiet environment where she feels safe. She’s not yet neutered but is in excellent health and shows no signs of aggression. With a little training, she quickly adapts to routines and even learns her name. Her silky fur needs regular grooming, but the bonding time makes it all worthwhile. Snowy would do best in a calm household where she has space to hop around and feel loved. Ideal for children or adults who have time to interact daily, Snowy is more than just a pet—she’s a soft, loving companion. Bring her into your life, and you’ll gain not only a rabbit but a best friend who’ll brighten every day with her charm.",
+
+      "traits": ["Playful", "Indoor", "Gentle"],
+      "images": [
+        "https://images.unsplash.com/photo-1591561582301-7ce6588cc286?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://images.unsplash.com/photo-1632811296649-caa3b722f6c0?q=80&w=492&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      ],
+      "location": "Sylhet",
+      "shortDescription": "Fluffy and energetic.",
+      "status": "pending",
+      "adoptedAt": null,
+      "isFeatured": false,
+      "views": 18,
+      "likes": 2,
+      "addedBy": {
+        "userId": "user003",
+        "name": "Hasan",
+        "email": "hasan@example.com"
+      },
+      "createdAt": "2025-07-07T09:00:00Z",
+      "updatedAt": "2025-07-07T09:00:00Z"
+    },
+
+    {
+      "name": "Bruno",
+      "gender": "Male",
+      "age": "2 years",
+      "category": "Bird",
+      "size": "Medium",
+      "breed": "Beagle",
+      "neutered": true,
+      "vaccinated": true,
+      "description": "Very active and intelligent. Enjoys playing fetch and long walks.",
+      "longDescription": "Bruno is an energetic and intelligent Beagle who thrives in active homes where he gets plenty of stimulation and love. At 2 years old, Bruno is in the prime of his life and loves spending his days running in open spaces, playing fetch, or going on long nature walks. He’s house-trained, vaccinated, and neutered, making him ready to settle into a new home without much fuss. Bruno is great with children and does well with other pets, provided they can keep up with his high energy. His nose is always working—true to his breed, he loves sniffing around and would thrive with a family that enjoys outdoor adventures. At night, though, he’s all about belly rubs and curling up on the couch. He’s loyal to a fault and forms strong bonds with his humans. Bruno also responds well to basic commands and enjoys learning new tricks for treats. Recently adopted by a loving family, he’s proof that even the most energetic pets can find their forever homes with the right people. Bruno’s story is a reminder that patience, consistency, and care bring out the very best in any animal. He’s a true gem.",
+
+      "traits": ["Good with Kids", "Energetic", "Needs Space"],
+      "images": [
+        "https://media.istockphoto.com/id/1500255298/photo/white-budgerigar.webp?s=2048x2048&w=is&k=20&c=gDQYNttAIqFkfuhgWp0Awf_fn3MY4locNYxjwxP6E1k=",
+        "https://images.unsplash.com/photo-1588702697415-8c7f77df755e?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      ],
+      "location": "Dhaka",
+      "shortDescription": "Energetic and playful.",
+      "status": "adopted",
+      "adoptedAt": "2025-07-09T17:00:00Z",
+      "isFeatured": false,
+      "views": 47,
+      "likes": 5,
+      "addedBy": {
+        "userId": "user001",
+        "name": "Galib",
+        "email": "galib@example.com"
+      },
+      "createdAt": "2025-07-05T11:20:00Z",
+      "updatedAt": "2025-07-09T17:00:00Z"
+    },
+
+    {
+      "name": "Nibbles",
+      "gender": "Male",
+      "age": "3 months",
+      "category": "Dog",
+      "size": "Tiny",
+      "breed": "Syrian",
+      "neutered": false,
+      "vaccinated": false,
+      "description": "Cute and curious little hamster who loves spinning his wheel.",
+      "longDescription": "Nibbles is a tiny Syrian hamster with a massive personality. Just 3 months old, he’s already a curious little explorer who brings smiles wherever he goes. Don’t let his size fool you—Nibbles loves racing on his exercise wheel, stuffing his cheeks with treats, and burrowing deep into his bedding. He’s low-maintenance, clean, and doesn’t require a lot of space, making him perfect for small apartments or as a child’s first pet. Nibbles is comfortable being gently handled and will sometimes even climb into your hand when he feels safe. He enjoys a variety of hamster-safe snacks, including sunflower seeds, cucumbers, and tiny pieces of apple. Though quiet during the day, he becomes active and playful at night, which is when his personality really shines. Nibbles is housed in a spacious cage with plenty of tunnels and toys, but he also appreciates supervised playtime outside. While he’s not vaccinated due to species norms, he’s healthy and well-cared for. If you’re seeking a small, delightful animal companion who’s both entertaining and adorable, Nibbles could be the perfect match. He’s looking for a home where he’ll be loved, respected, and given the chance to thrive in a cozy environment.",
+
+      "traits": ["Low Maintenance", "Cute", "Good for Beginners"],
+      "images": [
+        "https://images.unsplash.com/photo-1670089390768-711abbfb5c87?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://images.unsplash.com/photo-1670089390768-711abbfb5c87?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      ],
+      "location": "Barisal",
+      "shortDescription": "Tiny and fun to watch.",
+      "status": "available",
+      "adoptedAt": null,
+      "isFeatured": true,
+      "views": 5,
+      "likes": 1,
+      "addedBy": {
+        "userId": "user004",
+        "name": "Mim",
+        "email": "mim@example.com"
+      },
+      "createdAt": "2025-07-06T12:00:00Z",
+      "updatedAt": "2025-07-06T12:00:00Z"
+    }
+         
+      
+]
