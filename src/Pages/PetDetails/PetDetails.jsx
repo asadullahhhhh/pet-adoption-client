@@ -62,10 +62,10 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
-import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { useParams } from "react-router";
-import { FaArrowRightLong } from "react-icons/fa6";
+import PetCard from "./PetCard";
+import PetDescript from "./PetDescript";
 
 
 const fetchPet = async (id) => {
@@ -92,68 +92,11 @@ export default function PetDetails() {
     if (isError) return <div>Error loading pet.</div>;
 
   return (
-    <div className="bg-[#f8f8f8] w-full py-12 px-4 lg:px-12">
-      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-10">
-        {/* Image Section */}
-        <div className="w-full lg:w-1/2 rounded-xl overflow-hidden">
-          <Carousel showThumbs={false} infiniteLoop autoPlay showStatus={false}>
-            {pet.images.map((img, index) => (
-              <div key={index}>
-                <img
-                  src={img}
-                  alt={`pet-${index}`}
-                  className="h-[500px] w-full object-cover rounded-xl"
-                />
-              </div>
-            ))}
-          </Carousel>
-        </div>
-
-        {/* Content Section */}
-        <div className="w-full lg:w-1/2 text-gray-800">
-          {/* Title */}
-          <h2 className="text-4xl font-bold mb-4 relative inline-block">
-            Meet {pet.name}
-            <span className="block w-20 h-1 bg-red-400 mt-2 rounded-full"></span>
-          </h2>
-
-          {/* Details Grid */}
-          <div className="grid grid-cols-2 gap-y-3 text-base mb-6">
-            <p>
-              <span className="font-semibold">Gender:</span> {pet.gender}
-            </p>
-            <p>
-              <span className="font-semibold">Breed:</span> {pet.breed}
-            </p>
-            <p>
-              <span className="font-semibold">Neutered:</span>{" "}
-              {pet.neutered ? "Yes" : "No"}
-            </p>
-            <p>
-              <span className="font-semibold">Vaccinated:</span>{" "}
-              {pet.vaccinated ? "Yes" : "No"}
-            </p>
-            <p>
-              <span className="font-semibold">Age:</span> {pet.age}
-            </p>
-            <p>
-              <span className="font-semibold">Size:</span> {pet.size}
-            </p>
-          </div>
-
-          {/* Description */}
-          <p className="text-gray-600 leading-relaxed text-sm mb-6">
-            {pet.description}
-          </p>
-
-          {/* Adopt Button */}
-          <button className="bg-red-500 cursor-pointer hover:bg-red-600 text-white px-6 py-3 rounded-full flex items-center gap-2 transition">
-            Adopt <FaArrowRightLong />
-          </button>
-          
-        </div>
-      </div>
-      
-    </div>
+    <section>
+      {/* Pet Card */}
+      <PetCard pet={pet}></PetCard>
+      {/* pet Description */}
+      <PetDescript pet={pet}></PetDescript>
+    </section>
   );
 }
