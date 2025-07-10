@@ -40,7 +40,7 @@ const Navbar = () => {
 
   
   return (
-    <div className="fixed top-0 left-0 w-full backdrop-blur-md bg-white/60  border-white/30 shadow-sm z-50">
+    <div className="fixed top-0 left-0 w-full backdrop-blur-md bg-white/60 h-[72px]  border-white/30 shadow-sm z-50">
       <nav className="max-w-7xl mx-auto px-5 py-3 flex justify-between items-center">
         {/* logo and mobile menu */}
         <div className="flex items-center gap-7">
@@ -56,15 +56,21 @@ const Navbar = () => {
 
         {/* nav items */}
         <div className="hidden sm:flex">
-          <ul className="flex gap-6 font-semibold text-gray-800">
-            <li>
+          <ul className="flex font-semibold text-gray-800">
+            <li className="hover:bg-amber-50 px-3 py-2 rounded-lg cursor-pointer">
               <NavLink
                 to="/"
-                className={({ isActive }) =>
-                  isActive ? "text-blue-500" : "hover:text-blue-400"
-                }
+                className={({ isActive }) => (isActive ? "text-amber-500" : "")}
               >
                 Home
+              </NavLink>
+            </li>
+            <li className="hover:bg-amber-50 px-3 py-2 rounded-lg cursor-pointer">
+              <NavLink
+                to="pet-listing"
+                className={({ isActive }) => (isActive ? "text-amber-500" : "")}
+              >
+                Pet Listing
               </NavLink>
             </li>
             {/* Add more links here */}
@@ -110,11 +116,13 @@ const Navbar = () => {
               </AnimatePresence>
             </div>
           ) : (
-            <Link to={"/login"}>
-              <button className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md shadow-sm transition">
-                Login
-              </button>
-            </Link>
+            <div className="min-h-[48px] min-w-[152px] flex justify-center items-center">
+              <Link to={"/login"}>
+                <button className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md shadow-sm transition">
+                  Login
+                </button>
+              </Link>
+            </div>
           )}
         </div>
       </nav>
