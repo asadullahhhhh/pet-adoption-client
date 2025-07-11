@@ -66,6 +66,8 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { useParams } from "react-router";
 import PetCard from "./PetCard";
 import PetDescript from "./PetDescript";
+import AdoptModal from "./AdoptionModal";
+import useAuth from "../../hooks/useAuth";
 
 
 const fetchPet = async (id) => {
@@ -77,7 +79,8 @@ const fetchPet = async (id) => {
 
 export default function PetDetails() {
   const { id } = useParams();
-    // const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const { user } = useAuth()
 
     const {
       data: pet,
@@ -94,9 +97,11 @@ export default function PetDetails() {
   return (
     <section>
       {/* Pet Card */}
-      <PetCard pet={pet}></PetCard>
+      <PetCard pet={pet} setIsOpen={setIsOpen}></PetCard>
       {/* pet Description */}
       <PetDescript pet={pet}></PetDescript>
+      {/* adoption form */}
+      <AdoptModal isOpen={isOpen} setIsOpen={setIsOpen} pet={pet} user={user}></AdoptModal>
     </section>
   );
 }
