@@ -100,12 +100,12 @@ const Navbar = () => {
                   >
                     <ul className="flex flex-col bg-gray-200 w-28 lg:w-48 text-center">
                       <li className="py-2 font-semibold text-gray-600 hover:text-black hover:bg-gray-100">
-                        <Link>Dashboard</Link>
+                        <Link to={'/dashboard'} className="block">Dashboard</Link>
                       </li>
                       <li className="py-2 font-semibold text-gray-700 hover:bg-gray-100 hover:text-black">
                         <button
                           onClick={handelLogout}
-                          className="cursor-pointer"
+                          className="cursor-pointer block w-full"
                         >
                           Log out
                         </button>

@@ -5,6 +5,8 @@ import Login from "../Pages/Login/Login";
 import Signup from "../Pages/Signup/Signup";
 import PetListing from "../Pages/PetListing/PetListing";
 import PetDetails from "../Pages/PetDetails/PetDetails";
+import Dashboard from "../Layouts/DashboardLayouts/Dashboard";
+import DashboardHome from "../DashoardPages/DashboardHome/DashboardHome";
 
 export const router = createBrowserRouter([
   {
@@ -33,4 +35,14 @@ export const router = createBrowserRouter([
       }
     ],
   },
+  {
+    path : 'dashboard',
+    Component : Dashboard,
+    children : [
+      {
+        index : true,
+        Component : DashboardHome
+      }
+    ]
+  }
 ]);

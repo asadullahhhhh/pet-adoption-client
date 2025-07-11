@@ -10,7 +10,6 @@ const ModalForm = ({ user, pet, close }) => {
     formState: { errors },
   } = useForm();
 
-  console.log(pet);
 
   const onSubmit = async (data) => {
     const adoptionData = {
@@ -26,15 +25,19 @@ const ModalForm = ({ user, pet, close }) => {
     };
 
     try {
-      const res = await axios.post("/api/adoptPet", adoptionData);
+      const res = await axios.post(
+        "http://localhost:5000/adoptPet",
+        adoptionData
+      );
       if (res.data.insertedId) {
         Swal.fire({
           title: "Request Sent!",
           text: "Your adoption request has been submitted successfully.",
           icon: "success",
-          background: "rgba(255, 255, 255, 0.8)",
+          background: "rgba(255, 255, 255)",
           backdrop: "blur(5px)",
-          confirmButtonColor: "#22c55e",
+          showConfirmButton: false,
+          timer: 1500,
         });
         close(); // close modal
       }
@@ -43,7 +46,7 @@ const ModalForm = ({ user, pet, close }) => {
         title: "Oops!",
         text: "Something went wrong. Please try again later.",
         icon: "error",
-        background: "rgba(255, 255, 255, 0.85)",
+        background: "rgba(255, 255, 255)",
         backdrop: "blur(4px)",
         confirmButtonColor: "#ef4444",
       });
@@ -58,10 +61,10 @@ const ModalForm = ({ user, pet, close }) => {
           type="text"
           defaultValue={user?.displayName}
           disabled
-          className="block py-2.5 w-full text-sm text-gray-600 font-medium px-3 bg-transparent rounded-lg border border-gray-800/40 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer"
+          className="block py-2.5 w-full text-sm text-white/80 font-medium px-3 bg-transparent rounded-lg border border-gray-800/40 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer"
           placeholder=" "
         />
-        <label className="absolute text-lg text-gray-800 font-medium duration-300 transform -translate-y-10 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8">
+        <label className="absolute text-lg text-white font-medium duration-300 transform -translate-y-10 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8">
           Your Name
         </label>
       </div>
@@ -72,10 +75,10 @@ const ModalForm = ({ user, pet, close }) => {
           type="text"
           defaultValue={user?.email}
           disabled
-          className="block py-2.5 w-full text-sm text-gray-600 font-medium px-3 bg-transparent rounded-lg border border-gray-800/40 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer"
+          className="block py-2.5 w-full text-sm text-white/80 font-medium px-3 bg-transparent rounded-lg border border-gray-800/40 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer"
           placeholder=" "
         />
-        <label className="absolute text-lg text-gray-800 font-medium duration-300 transform -translate-y-10 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8">
+        <label className="absolute text-lg text-white font-medium duration-300 transform -translate-y-10 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8">
           Your Email
         </label>
       </div>
@@ -91,10 +94,10 @@ const ModalForm = ({ user, pet, close }) => {
               message: "Invalid Bangladeshi phone number",
             },
           })}
-          className="block py-2.5 w-full text-sm text-gray-600 font-medium px-3 bg-transparent rounded-lg border border-gray-700/40 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer"
+          className="block py-2.5 w-full text-sm text-white/80 font-medium px-3 bg-transparent rounded-lg border border-gray-700/40 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer"
           placeholder=" "
         />
-        <label className="absolute text-lg text-gray-800 duration-300 transform -translate-y-8 left-2 font-medium scale-75 top-1.5 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8 peer-focus:left-1">
+        <label className="absolute text-lg text-white duration-300 transform -translate-y-8 left-2 font-medium scale-75 top-1.5 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8 peer-focus:left-1">
           Phone Number
         </label>
         {errors.phone && (
@@ -107,10 +110,10 @@ const ModalForm = ({ user, pet, close }) => {
         <input
           type="text"
           {...register("address", { required: "Address is required" })}
-          className="block py-2.5 w-full text-sm text-gray-600 font-medium px-3 bg-transparent rounded-lg border border-gray-800/40 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer"
+          className="block py-2.5 w-full text-sm text-white/80 font-medium px-3 bg-transparent rounded-lg border border-gray-800/40 appearance-none focus:outline-none focus:ring-0 focus:border-blue-400 peer"
           placeholder=" "
         />
-        <label className="absolute text-lg text-gray-800 duration-300 transform -translate-y-8 left-2 font-medium scale-75 top-1.5 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8 peer-focus:left-1">
+        <label className="absolute text-lg text-white duration-300 transform -translate-y-8 left-2 font-medium scale-75 top-1.5 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-8 peer-focus:left-1">
           Your Address
         </label>
         {errors.address && (

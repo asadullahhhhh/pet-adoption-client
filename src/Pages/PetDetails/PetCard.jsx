@@ -3,7 +3,7 @@ import React from 'react';
 import { FaArrowRightLong } from "react-icons/fa6";
 import { Carousel } from "react-responsive-carousel";
 
-const PetCard = ({ pet, setIsOpen }) => {
+const PetCard = ({ pet, setIsOpen, requestStatus, user }) => {
   return (
     <div>
       <div className="bg-[#f8f8f8] relative w-full py-12 px-4 lg:px-12">
@@ -61,8 +61,14 @@ const PetCard = ({ pet, setIsOpen }) => {
             </p>
 
             {/* Adopt Button */}
-            <button onClick={() => setIsOpen(true)} className="bg-red-500 cursor-pointer hover:bg-red-600 text-white px-6 py-3 rounded-full flex items-center gap-2 transition">
-              Adopt <FaArrowRightLong />
+            <button
+              onClick={() => setIsOpen(true)}
+              className="bg-red-500 cursor-pointer hover:bg-red-600 disabled:bg-red-700 disabled:cursor-not-allowed text-white px-6 py-3 rounded-full flex items-center gap-2 transition"
+              disabled={requestStatus || !user}
+            >
+              {
+                user ? requestStatus ? <>requested <FaArrowRightLong /></> : <>Adopt <FaArrowRightLong /></> : 'Login to Adopt'
+              }
             </button>
           </div>
         </div>

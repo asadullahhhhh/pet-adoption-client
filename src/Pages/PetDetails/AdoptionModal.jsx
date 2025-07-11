@@ -17,9 +17,9 @@ export default function AdoptModal({ isOpen, setIsOpen, pet, user }) {
         <div className="flex min-h-full items-center justify-center p-4">
           <DialogPanel
             transition
-            className="w-full text-gray-800 max-w-md rounded-xl shadow-2xl bg-gray-500/30 p-6 backdrop-blur-2xl duration-300 ease-out data-closed:transform-[scale(95%)] data-closed:opacity-0"
+            className="w-full text-white max-w-md rounded-xl shadow-2xl bg-gray-500/50 p-6 backdrop-blur-2xl duration-300 ease-out data-closed:transform-[scale(95%)] data-closed:opacity-0"
           >
-            <DialogTitle as="h3" className="text-2xl font-semibold text-gray-700">
+            <DialogTitle as="h3" className="text-2xl font-semibold text-white">
               {pet.name}
             </DialogTitle>
             <div className="flex items-start gap-5">
@@ -33,13 +33,13 @@ export default function AdoptModal({ isOpen, setIsOpen, pet, user }) {
               <div className="py-5">
                 <p className="font-semibold">
                   Pet ID :{" "}
-                  <span className="text-sm font-normal text-gray-600">
+                  <span className="text-sm font-normal text-white/60">
                     {pet._id}
                   </span>
                 </p>
                 <p className="font-semibold">
                   Pet Owner :{" "}
-                  <span className="text-sm font-normal text-gray-600">
+                  <span className="text-sm font-normal text-white/70">
                     {pet.addedBy.name}
                   </span>
                 </p>
