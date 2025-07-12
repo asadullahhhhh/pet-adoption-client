@@ -37,30 +37,51 @@ const MyAddedPets = () => {
 
   console.log(data?.pets);
 
+// Delete methode here
+ const handleDelete = (id) => {
+   Swal.fire({
+     title: "Are you sure?",
+     text: "This pet will be deleted permanently!",
+     icon: "warning",
+     showCancelButton: true,
+     confirmButtonText: "Yes, delete it!",
+   }).then(async (result) => {
+     if (result.isConfirmed) {
+       try {
+         Swal.fire({
+           title: "Deleting...",
+           allowOutsideClick: false,
+           didOpen: () => {
+             Swal.showLoading();
+           },
+         });
 
-  const handleDelete = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "This pet will be deleted permanently!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes, delete it!",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        const token = await user.getIdToken();
-        await axios.delete(`/pet/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        Swal.fire("Deleted!", "The pet has been deleted.", "success");
-        refetch();
-      }
-    });
-  };
+         await axios.delete(`http://localhost:5000/pet/${id}`);
+
+         Swal.fire({
+           icon: "success",
+           title: "Deleted!",
+           text: "The pet has been deleted.",
+           timer: 1500,
+           showConfirmButton: false,
+         });
+
+         refetch();
+       } catch (error) {
+         Swal.fire({
+           icon: "error",
+           title: "Error!",
+           text: error?.response?.data?.message || "Something went wrong.",
+           confirmButtonText: "OK",
+         });
+       }
+     }
+   });
+ };
+
 
  
-
+// adopt method here
   const handleAdopt = async (id) => {
     console.log(id);
     const result = await Swal.fire({
@@ -160,7 +181,7 @@ const MyAddedPets = () => {
           <div className="flex gap-2">
             <button
               onClick={() =>
-                navigate(`/dashboard/update-pet/${row.original._id}`)
+                navigate(`/dashboard/update-pet-details/${row.original._id}`)
               }
               className="btn btn-xs btn-warning bg-amber-200 hover:bg-amber-300/80 p-3 rounded-lg cursor-pointer"
             >

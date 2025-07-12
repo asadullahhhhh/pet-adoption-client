@@ -11,6 +11,7 @@ import PrivateRoute from "./PrivateRoute";
 import AddPets from "../Pages/DashoardPages/AddPets/AddPets";
 import MyAddedPage from "../Pages/DashoardPages/MyAddedPage/MyAddedPage";
 import MyAddedPets from "../Pages/DashoardPages/MyAddedPets/MyAddedPets";
+import UpdatePet from "../Pages/DashoardPages/UpdatePetInformation/UpdatePet";
 
 export const router = createBrowserRouter([
   {
@@ -79,6 +80,14 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         )
       },
+      {
+        path : 'update-pet-details/:id',
+        element : (
+          <PrivateRoute>
+            <UpdatePet></UpdatePet>
+          </PrivateRoute>
+        )
+      }
     ],
   },
 ]);
