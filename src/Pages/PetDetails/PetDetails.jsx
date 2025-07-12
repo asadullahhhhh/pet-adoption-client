@@ -33,7 +33,7 @@ export default function PetDetails() {
     });
 
 
-     const { data: requestStatus} = useQuery({
+     const { data: requestStatus, refetch} = useQuery({
        queryKey: ["adoptionRequest", user?.email, id],
        queryFn: async () => {
          if (!user?.uid) return { requested: false };
@@ -66,6 +66,7 @@ export default function PetDetails() {
         setIsOpen={setIsOpen}
         pet={pet}
         user={user}
+        refetch={refetch}
       ></AdoptModal>
     </section>
   );

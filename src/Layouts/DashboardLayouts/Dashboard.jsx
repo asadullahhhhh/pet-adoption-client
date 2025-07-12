@@ -54,7 +54,7 @@ const Dashboard = () => {
       icon: <FaPlus />,
     },
     {
-      to: "/dashboard/my-added-page",
+      to: "/dashboard/my-added-pats",
       label: "My Added Pets",
       icon: <FaDog />,
     },
@@ -106,7 +106,7 @@ const Dashboard = () => {
         <Navbar setIsMobileOpen={setIsMobileOpen} navLinks={navLinks} user={user} handelLogout={handelLogout} FaAngleLeft={FaAngleLeft}></Navbar>
 
         {/* Main Content */}
-        <div className="p-4 overflow-auto h-full bg-gray-200">
+        <div className="overflow-auto h-full bg-gray-200">
           <Outlet />
         </div>
       </div>

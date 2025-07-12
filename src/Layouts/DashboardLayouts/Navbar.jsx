@@ -36,7 +36,7 @@ const Navbar = ({ setIsMobileOpen, user, handelLogout, navLinks,FaAngleLeft }) =
         <button className="md:hidden" onClick={() => setIsMobileOpen(true)}>
           <RxHamburgerMenu size={20} />
         </button>
-        <h1 className="text-2xl font-bold">{path.label}</h1>
+        <h1 className="text-2xl font-bold">{path?.label}</h1>
       </div>
 
       {/*  */}

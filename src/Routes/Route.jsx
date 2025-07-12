@@ -10,6 +10,7 @@ import DashboardHome from "../Pages/DashoardPages/DashboardHome/DashboardHome";
 import PrivateRoute from "./PrivateRoute";
 import AddPets from "../Pages/DashoardPages/AddPets/AddPets";
 import MyAddedPage from "../Pages/DashoardPages/MyAddedPage/MyAddedPage";
+import MyAddedPets from "../Pages/DashoardPages/MyAddedPets/MyAddedPets";
 
 export const router = createBrowserRouter([
   {
@@ -25,35 +26,59 @@ export const router = createBrowserRouter([
         Component: Login,
       },
       {
-        path : 'signup',
-        Component : Signup
+        path: "signup",
+        Component: Signup,
       },
       {
-        path : 'pet-listing',
-        Component : PetListing
+        path: "pet-listing",
+        Component: PetListing,
       },
       {
-        path : 'pet-Details/:id',
-        Component : PetDetails
-      }
+        path: "pet-Details/:id",
+        Component: PetDetails,
+      },
     ],
   },
   {
-    path : 'dashboard',
-    element : <PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
-    children : [
+    path: "dashboard",
+    element: (
+      <PrivateRoute>
+        <Dashboard></Dashboard>
+      </PrivateRoute>
+    ),
+    children: [
       {
-        index : true,
-        element : <PrivateRoute><DashboardHome></DashboardHome></PrivateRoute>
+        index: true,
+        element: (
+          <PrivateRoute>
+            <DashboardHome></DashboardHome>
+          </PrivateRoute>
+        ),
       },
       {
-        path : 'add-pet',
-        element : <PrivateRoute><AddPets></AddPets></PrivateRoute>
+        path: "add-pet",
+        element: (
+          <PrivateRoute>
+            <AddPets></AddPets>
+          </PrivateRoute>
+        ),
       },
       {
-        path : 'my-added-page',
-        element : <PrivateRoute><MyAddedPage></MyAddedPage></PrivateRoute>
-      }
-    ]
-  }
+        path: "my-added-page",
+        element: (
+          <PrivateRoute>
+            <MyAddedPage></MyAddedPage>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "my-added-pats",
+        element : (
+          <PrivateRoute>
+            <MyAddedPets></MyAddedPets>
+          </PrivateRoute>
+        )
+      },
+    ],
+  },
 ]);

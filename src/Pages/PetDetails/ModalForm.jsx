@@ -3,13 +3,12 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import axios from "axios";
 
-const ModalForm = ({ user, pet, close }) => {
+const ModalForm = ({ user, pet, close, refetch }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-
 
   const onSubmit = async (data) => {
     const adoptionData = {
@@ -40,6 +39,7 @@ const ModalForm = ({ user, pet, close }) => {
           timer: 1500,
         });
         close(); // close modal
+        refetch()
       }
     } catch (err) {
       Swal.fire({

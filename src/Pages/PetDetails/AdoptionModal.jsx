@@ -1,7 +1,7 @@
 import { Button, Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import ModalForm from "./ModalForm";
 
-export default function AdoptModal({ isOpen, setIsOpen, pet, user }) {
+export default function AdoptModal({ isOpen, setIsOpen, pet, user, refetch }) {
   function close() {
     setIsOpen(false);
   }
@@ -47,7 +47,12 @@ export default function AdoptModal({ isOpen, setIsOpen, pet, user }) {
             </div>
 
             <div>
-             <ModalForm user={user} close={close} pet={pet}></ModalForm>
+              <ModalForm
+                refetch={refetch}
+                user={user}
+                close={close}
+                pet={pet}
+              ></ModalForm>
             </div>
           </DialogPanel>
         </div>
