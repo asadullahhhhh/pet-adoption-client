@@ -50,7 +50,7 @@ export default function PetDetails() {
     if (isError) return <div>Error loading pet.</div>;
 
   return (
-    <section>
+    <section className="mb-14">
       {/* Pet Card */}
       <PetCard
         pet={pet}

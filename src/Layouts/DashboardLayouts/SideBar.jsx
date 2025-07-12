@@ -1,7 +1,10 @@
 import React from 'react';
-import { NavLink } from 'react-router';
+import { NavLink, useLocation } from 'react-router';
 
 const SideBar = ({isSidebarOpen, handleToggle, FaAngleLeft, navLinks}) => {
+
+  const loaction = useLocation()
+
     return (
       <div
         className={`
@@ -15,7 +18,7 @@ const SideBar = ({isSidebarOpen, handleToggle, FaAngleLeft, navLinks}) => {
             <h2 className={` ${!isSidebarOpen && "sr-only"}`}>Dashboard</h2>
             <button
               onClick={handleToggle}
-              className="bg-gray-100 shadow-sm p-2 rounded-full"
+              className="bg-gray-100 shadow-sm p-2 rounded-full cursor-pointer"
             >
               <FaAngleLeft
                 className={`${isSidebarOpen ? "rotate-0" : "rotate-180"}`}
@@ -29,9 +32,9 @@ const SideBar = ({isSidebarOpen, handleToggle, FaAngleLeft, navLinks}) => {
               <li key={to}>
                 <NavLink
                   to={to}
-                  className={({ isActive }) =>
+                  className={
                     `flex items-center gap-3 px-4 py-2 rounded-md transition-all duration-200 hover:bg-emerald-100 ${
-                      isActive ? "bg-emerald-200 font-semibold" : ""
+                      location.pathname === to ? "bg-emerald-200 font-semibold" : ""
                     }`
                   }
                 >

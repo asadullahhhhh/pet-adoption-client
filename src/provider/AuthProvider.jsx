@@ -16,8 +16,6 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  console.log(user);
-
   const gProvider = new GoogleAuthProvider();
   const fProvider = new FacebookAuthProvider();
 
@@ -43,8 +41,12 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const unSubsCribe = onAuthStateChanged(auth, currenUser => {
-        setUser(currenUser)
-        setLoading(false)
+        if(currenUser){
+          setUser(currenUser);
+          setLoading(false);
+        }else{
+          setLoading(false)
+        }
     });
 
     return () => {

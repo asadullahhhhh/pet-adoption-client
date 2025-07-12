@@ -42,22 +42,6 @@ const Dashboard = () => {
     }
   };
 
-//   useEffect(() => {
-//     const handleClickOutside = (event) => {
-//       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-//         setOpen(false);
-//       }
-//     };
-
-//     if (open) {
-//       document.addEventListener("mousedown", handleClickOutside);
-//     }
-
-//     return () => {
-//       document.removeEventListener("mousedown", handleClickOutside);
-//     };
-//   }, [open]);
-
   const navLinks = [
     {
       to: "/dashboard",
@@ -65,12 +49,12 @@ const Dashboard = () => {
       icon: <FaHome />,
     },
     {
-      to: "/add-pet",
+      to: "/dashboard/add-pet",
       label: "Add a Pet",
       icon: <FaPlus />,
     },
     {
-      to: "/my-pets",
+      to: "/dashboard/my-added-page",
       label: "My Added Pets",
       icon: <FaDog />,
     },
@@ -119,7 +103,7 @@ const Dashboard = () => {
         }`}
       >
         {/* Navbar */}
-        <Navbar setIsMobileOpen={setIsMobileOpen} user={user} handelLogout={handelLogout} FaAngleLeft={FaAngleLeft}></Navbar>
+        <Navbar setIsMobileOpen={setIsMobileOpen} navLinks={navLinks} user={user} handelLogout={handelLogout} FaAngleLeft={FaAngleLeft}></Navbar>
 
         {/* Main Content */}
         <div className="p-4 overflow-auto h-full bg-gray-200">

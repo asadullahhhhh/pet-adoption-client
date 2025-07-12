@@ -2,16 +2,15 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link, NavLink } from "react-router";
 import Navmenu from "../../Components/NavMenu/Navmenu";
 import useAuth from "../../hooks/useAuth";
-import userImg from '../../assets/user.png'
+import userImg from "../../assets/user.png";
 import { AnimatePresence, motion } from "motion/react";
 import toast from "react-hot-toast";
+import { FaAngleLeft } from "react-icons/fa";
 
 const Navbar = () => {
-
   const { user, logOut } = useAuth();
-  const [open, setOpen] = useState(false)
-  const dropdownRef = useRef(null); 
-
+  const [open, setOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -30,15 +29,14 @@ const Navbar = () => {
   }, [open]);
 
   const handelLogout = () => {
-    try{
-       logOut()
-       toast.success("User sign out successful")
-    }catch(err){
-      toast.error(err.message)
+    try {
+      logOut();
+      toast.success("User sign out successful");
+    } catch (err) {
+      toast.error(err.message);
     }
-  }
+  };
 
-  
   return (
     <div className="fixed top-0 left-0 w-full backdrop-blur-md bg-white/60 h-[72px]  border-white/30 shadow-sm z-50">
       <nav className="max-w-7xl mx-auto px-5 py-3 flex justify-between items-center">
@@ -57,18 +55,26 @@ const Navbar = () => {
         {/* nav items */}
         <div className="hidden sm:flex">
           <ul className="flex font-semibold text-gray-800">
-            <li className="hover:bg-amber-50 px-3 py-2 rounded-lg cursor-pointer">
+            <li className="hover:bg-amber-50  rounded-lg cursor-pointer">
               <NavLink
                 to="/"
-                className={({ isActive }) => (isActive ? "text-amber-500 block" : "block")}
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-amber-500 block px-3 py-2"
+                    : "block px-3 py-2"
+                }
               >
                 Home
               </NavLink>
             </li>
-            <li className="hover:bg-amber-50 px-3 py-2 rounded-lg cursor-pointer">
+            <li className="hover:bg-amber-50 rounded-lg cursor-pointer">
               <NavLink
                 to="pet-listing"
-                className={({ isActive }) => (isActive ? "text-amber-500 block" : "block")}
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-amber-500 block  px-3 py-2"
+                    : "block  px-3 py-2"
+                }
               >
                 Pet Listing
               </NavLink>
@@ -83,12 +89,24 @@ const Navbar = () => {
             <div
               ref={dropdownRef}
               onClick={() => setOpen(!open)}
-              className="flex relative items-center gap-2 lg:bg-gray-200 px-2 py-1 rounded-3xl cursor-pointer"
+              className="flex relative items-center gap-2 bg-gray-400/30 px-2 py-1 rounded-3xl cursor-pointer"
             >
               <div className="h-10 w-10 overflow-hidden rounded-full border border-gray-300">
                 <img src={user?.photoURL || userImg} alt="" />
               </div>
-              <div className="hidden lg:block">{user?.displayName}</div>
+              <div className="hidden lg:block text-gray-600 text-[14px] font-semibold">
+                <h2>{user?.displayName}</h2>
+                <h2 className="text-[12px]">{user?.email}</h2>
+              </div>
+              <div>
+                <button>
+                  <FaAngleLeft
+                    className={`transition-all duration-300 -rotate-90 ${
+                      open && "rotate-90"
+                    }`}
+                  ></FaAngleLeft>
+                </button>
+              </div>
               <AnimatePresence>
                 {open && (
                   <motion.div
@@ -96,13 +114,15 @@ const Navbar = () => {
                     animate={{ scale: 1, opacity: 1 }}
                     exit={{ scale: 0, opacity: 0 }}
                     transition={{ duration: 0.3, type: "spring" }}
-                    className="absolute right-0 top-[130%] origin-top rounded-xl overflow-hidden"
+                    className="absolute right-0 top-[130%] origin-top bg-black/40 backdrop-blur-2xl rounded-xl overflow-hidden"
                   >
-                    <ul className="flex flex-col bg-gray-200 w-28 lg:w-48 text-center">
-                      <li className="py-2 font-semibold text-gray-600 hover:text-black hover:bg-gray-100">
-                        <Link to={'/dashboard'} className="block">Dashboard</Link>
+                    <ul className="flex flex-col w-28 lg:w-48 text-center">
+                      <li className="py-2 font-semibold bg-amber-100 border-b text-gray-600 border-red-100 hover:text-black hover:bg-amber-200">
+                        <Link to={"/dashboard"} className="block">
+                          Dashboard
+                        </Link>
                       </li>
-                      <li className="py-2 font-semibold text-gray-700 hover:bg-gray-100 hover:text-black">
+                      <li className="py-2 font-semibold bg-red-200 hover:bg-red-300 text-gray-700 hover:text-black">
                         <button
                           onClick={handelLogout}
                           className="cursor-pointer block w-full"

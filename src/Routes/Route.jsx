@@ -6,7 +6,10 @@ import Signup from "../Pages/Signup/Signup";
 import PetListing from "../Pages/PetListing/PetListing";
 import PetDetails from "../Pages/PetDetails/PetDetails";
 import Dashboard from "../Layouts/DashboardLayouts/Dashboard";
-import DashboardHome from "../DashoardPages/DashboardHome/DashboardHome";
+import DashboardHome from "../Pages/DashoardPages/DashboardHome/DashboardHome";
+import PrivateRoute from "./PrivateRoute";
+import AddPets from "../Pages/DashoardPages/AddPets/AddPets";
+import MyAddedPage from "../Pages/DashoardPages/MyAddedPage/MyAddedPage";
 
 export const router = createBrowserRouter([
   {
@@ -37,11 +40,19 @@ export const router = createBrowserRouter([
   },
   {
     path : 'dashboard',
-    Component : Dashboard,
+    element : <PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
     children : [
       {
         index : true,
-        Component : DashboardHome
+        element : <PrivateRoute><DashboardHome></DashboardHome></PrivateRoute>
+      },
+      {
+        path : 'add-pet',
+        element : <PrivateRoute><AddPets></AddPets></PrivateRoute>
+      },
+      {
+        path : 'my-added-page',
+        element : <PrivateRoute><MyAddedPage></MyAddedPage></PrivateRoute>
       }
     ]
   }
