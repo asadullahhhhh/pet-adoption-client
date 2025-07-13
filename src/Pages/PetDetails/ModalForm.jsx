@@ -10,6 +10,8 @@ const ModalForm = ({ user, pet, close, refetch }) => {
     formState: { errors },
   } = useForm();
 
+  console.log(pet.addedBy.email);
+
   const onSubmit = async (data) => {
     const adoptionData = {
       userName: user?.displayName,
@@ -21,6 +23,7 @@ const ModalForm = ({ user, pet, close, refetch }) => {
       petImage: pet.images?.[0],
       adoptedAt: new Date().toISOString(),
       status: "pending", // Optional
+      ownerEmail : pet?.addedBy?.email
     };
 
     try {

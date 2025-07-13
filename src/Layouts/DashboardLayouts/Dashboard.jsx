@@ -59,12 +59,12 @@ const Dashboard = () => {
       icon: <FaDog />,
     },
     {
-      to: "/adoption-requests",
+      to: "/dashboard/adoption-requests",
       label: "Adoption Request",
       icon: <FaClipboardList />,
     },
     {
-      to: "/create-campaign",
+      to: "/dashboard/create-campaign",
       label: "Create Donation Campaign",
       icon: <FaDonate />,
     },

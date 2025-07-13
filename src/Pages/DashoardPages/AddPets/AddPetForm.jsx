@@ -77,8 +77,6 @@ const AddPetForm = () => {
     register,
     handleSubmit,
     control,
-    setError,
-    clearErrors,
     formState: { errors },
   } = useForm();
 
