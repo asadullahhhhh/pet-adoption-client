@@ -32,7 +32,7 @@ const PetRequest = () => {
             className={`px-4 py-2 rounded-full font-medium transition duration-300 ${
               activeTab === tab.value
                 ? "bg-green-600 text-white"
-                : "bg-gray-200 text-gray-800"
+                : "bg-gray-300 text-gray-800"
             }`}
           >
             {tab.name}

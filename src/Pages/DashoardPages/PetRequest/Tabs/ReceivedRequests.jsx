@@ -31,6 +31,8 @@ const ReceivedRequests = () => {
 
   console.log(data);
 
+  console.log(data);
+
   const handleAction = async (id, status) => {
     Swal.fire({
       title: `Are you sure to ${status}?`,
@@ -41,7 +43,9 @@ const ReceivedRequests = () => {
       allowOutsideClick: false,
       preConfirm: async () => {
         try {
-          await axios.patch(`/adoption-requests/${id}`, { status });
+          await axios.patch(`http://localhost:5000/adoption-requests/${id}`, {
+            status,
+          });
           return true;
         } catch (err) {
           Swal.showValidationMessage(
@@ -53,7 +57,7 @@ const ReceivedRequests = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire("Success", `Request ${status} successfully.`, "success");
-        queryClient.invalidateQueries(["received-requests", userEmail]);
+        queryClient.invalidateQueries(["received-requests", user?.email]);
       }
     });
   };
@@ -93,10 +97,11 @@ const ReceivedRequests = () => {
       },
       {
         header: "Date",
-        accessorKey: "adoptedAt",
+        accessorKey: "createdAt",
         cell: ({ getValue }) => {
           const value = getValue();
           const date = new Date(value);
+          console.log(value);
 
           return isNaN(date.getTime()) ? "N/A" : format(date, "dd MMM, yyyy");
         },
@@ -121,7 +126,7 @@ const ReceivedRequests = () => {
         cell: ({ row }) => {
           const status = row.original.status;
           if (status !== "pending")
-            return <span className="text-gray-400 italic">N/A</span>;
+            return <span className="text-gray-400 italic"> </span>;
           return (
             <div className="flex gap-2">
               <button

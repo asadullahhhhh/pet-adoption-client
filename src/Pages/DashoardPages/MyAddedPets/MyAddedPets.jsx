@@ -234,8 +234,8 @@ const MyAddedPets = () => {
 
   return (
     <div className="p-8 flex flex-col justify-between min-h-[calc(100vh-72px)]">
-      <div className="overflow-x-auto ">
-        <table className="table bg-gradient-to-tr overflow-hidden from-green-50 rounded-2xl via-gray-100 to-blue-50 opacity-80 backdrop-blur-3xl w-[80%] mx-auto">
+      <div className="overflow-x-auto w-[80%] mx-auto bg-gradient-to-br from-green-100/50 via-gray-200/50 to-blue-100/50 border border-gray-300 rounded-lg  backdrop-blur-3xl ">
+        <table className="table  overflow-hidden w-full ">
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id} className="bg-green-100">
@@ -271,27 +271,31 @@ const MyAddedPets = () => {
             ))}
           </tbody>
         </table>
-      </div>
+        {/* Pagination Controls */}
+        <div className=" py-5 px-7 flex w-full justify-between gap-2">
+          <div>
+            <span className="self-center text-sm font-semibold text-gray-600">
+              Page {data.currentPage} of {data.totalPages}
+            </span>
+          </div>
+          <div className="space-x-3">
+            <button
+              className="px-3 py-1 cursor-pointer bg-green-300 font-semibold text-gray-700 rounded disabled:bg-gray-300 active:scale-90 duration-300"
+              disabled={page === 1}
+              onClick={() => setPage((prev) => prev - 1)}
+            >
+              Prev
+            </button>
 
-      {/* Pagination Controls */}
-      <div className="mt-8 flex justify-center gap-2">
-        <button
-          className="bg-gray-300 px-5 py-2 font-semibold text-gray-500 rounded-lg shadow-xl duration-300 active:translate-y-1 active:-translate-x-1"
-          disabled={page === 1}
-          onClick={() => setPage((prev) => prev - 1)}
-        >
-          Prev
-        </button>
-        <span className="self-center font-semibold text-lg text-gray-600">
-          Page {data.currentPage} of {data.totalPages}
-        </span>
-        <button
-          className="bg-gray-300 px-5 py-2 font-semibold text-gray-500 rounded-lg shadow-xl duration-300 active:translate-y-1 active:translate-x-1"
-          disabled={page >= data.totalPages}
-          onClick={() => setPage((prev) => prev + 1)}
-        >
-          Next
-        </button>
+            <button
+              className="px-3 py-1 cursor-pointer bg-green-300 font-semibold text-gray-700 rounded disabled:bg-gray-300 active:scale-90 duration-300"
+              disabled={page >= data.totalPages}
+              onClick={() => setPage((prev) => prev + 1)}
+            >
+              Next
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
