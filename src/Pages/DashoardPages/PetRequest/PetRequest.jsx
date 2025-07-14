@@ -1,61 +1,76 @@
-// PetRequest.jsx
-import { Tab } from "@headlessui/react";
-import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect, Suspense } from "react";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+import { motion, AnimatePresence } from "framer-motion";
 import ReceivedRequests from "./Tabs/ReceivedRequests";
 import SentRequests from "./Tabs/SentRequests";
 
-export default function PetRequest() {
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  console.log(selectedIndex);
+const PetRequest = () => {
+  const [activeTab, setActiveTab] = useState("received");
+  const [loading, setLoading] = useState(true);
+
+  // Simulate loading delay when tab switches
+  useEffect(() => {
+    setLoading(true);
+    const timeout = setTimeout(() => setLoading(false), 1700);
+    return () => clearTimeout(timeout);
+  }, [activeTab]);
+
+  const tabs = [
+    { name: "Received Requests", value: "received" },
+    { name: "Sent Requests", value: "sent" },
+  ];
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-6">
-      <h2 className="text-2xl font-bold mb-4">Adoption Requests</h2>
+    <div className="px-4 py-6 max-w-7xl mx-auto">
+      {/* Tab Buttons */}
+      <div className="flex flex-wrap gap-3 mb-6">
+        {tabs.map((tab) => (
+          <button
+            key={tab.value}
+            onClick={() => setActiveTab(tab.value)}
+            className={`px-4 py-2 rounded-full font-medium transition duration-300 ${
+              activeTab === tab.value
+                ? "bg-green-600 text-white"
+                : "bg-gray-200 text-gray-800"
+            }`}
+          >
+            {tab.name}
+          </button>
+        ))}
+      </div>
 
-      <Tab.Group selectedIndex={selectedIndex} onChange={setSelectedIndex}>
-        <Tab.List className="flex gap-2 bg-gray-100 dark:bg-gray-800 p-1 rounded-xl shadow-md">
-          {["Received Requests", "Sent Requests"].map((tab, index) => (
-            <Tab
-              key={index}
-              className={({ selected }) =>
-                `w-full py-2 text-sm font-medium text-center rounded-lg transition-all duration-300 ${
-                  selected
-                    ? "bg-green-600 text-white shadow"
-                    : "text-gray-700 dark:text-gray-300 hover:bg-blue-100 dark:hover:bg-gray-700"
-                }`
-              }
-            >
-              {tab}
-            </Tab>
-          ))}
-        </Tab.List>
-
-        <Tab.Panels className="mt-6">
-          <Tab.Panel>
-            <motion.div
-              key={"received"}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 1 }}
-            >
-              <ReceivedRequests />
-            </motion.div>
-          </Tab.Panel>
-          <Tab.Panel>
-            <motion.div
-              key={"sent"}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 1 }}
-            >
-              <SentRequests />
-            </motion.div>
-          </Tab.Panel>
-        </Tab.Panels>
-      </Tab.Group>
+      {/* Content Section with animation and skeleton loader */}
+      <AnimatePresence mode="wait">
+        {loading ? (
+          <motion.div
+            key="loading"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <Skeleton height={40} count={6} className="mb-2" />
+          </motion.div>
+        ) : (
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.3 }}
+          >
+            <Suspense fallback={<Skeleton height={40} count={5} />}>
+              {activeTab === "received" ? (
+                <ReceivedRequests />
+              ) : (
+                <SentRequests />
+              )}
+            </Suspense>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
-}
+};
+
+export default PetRequest;
