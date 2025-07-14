@@ -69,7 +69,7 @@ const Dashboard = () => {
       icon: <FaDonate />,
     },
     {
-      to: "/my-campaigns",
+      to: "/dashboard/my-campaigns",
       label: "My Donation Campaigns",
       icon: <FaList />,
     },

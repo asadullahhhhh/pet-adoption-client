@@ -14,6 +14,8 @@ import MyAddedPets from "../Pages/DashoardPages/MyAddedPets/MyAddedPets";
 import UpdatePet from "../Pages/DashoardPages/UpdatePetInformation/UpdatePet";
 import PetRequest from "../Pages/DashoardPages/PetRequest/PetRequest";
 import AddDonationCamp from "../Pages/DashoardPages/AddDonationCamp/AddDonationCamp";
+import MyCampain from "../Pages/DashoardPages/MyCampain/MyCampain";
+import EditCampain from "../Pages/DashoardPages/EditCampain/EditCampain";
 
 export const router = createBrowserRouter([
   {
@@ -105,6 +107,22 @@ export const router = createBrowserRouter([
             <AddDonationCamp></AddDonationCamp>
           </PrivateRoute>
         ),
+      },
+      {
+        path: "my-campaigns",
+        element: (
+          <PrivateRoute>
+            <MyCampain></MyCampain>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "edit-campaign/:id",
+        element : (
+          <PrivateRoute>
+            <EditCampain></EditCampain>
+          </PrivateRoute>
+        )
       },
     ],
   },
