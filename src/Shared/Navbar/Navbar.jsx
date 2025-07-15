@@ -80,6 +80,18 @@ const Navbar = () => {
               </NavLink>
             </li>
             {/* Add more links here */}
+            <li className="hover:bg-amber-50 rounded-lg cursor-pointer">
+              <NavLink
+                to="/donation-campaign"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-amber-500 block  px-3 py-2"
+                    : "block  px-3 py-2"
+                }
+              >
+                Donation Campaigns
+              </NavLink>
+            </li>
           </ul>
         </div>
 

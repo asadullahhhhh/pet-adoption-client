@@ -1,10 +1,11 @@
-import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useInView } from "react-intersection-observer";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useState, useEffect } from "react";
 import { Link } from "react-router";
+import { RingLoader } from "react-spinners";
 
 const fetchPets = async ({ pageParam = 1, queryKey }) => {
   const [_key, { name, category }] = queryKey;
@@ -36,19 +37,25 @@ const PetListing = () => {
   } = useInfiniteQuery({
     queryKey: ["pets", { name, category }],
     queryFn: fetchPets,
-    getNextPageParam: (lastPage) => {
-      return lastPage.hasMore ? lastPage.page + 1 : undefined;
+    getNextPageParam: (lastPage, allPages) => {
+      // console.log('pages',lastPage, "allpage",allPages);
+      return lastPage.hasMore ? allPages.length + 1 : undefined
     },
-    keepPreviousData: true,
   });
+  // console.log(data);
+  // console.log(hasNextPage);
 
-  const { ref, inView } = useInView();
+  const { ref, inView } = useInView({
+    threshold : 1
+  });
 
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
     }
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+  // console.log(hasNextPage, 'has');
 
   // Optional: Refetch automatically when filters change
   useEffect(() => {
@@ -58,7 +65,7 @@ const PetListing = () => {
   // Flatten pets pages into one array
   const pets = data?.pages.flatMap((page) => page.pets) || [];
 
-  console.log(data);
+  // console.log(data);
 
 
   return (
@@ -94,7 +101,7 @@ const PetListing = () => {
         {/* Pets grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 ">
           {isLoading
-            ? Array(6)
+            ? Array(9)
                 .fill(null)
                 .map((_, i) => (
                   <div key={i}>
@@ -134,14 +141,10 @@ const PetListing = () => {
         </div>
 
         {/* Infinite scroll trigger */}
-        <div ref={ref} className="h-10 mt-10">
+        <div ref={ref} className="h-10 my-10 py-10">
           {isFetchingNextPage && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {Array(3)
-                .fill(null)
-                .map((_, i) => (
-                  <Skeleton key={i} height={200} />
-                ))}
+            <div className="flex justify-center items-center">
+              <RingLoader></RingLoader>
             </div>
           )}
         </div>
