@@ -9,10 +9,13 @@ import {
 } from "firebase/auth";
 import React, { createContext, useEffect, useState } from "react";
 import { auth } from "../firebase/firebase.config";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 export const AuthContext = createContext(null);
 
 const AuthProvider = ({ children }) => {
+
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -54,14 +57,29 @@ const AuthProvider = ({ children }) => {
     }
   }, []);
 
+  const { data: roleData, isLoading: roleLoading } = useQuery({
+    queryKey: ["role", user?.email],
+    enabled: !!user?.email, // ensures query only runs when email exists
+    queryFn: async () => {
+      const res = await axios.get(
+        `http://localhost:5000/user-role?email=${user?.email}`
+      );
+      return res.data;
+    },
+  });
+
+
   const info = {
     user,
+    setUser,
     loading,
     signUp,
     signIn,
     googleLogin,
     facebookLogin,
     logOut,
+    role : roleData,
+    roleLoading
   };
 
   return <AuthContext.Provider value={info}>{children}</AuthContext.Provider>;

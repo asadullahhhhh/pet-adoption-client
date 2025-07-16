@@ -6,9 +6,10 @@ import userImg from "../../assets/user.png";
 import { AnimatePresence, motion } from "motion/react";
 import toast from "react-hot-toast";
 import { FaAngleLeft } from "react-icons/fa";
+import logo from "../../assets/logo-black.png";
 
 const Navbar = () => {
-  const { user, logOut } = useAuth();
+  const { user, logOut, setUser } = useAuth();
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -31,22 +32,25 @@ const Navbar = () => {
   const handelLogout = () => {
     try {
       logOut();
+      setUser(null)
       toast.success("User sign out successful");
     } catch (err) {
       toast.error(err.message);
     }
   };
 
+  // console.log(user);
+
   return (
     <div className="fixed top-0 left-0 w-full backdrop-blur-md bg-white/60 h-[72px]  border-white/30 shadow-sm z-50">
       <nav className="max-w-7xl mx-auto px-5 py-3 flex justify-between items-center">
         {/* logo and mobile menu */}
-        <div className="flex items-center gap-7">
+        <div className="flex items-center gap-4">
           <Navmenu />
           <Link to="/">
             <img
-              src="/pet.png"
-              className="sm:w-[50px] sm:ml-5 w-[30px] scale-[2.5]"
+              src={logo}
+              className="w-[80px] md:w-[100px]"
               alt="Logo"
             />
           </Link>

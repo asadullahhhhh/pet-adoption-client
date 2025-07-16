@@ -232,6 +232,8 @@ const MyCampaign = () => {
     onSortingChange: setSorting,
   });
 
+  console.log(table.getState().pagination.page);
+
   return (
     <div className="py-10">
       <div className="w-[80%] mx-auto bg-gradient-to-tl from-blue-100/50 via-gray-200/50 to-green-100/50 p-4 rounded-lg shadow-md border border-gray-300">

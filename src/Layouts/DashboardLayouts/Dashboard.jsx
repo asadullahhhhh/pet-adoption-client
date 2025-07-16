@@ -17,11 +17,10 @@ import Navbar from "./Navbar";
 import { useState } from "react";
 
 const Dashboard = () => {
-  const { user, logOut } = useAuth();
+  const { user, logOut, setUser } = useAuth();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true); // For large screen
   const [isMobileOpen, setIsMobileOpen] = useState(false); // For small screen
 
- 
 
  
 
@@ -35,7 +34,8 @@ const Dashboard = () => {
 
   const handelLogout = () => {
     try {
-      logOut();
+      logOut()
+      setUser(null)
       toast.success("User sign out successful");
     } catch (err) {
       toast.error(err.message);
@@ -74,7 +74,7 @@ const Dashboard = () => {
       icon: <FaList />,
     },
     {
-      to: "/my-donations",
+      to: "/dashboard/my-donations",
       label: "My Donations",
       icon: <FaHandHoldingUsd />,
     },
