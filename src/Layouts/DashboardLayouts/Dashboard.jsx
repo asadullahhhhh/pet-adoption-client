@@ -8,6 +8,8 @@ import {
   FaList,
   FaHandHoldingUsd,
   FaHome,
+  FaUsersCog,
+  FaPaw,
 } from "react-icons/fa";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
@@ -17,7 +19,7 @@ import Navbar from "./Navbar";
 import { useState } from "react";
 
 const Dashboard = () => {
-  const { user, logOut, setUser } = useAuth();
+  const { user, logOut, setUser, role } = useAuth();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true); // For large screen
   const [isMobileOpen, setIsMobileOpen] = useState(false); // For small screen
 
@@ -78,12 +80,31 @@ const Dashboard = () => {
       label: "My Donations",
       icon: <FaHandHoldingUsd />,
     },
+    // ✅ Admin routes
+    {
+      to: "/dashboard/users",
+      label: "Users",
+      icon: <FaUsersCog />,
+      adminOnly: true,
+    },
+    {
+      to: "/dashboard/all-pets",
+      label: "All Pets",
+      icon: <FaPaw />,
+      adminOnly: true,
+    },
+    {
+      to: "/dashboard/all-donations",
+      label: "All Donations",
+      icon: <FaHandHoldingUsd />,
+      adminOnly: true,
+    },
   ];
 
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
-      <SideBar isSidebarOpen={isSidebarOpen} handleToggle={handleToggle} FaAngleLeft={FaAngleLeft} navLinks={navLinks}></SideBar>
+      <SideBar isSidebarOpen={isSidebarOpen} role={role} handleToggle={handleToggle} FaAngleLeft={FaAngleLeft} navLinks={navLinks}></SideBar>
 
       {/* Mobile Sidebar Drawer */}
       <MobileSideBar navLinks={navLinks} handleToggle={handleToggle} isMobileOpen={isMobileOpen} isSidebarOpen={isSidebarOpen}></MobileSideBar>

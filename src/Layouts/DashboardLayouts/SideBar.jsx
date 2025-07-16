@@ -1,9 +1,8 @@
 import React from 'react';
-import { NavLink, useLocation } from 'react-router';
+import { NavLink } from 'react-router';
 
-const SideBar = ({isSidebarOpen, handleToggle, FaAngleLeft, navLinks}) => {
+const SideBar = ({isSidebarOpen, handleToggle, FaAngleLeft, role, navLinks}) => {
 
-  const loaction = useLocation()
 
     return (
       <div
@@ -28,21 +27,26 @@ const SideBar = ({isSidebarOpen, handleToggle, FaAngleLeft, navLinks}) => {
         </div>
         <nav className=" space-y-4">
           <ul className="space-y-2 mt-4">
-            {navLinks.map(({ to, label, icon }) => (
-              <li key={to}>
-                <NavLink
-                  to={to}
-                  className={
-                    `flex items-center gap-3 px-4 py-2 rounded-md transition-all duration-200 hover:bg-emerald-100 ${
-                      location.pathname === to ? "bg-emerald-200 font-semibold" : ""
-                    }`
-                  }
-                >
-                  <span className="text-xl">{icon}</span>
-                  {isSidebarOpen && <span className="text-sm">{label}</span>}
-                </NavLink>
-              </li>
-            ))}
+            {navLinks
+              .filter((link) => {
+                // Only show admin routes to admins
+                if (link.adminOnly && role?.role !== "admin") return false;
+                return true;
+              })
+              .map(({ to, label, icon }) => (
+                <li key={to}>
+                  <NavLink
+                    to={to}
+                    className={`
+          flex items-center gap-3 px-4 py-2 rounded-md transition-all duration-200 hover:bg-emerald-100 
+          ${location.pathname === to ? "bg-emerald-200 font-semibold" : ""}
+        `}
+                  >
+                    <span className="text-xl">{icon}</span>
+                    {isSidebarOpen && <span className="text-sm">{label}</span>}
+                  </NavLink>
+                </li>
+              ))}
           </ul>
         </nav>
       </div>

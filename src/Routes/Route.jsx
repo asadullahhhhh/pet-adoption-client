@@ -19,6 +19,9 @@ import EditCampain from "../Pages/DashoardPages/EditCampain/EditCampain";
 import DonationCampaign from "../Pages/DonationCampaing/DonationCampaign";
 import DonationDetails from "../Pages/DonationDetails/DonationDetails";
 import MyDonation from "../Pages/DashoardPages/Mydonations/MyDonation";
+import AdminRoute from "./AdminRoute";
+import AllUsers from "../Pages/DashoardPages/AllUsersDashboard/AllUsers";
+import AllPetsPage from "../Pages/DashoardPages/AllPetsPage/AllPetsPage";
 
 export const router = createBrowserRouter([
   {
@@ -137,10 +140,26 @@ export const router = createBrowserRouter([
       },
       {
         path: "my-donations",
-        element : (
+        element: (
           <PrivateRoute>
             <MyDonation></MyDonation>
           </PrivateRoute>
+        ),
+      },
+      {
+        path: "users",
+        element: (
+          <AdminRoute>
+            <AllUsers></AllUsers>
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "all-pets",
+        element : (
+          <AdminRoute>
+            <AllPetsPage></AllPetsPage>
+          </AdminRoute>
         )
       },
     ],
