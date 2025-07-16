@@ -3,6 +3,7 @@ import Banner from '../../Components/Banner/Banner';
 import FeatureSection from '../../Components/FeatureSection/FeatureSection';
 import AboutSection from '../../Components/AboutSection/AboutSection';
 import PetCategorySection from '../../Components/PetCategorySection/PetCategorySection';
+import FeaturedPetsSlider from '../../Components/FeaturedPetsSlider/FeaturedPetsSlider';
 
 const HomePage = () => {
     return (
@@ -12,6 +13,7 @@ const HomePage = () => {
         <FeatureSection></FeatureSection>
         <AboutSection></AboutSection>
         <PetCategorySection></PetCategorySection>
+        <FeaturedPetsSlider></FeaturedPetsSlider>
        
       </section>
     );
