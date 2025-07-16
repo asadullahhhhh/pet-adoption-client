@@ -4,7 +4,7 @@ import { useInView } from "react-intersection-observer";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useState, useEffect } from "react";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import { RingLoader } from "react-spinners";
 
 const fetchPets = async ({ pageParam = 1, queryKey }) => {
@@ -23,8 +23,11 @@ const fetchPets = async ({ pageParam = 1, queryKey }) => {
 
 
 const PetListing = () => {
+  const location = useLocation()
+  const defaultCategory = location.state?.selectedCategory || "";
+  console.log(defaultCategory);
   const [name, setName] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState(defaultCategory);
 
 
   const {
@@ -93,6 +96,7 @@ const PetListing = () => {
                 <option value="Dog">Dog</option>
                 <option value="Cat">Cat</option>
                 <option value="Bird">Bird</option>
+                <option value="Rabbit">Rabbit</option>
               </select>
             </div>
           </div>
