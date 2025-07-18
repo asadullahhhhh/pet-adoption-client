@@ -4,6 +4,7 @@ import FeatureSection from '../../Components/FeatureSection/FeatureSection';
 import AboutSection from '../../Components/AboutSection/AboutSection';
 import PetCategorySection from '../../Components/PetCategorySection/PetCategorySection';
 import FeaturedPetsSlider from '../../Components/FeaturedPetsSlider/FeaturedPetsSlider';
+import ServiceSection from '../../Components/ServiceSection/ServiceSection';
 
 const HomePage = () => {
     return (
@@ -13,6 +14,7 @@ const HomePage = () => {
         <FeatureSection></FeatureSection>
         <AboutSection></AboutSection>
         <PetCategorySection></PetCategorySection>
+        <ServiceSection></ServiceSection>
         <FeaturedPetsSlider></FeaturedPetsSlider>
        
       </section>
