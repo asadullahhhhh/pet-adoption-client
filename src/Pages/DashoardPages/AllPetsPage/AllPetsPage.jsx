@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import {
   useReactTable,
@@ -10,6 +10,8 @@ import {
 import Swal from "sweetalert2";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { MdEdit } from "react-icons/md";
+import { useNavigate } from "react-router";
 
 const fetchPets = async ({ queryKey }) => {
   const [_key, { page, search }] = queryKey;
@@ -24,6 +26,7 @@ const AllPetsPage = () => {
 
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
+  const navigate  = useNavigate()
 
   // Fetch pets with pagination and search
   const { data, isLoading, isFetching } = useQuery({
@@ -39,37 +42,57 @@ const AllPetsPage = () => {
       showCancelButton: true,
       confirmButtonText: "Yes, delete it!",
       showLoaderOnConfirm: true,
-      preConfirm: () => axios.delete(`http://localhost:5000/pets/${petId}`),
+      preConfirm: async () => {
+        try {
+          const res = await axios.delete(`http://localhost:5000/pets/${petId}`);
+          return res.data;
+        } catch (err) {
+          Swal.showValidationMessage("Action failed. Try again.");
+        }
+      },
       allowOutsideClick: () => !Swal.isLoading(),
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if (result.value?.result?.deletedCount) {
+          Swal.fire("Success", "Role updated successfully", "success");
+          queryClient.invalidateQueries(["all-users"]);
+        }
+      }
     });
-
-    if (result.isConfirmed) {
-      Swal.fire("Deleted!", "Pet has been deleted.", "success");
-      // Refetch or update local state here to remove deleted pet from UI
-      // For example, refetchPets()
-    }
   };
 
   const handleToggleAdopt = async (petId, currentStatus) => {
     const newStatus = currentStatus === "adopted" ? "available" : "adopted";
 
-    const result = await Swal.fire({
+    Swal.fire({
       title: `Are you sure to mark this pet as ${newStatus}?`,
       icon: "question",
       showCancelButton: true,
       confirmButtonText: "Confirm",
       showLoaderOnConfirm: true,
-      preConfirm: () =>
-        axios.patch(`http://localhost:5000/pets/${petId}/adopt-toggle`, {
-          status: newStatus,
-        }),
+      preConfirm: async () => {
+        try {
+          const res = await axios.patch(
+            `http://localhost:5000/pets/${petId}/adopt`,
+            {
+              status: newStatus,
+            }
+          );
+          return res.data;
+        } catch (err) {
+          Swal.showValidationMessage("Action failed. Try again.");
+        }
+      },
       allowOutsideClick: () => !Swal.isLoading(),
+    }).then((result) => {
+      if (result.isConfirmed) {
+        console.log(result);
+        if (result.value?.result?.modifiedCount) {
+          Swal.fire("Success", "Role updated successfully", "success");
+          queryClient.invalidateQueries(["pets"]);
+        }
+      }
     });
-
-    if (result.isConfirmed) {
-      Swal.fire("Success", `Pet status updated to ${newStatus}`, "success");
-      // Refetch or update local state here to update UI
-    }
   };
 
   const columns = useMemo(
@@ -137,8 +160,16 @@ const AllPetsPage = () => {
           return (
             <div className="flex gap-2">
               <button
+                onClick={() =>
+                  navigate(`/dashboard/update-pet-details/${pet?._id}`)
+                }
+                className="bg-amber-400 hover:bg-amber-500 cursor-pointer p-2 rounded-md"
+              >
+                <MdEdit size={20} color="#fff" />
+              </button>
+              <button
                 onClick={() => handleToggleAdopt(pet._id, pet.status)}
-                className={`px-3 py-1 rounded text-white ${
+                className={`px-3 py-1 rounded cursor-pointer text-white ${
                   pet.status === "adopted"
                     ? "bg-yellow-500 hover:bg-yellow-600"
                     : "bg-green-600 hover:bg-green-700"
@@ -149,7 +180,7 @@ const AllPetsPage = () => {
 
               <button
                 onClick={() => handleDelete(pet._id)}
-                className="px-3 py-1 rounded bg-red-600 hover:bg-red-700 text-white"
+                className="px-3 py-1 rounded bg-red-600 cursor-pointer hover:bg-red-700 text-white"
               >
                 Delete
               </button>

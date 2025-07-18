@@ -3,6 +3,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import axios from "axios";
 import useAuth from "../../../hooks/useAuth";
 import HomeUser from "./HomeUser";
+import AdminHome from "./AdminHome";
 
 const DashboardHome = () => {
   const [overview, setOverview] = useState(null);
@@ -58,7 +59,7 @@ const DashboardHome = () => {
       loading={loading}
     ></HomeUser>
   ) : (
-    <div>Admin</div>
+    <AdminHome></AdminHome>
   );
 };
 

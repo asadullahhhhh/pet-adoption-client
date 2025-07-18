@@ -2,7 +2,7 @@
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { useNavigate, useParams } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 import { useState, useEffect } from "react";
 import { LuImageUp } from "react-icons/lu";
 import { imageUpload } from "../../../utils/utility";
@@ -16,6 +16,9 @@ export default function EditCampain() {
   const { id } = useParams();
   const { user } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation()
+
+  console.log(location);
 
   const {
     register,
@@ -121,7 +124,9 @@ export default function EditCampain() {
         });
         clearErrors();
         setErr(null);
-        navigate("/dashboard/my-campaigns");
+        navigate(
+          location?.state ? "/dashboard/all-donations" : "/dashboard/my-campaigns"
+        );
       }, 800);
     } catch (err) {
       Swal.fire({
