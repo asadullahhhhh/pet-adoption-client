@@ -22,7 +22,7 @@ const DashboardHome = () => {
   const { data: overview, isLoading: loadingOverview } = useQuery({
     queryKey: ["dashboard-overview"],
     queryFn: async () => {
-      const res = await axios.get("http://localhost:5000/dashboard/overview");
+      const res = await axios.get("http://localhost:5000/dashboard/overviews");
       return res.data;
     },
   });
@@ -86,7 +86,6 @@ const DashboardHome = () => {
     { name: "Remaining", value: donationStats.remaining },
   ];
 
-  console.log(donationPie);
 
   return (
     <div className="p-6 space-y-8">

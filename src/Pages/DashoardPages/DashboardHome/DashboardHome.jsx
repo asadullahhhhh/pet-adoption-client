@@ -6,7 +6,7 @@ import HomeUser from "./HomeUser";
 import AdminHome from "./AdminHome";
 
 const DashboardHome = () => {
-  const [overview, setOverview] = useState(null);
+  const [overview, setOverview] = useState([]);
   const [recentPets, setRecentPets] = useState([]);
   const [recentDonations, setRecentDonations] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -40,6 +40,7 @@ const DashboardHome = () => {
     };
     if (user?.email) fetchDashboardData();
   }, [user]);
+
 
   const pieData = [
     { name: "Adopted", value: overview?.totalPetsAdopted || 0 },
