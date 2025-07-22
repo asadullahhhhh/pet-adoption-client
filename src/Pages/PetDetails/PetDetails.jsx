@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { useParams } from "react-router";
+import { data, useParams } from "react-router";
 import PetCard from "./PetCard";
 import PetDescript from "./PetDescript";
 import AdoptModal from "./AdoptionModal";
@@ -33,6 +33,9 @@ export default function PetDetails() {
     });
 
 
+    const isOwner = user?.email === pet?.addedBy?.email
+
+
      const { data: requestStatus, refetch} = useQuery({
        queryKey: ["adoptionRequest", user?.email, id],
        queryFn: async () => {
@@ -57,6 +60,7 @@ export default function PetDetails() {
         setIsOpen={setIsOpen}
         requestStatus={requestStatus?.requested}
         user={user}
+        isOwner={isOwner}
       ></PetCard>
       {/* pet Description */}
       <PetDescript pet={pet}></PetDescript>

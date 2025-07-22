@@ -6,6 +6,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router";
 import { RingLoader } from "react-spinners";
+import useAuth from "../../hooks/useAuth";
 
 const fetchPets = async ({ pageParam = 1, queryKey }) => {
   const [_key, { name, category }] = queryKey;
@@ -25,7 +26,6 @@ const fetchPets = async ({ pageParam = 1, queryKey }) => {
 const PetListing = () => {
   const location = useLocation()
   const defaultCategory = location.state?.selectedCategory || "";
-  console.log(defaultCategory);
   const [name, setName] = useState("");
   const [category, setCategory] = useState(defaultCategory);
 

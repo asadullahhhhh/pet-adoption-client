@@ -156,7 +156,7 @@ const MyAddedPets = () => {
     {
       header: "Image",
       cell: ({ row }) => (
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center w-16 items-center">
           <img
             src={row.original.images?.[0]}
             alt=""
@@ -233,9 +233,9 @@ const MyAddedPets = () => {
   );
 
   return (
-    <div className="p-8 flex flex-col justify-between min-h-[calc(100vh-72px)]">
-      <div className="overflow-x-auto w-[80%] mx-auto bg-gradient-to-br from-green-100/50 via-gray-200/50 to-blue-100/50 border border-gray-300 rounded-lg  backdrop-blur-3xl ">
-        <table className="table  overflow-hidden w-full ">
+    <div className="p-5 flex flex-col justify-between min-h-[calc(100vh-72px)]">
+      <div className="overflow-x-auto w-[350px] md:w-[450px] lg:w-[750px] xl:w-[1000px] 2xl:w-full transition-all duration-500  mx-auto bg-gradient-to-br from-green-100/50 via-gray-200/50 to-blue-100/50 border border-gray-300 rounded-lg  backdrop-blur-3xl ">
+        <table className="table table-auto w-full ">
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id} className="bg-green-100">

@@ -172,7 +172,7 @@ const AddPetForm = () => {
     <div
       className="max-w-4xl mx-auto p-6 
   bg-gradient-to-br from-green-100/30 via-gray-200/30 to-blue-100/30 
-  backdrop-blur-xl shadow-2xl border border-white/20 rounded-3xl mt-10"
+  backdrop-blur-xl shadow-2xl border border-white/20 rounded-3xl"
     >
       <h2 className="text-3xl font-semibold text-gray-800 mb-6 text-center">
         Add a New Pet

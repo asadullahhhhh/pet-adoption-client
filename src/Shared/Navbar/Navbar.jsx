@@ -7,6 +7,8 @@ import { AnimatePresence, motion } from "motion/react";
 import toast from "react-hot-toast";
 import { FaAngleLeft } from "react-icons/fa";
 import logo from "../../assets/logo-black.png";
+import { MdDashboard } from "react-icons/md";
+import { FiLogOut } from "react-icons/fi";
 
 const Navbar = () => {
   const { user, logOut, setUser } = useAuth();
@@ -105,7 +107,7 @@ const Navbar = () => {
             <div
               ref={dropdownRef}
               onClick={() => setOpen(!open)}
-              className="flex relative items-center gap-2 bg-gray-400/30 px-2 py-1 rounded-3xl cursor-pointer"
+              className="flex relative items-center gap-2 bg-gray-400/30 px-2 py-1 rounded-3xl"
             >
               <div className="h-10 w-10 overflow-hidden rounded-full border border-gray-300">
                 <img src={user?.photoURL || userImg} alt="" />
@@ -130,19 +132,21 @@ const Navbar = () => {
                     animate={{ scale: 1, opacity: 1 }}
                     exit={{ scale: 0, opacity: 0 }}
                     transition={{ duration: 0.3, type: "spring" }}
-                    className="absolute right-0 top-[130%] origin-top bg-black/40 backdrop-blur-2xl rounded-xl overflow-hidden"
+                    className="absolute right-0 top-[130%] origin-top border border-gray-300 shadow-xl bg-gradient-to-tr from-gray-200 via-gray-300 to-gray-200 rounded-xl overflow-hidden"
                   >
                     <ul className="flex flex-col w-28 lg:w-48 text-center">
-                      <li className="py-2 font-semibold bg-amber-100 border-b text-gray-600 border-red-100 hover:text-black hover:bg-amber-200">
-                        <Link to={"/dashboard"} className="block">
+                      <li className="py-2 font-semibold text-gray-600">
+                        <Link to={"/dashboard"} className="cursor-pointer hover:text-amber-500 flex items-center justify-center gap-2">
+                          <MdDashboard size={20}></MdDashboard>
                           Dashboard
                         </Link>
                       </li>
-                      <li className="py-2 font-semibold bg-red-200 hover:bg-red-300 text-gray-700 hover:text-black">
+                      <li className="py-2 font-semibold text-gray-700 hover:text-black">
                         <button
                           onClick={handelLogout}
-                          className="cursor-pointer block w-full"
+                          className="cursor-pointer flex justify-center gap-2 w-full items-center hover:text-red-400"
                         >
+                          <FiLogOut size={20}></FiLogOut>
                           Log out
                         </button>
                       </li>
@@ -152,9 +156,9 @@ const Navbar = () => {
               </AnimatePresence>
             </div>
           ) : (
-            <div className="min-h-[48px] min-w-[152px] flex justify-center items-center">
+            <div className="min-h-[48px] min-w-[152px] flex justify-end items-center">
               <Link to={"/login"}>
-                <button className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md shadow-sm transition">
+                <button className="px-8 py-2 bg-blue-500 font-semibold hover:bg-blue-600 cursor-pointer active:scale-[1.05] duration-300 text-white rounded-md shadow-sm transition">
                   Login
                 </button>
               </Link>

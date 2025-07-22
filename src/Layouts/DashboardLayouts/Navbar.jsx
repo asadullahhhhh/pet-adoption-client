@@ -1,10 +1,19 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Link, useLocation } from 'react-router';
+import React, { useEffect, useRef, useState } from "react";
+import { Link, useLocation } from "react-router";
 import userImg from "../../assets/user.png";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { AnimatePresence, motion } from "motion/react";
+import { MdDashboard } from "react-icons/md";
+import { FiLogOut } from "react-icons/fi";
+import logo from "../../assets/logo-black.png";
 
-const Navbar = ({ setIsMobileOpen, user, handelLogout, navLinks,FaAngleLeft }) => {
+const Navbar = ({
+  setIsMobileOpen,
+  user,
+  handelLogout,
+  navLinks,
+  FaAngleLeft,
+}) => {
   const loaction = useLocation();
   const dropdownRef = useRef(null);
   const [open, setOpen] = useState(false);
@@ -25,7 +34,7 @@ const Navbar = ({ setIsMobileOpen, user, handelLogout, navLinks,FaAngleLeft }) =
     };
   }, [open]);
 
-  const path = navLinks.find(e => e.to === location.pathname)
+  const path = navLinks.find((e) => e.to === location.pathname);
   console.log(path);
 
   return (
@@ -36,7 +45,13 @@ const Navbar = ({ setIsMobileOpen, user, handelLogout, navLinks,FaAngleLeft }) =
         <button className="md:hidden" onClick={() => setIsMobileOpen(true)}>
           <RxHamburgerMenu size={20} />
         </button>
-        <h1 className="text-2xl font-bold">{path?.label}</h1>
+        <Link to="/">
+                    <img
+                      src={logo}
+                      className="w-[80px] md:w-[100px]"
+                      alt="Logo"
+                    />
+                  </Link>
       </div>
 
       {/*  */}
@@ -71,19 +86,24 @@ const Navbar = ({ setIsMobileOpen, user, handelLogout, navLinks,FaAngleLeft }) =
                     animate={{ scale: 1, opacity: 1 }}
                     exit={{ scale: 0, opacity: 0 }}
                     transition={{ duration: 0.3, type: "spring" }}
-                    className="absolute right-0 top-[130%] origin-top bg-black/20 backdrop-blur-2xl rounded-xl overflow-hidden"
+                    className="absolute right-0 top-[130%] origin-top bg-gradient-to-tr from-gray-200 via-gray-300 to-gray-200 backdrop-blur-2xl rounded-xl overflow-hidden"
                   >
                     <ul className="flex flex-col w-28 lg:w-48 text-center">
-                      <li className="py-2 font-semibold bg-green-200 border-b text-gray-600 border-red-100 hover:text-black hover:bg-green-300">
-                        <Link to={"/"} className="block">
-                          Landing
+                      <li className="py-2 font-semibold text-gray-600">
+                        <Link
+                          to={"/dashboard"}
+                          className="cursor-pointer hover:text-amber-500 flex items-center justify-center gap-2"
+                        >
+                          <MdDashboard size={20}></MdDashboard>
+                          Dashboard
                         </Link>
                       </li>
-                      <li className="py-2 font-semibold bg-red-200 hover:bg-red-300 text-gray-700 hover:text-black">
+                      <li className="py-2 font-semibold text-gray-700 hover:text-black">
                         <button
                           onClick={handelLogout}
-                          className="cursor-pointer block w-full"
+                          className="cursor-pointer flex justify-center gap-2 w-full items-center hover:text-red-400"
                         >
+                          <FiLogOut size={20}></FiLogOut>
                           Log out
                         </button>
                       </li>

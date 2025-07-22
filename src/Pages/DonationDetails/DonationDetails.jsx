@@ -37,7 +37,14 @@ const DonationDetails = () => {
     maxDonationAmount,
     totalDonatedAmount,
     lastDate,
+    status,
   } = data;
+
+
+  const isCollected = maxDonationAmount <=totalDonatedAmount
+  const isPushed = status === "paused";
+  console.log(isPushed);
+
 
   return (
     <div className="py-10 bg-gray-200 px-5 xl:px-0">
@@ -67,9 +74,16 @@ const DonationDetails = () => {
           </div>
           <button
             onClick={() => setIsOpen(true)}
-            className="mt-6 cursor-pointer bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-6 rounded-lg font-semibold"
+            className="mt-6 cursor-pointer bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-6 rounded-lg disabled:bg-indigo-800 disabled:cursor-not-allowed font-semibold"
+            disabled={!user || isCollected || isPushed}
           >
-            Donate Now →
+            {!user
+              ? "Login to donate"
+              : isCollected
+              ? "Already Collected"
+              : status === "paused"
+              ? "Paused"
+              : "Donate Now →"}
           </button>
         </div>
       </div>
@@ -84,7 +98,7 @@ const DonationDetails = () => {
       </Elements>
 
       {/* Related Card */}
-      <RecommendedSection excludeId={data?._id} ></RecommendedSection>
+      <RecommendedSection excludeId={data?._id}></RecommendedSection>
     </div>
   );
 };

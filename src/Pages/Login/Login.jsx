@@ -55,8 +55,8 @@ const LoginPage = () => {
     }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-white flex justify-center items-center px-4 relative">
-      <div className="w-full max-w-5xl relative bg-white/30 rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row items-center justify-between">
+    <div className="min-h-screen bg-gradient-to-tr from-blue-50 via-gray-200 to-green-50 flex justify-center items-center px-4 relative">
+      <div className="w-full -mt-20 max-w-5xl relative bg-white/30 rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row items-center justify-between">
         {/* Left Side - Lottie */}
         <div className="hidden md:block md:w-1/2">
           <Lottie

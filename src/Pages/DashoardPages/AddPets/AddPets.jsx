@@ -3,7 +3,7 @@ import AddPetForm from './AddPetForm';
 
 const AddPets = () => {
     return (
-        <div>
+        <div className='p-5'>
             <AddPetForm></AddPetForm>
         </div>
     );

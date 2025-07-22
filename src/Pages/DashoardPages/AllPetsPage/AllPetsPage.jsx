@@ -208,12 +208,12 @@ const AllPetsPage = () => {
   });
 
   return (
-    <div className="py-5 px-5 max-w-7xl mx-auto">
-      <div className="flex justify-center mb-4">
+    <div className="py-5 px-5">
+      <div className="flex justify-center  mb-4">
         <input
           type="text"
           placeholder="Search by pet name..."
-          className="w-full max-w-sm px-4 py-2 rounded-xl border border-gray-400 focus:outline-none focus:border-gray-600 focus:shadow"
+          className="w-full max-w-xs px-4 py-2 rounded-xl border border-gray-400 focus:outline-none focus:border-gray-600 focus:shadow"
           value={search}
           onChange={(e) => {
             setPage(1); // reset to first page on search
@@ -227,76 +227,79 @@ const AllPetsPage = () => {
       )}
 
       {!isLoading && !isFetching && (
-        <div className="overflow-x-auto bg-gradient-to-br from-green-100/50 via-gray-100/50 to-blue-100/50 p-6 rounded-xl border border-gray-300 shadow-xl">
-          <table className="w-full text-sm md:text-base table-auto">
-            <thead className="bg-gray-100">
-              {table.getHeaderGroups().map((headerGroup) => (
-                <tr key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => (
-                    <th key={header.id} className="px-4 py-3 text-left">
-                      {flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                    </th>
-                  ))}
-                </tr>
-              ))}
-            </thead>
-            <tbody>
-              {table.getRowModel().rows.length === 0 ? (
-                <tr>
-                  <td
-                    colSpan={columns.length}
-                    className="text-center py-8 text-gray-500"
-                  >
-                    No pets found.
-                  </td>
-                </tr>
-              ) : (
-                table.getRowModel().rows.map((row) => (
-                  <tr
-                    key={row.id}
-                    className="border-b border-gray-300 hover:bg-gray-300 transition-colors"
-                  >
-                    {row.getVisibleCells().map((cell) => (
-                      <td key={cell.id} className="px-4 py-2">
+        <div className="flex justify-center items-center">
+          <div className="overflow-x-auto w-[350px] md:w-[450px] lg:w-[750px] xl:w-[1000px] 2xl:w-full transition-all duration-500 bg-gradient-to-br from-green-100/50 via-gray-100/50 to-blue-100/50 p-6 rounded-xl border border-gray-300 shadow-xl">
+            <h2>Nothing</h2>
+            <table className="w-full text-sm md:text-base table-auto">
+              <thead className="bg-gray-100">
+                {table.getHeaderGroups().map((headerGroup) => (
+                  <tr key={headerGroup.id}>
+                    {headerGroup.headers.map((header) => (
+                      <th key={header.id} className="px-4 py-3 text-left">
                         {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
+                          header.column.columnDef.header,
+                          header.getContext()
                         )}
-                      </td>
+                      </th>
                     ))}
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+                ))}
+              </thead>
+              <tbody>
+                {table.getRowModel().rows.length === 0 ? (
+                  <tr>
+                    <td
+                      colSpan={columns.length}
+                      className="text-center py-8 text-gray-500"
+                    >
+                      No pets found.
+                    </td>
+                  </tr>
+                ) : (
+                  table.getRowModel().rows.map((row) => (
+                    <tr
+                      key={row.id}
+                      className="border-b border-gray-300 hover:bg-gray-300 transition-colors"
+                    >
+                      {row.getVisibleCells().map((cell) => (
+                        <td key={cell.id} className="px-4 py-2">
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </td>
+                      ))}
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
 
-          {/* Pagination */}
-          <div className="flex justify-between items-center mt-4">
-            <span className="text-sm font-medium text-gray-700">
-              Page {page} of {data ? Math.ceil(data.total / 10) : 1}
-            </span>
-            <div className="space-x-2">
-              <button
-                onClick={() => setPage((old) => Math.max(old - 1, 1))}
-                disabled={page === 1}
-                className="px-3 py-1 rounded bg-green-300 cursor-pointer font-medium text-gray-700/80 active:translate-y-[1px] duration-300 disabled:bg-gray-300"
-              >
-                Prev
-              </button>
-              <button
-                onClick={() =>
-                  setPage((old) =>
-                    data && page < Math.ceil(data.total / 10) ? old + 1 : old
-                  )
-                }
-                disabled={data && page >= Math.ceil(data.total / 10)}
-                className="px-3 py-1 bg-green-300 cursor-pointer font-medium text-gray-700/80 active:translate-y-[1px] duration-300 rounded disabled:bg-gray-300"
-              >
-                Next
-              </button>
+            {/* Pagination */}
+            <div className="flex justify-between items-center mt-4">
+              <span className="text-sm font-medium text-gray-700">
+                Page {page} of {data ? Math.ceil(data.total / 10) : 1}
+              </span>
+              <div className="space-x-2">
+                <button
+                  onClick={() => setPage((old) => Math.max(old - 1, 1))}
+                  disabled={page === 1}
+                  className="px-3 py-1 rounded bg-green-300 cursor-pointer font-medium text-gray-700/80 active:translate-y-[1px] duration-300 disabled:bg-gray-300"
+                >
+                  Prev
+                </button>
+                <button
+                  onClick={() =>
+                    setPage((old) =>
+                      data && page < Math.ceil(data.total / 10) ? old + 1 : old
+                    )
+                  }
+                  disabled={data && page >= Math.ceil(data.total / 10)}
+                  className="px-3 py-1 bg-green-300 cursor-pointer font-medium text-gray-700/80 active:translate-y-[1px] duration-300 rounded disabled:bg-gray-300"
+                >
+                  Next
+                </button>
+              </div>
             </div>
           </div>
         </div>

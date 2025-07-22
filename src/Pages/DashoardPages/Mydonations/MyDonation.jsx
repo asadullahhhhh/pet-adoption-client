@@ -144,9 +144,9 @@ const MyDonation = () => {
   }
 
   return (
-    <div className="py-10">
-      <div className="p-4 max-w-7xl mx-auto bg-gradient-to-tl from-blue-100/50 via-gray-200/50 to-green-100/50 rounded-lg shadow-md border border-gray-300">
-        <table className="min-w-full table-auto text-sm md:text-base">
+    <div className="p-5 lg:p-10 flex justify-center items-center">
+      <div className="p-4 overflow-x-auto w-[350px] md:w-[450px] lg:w-[750px] xl:w-[1000px] 2xl:w-full transition-all duration-500 bg-gradient-to-tl from-blue-100/50 via-gray-200/50 to-green-100/50 rounded-lg shadow-md border border-gray-300">
+        <table className="w-full table-auto text-sm md:text-base">
           <thead className="bg-gray-100">
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>

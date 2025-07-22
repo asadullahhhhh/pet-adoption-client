@@ -226,44 +226,51 @@ const AllDonations = () => {
   }
 
   return (
-    <div className="p-10">
-      <div className="w-full bg-gradient-to-br from-green-100/50 via-gray-100/50 to-blue-100/50 p-4 rounded-lg border shadow-lg border-gray-300">
+    <div className="p-5 lg:p-10 flex justify-center items-center">
+      <div className="w-[350px] md:w-[450px] lg:w-[750px] xl:w-[1000px] 2xl:w-full transition-all duration-500 bg-gradient-to-br from-green-100/50 via-gray-100/50 to-blue-100/50 p-4 rounded-lg border shadow-lg border-gray-300">
         <h2 className="text-lg font-semibold mb-4 text-gray-700">
           All Donation Campaigns
         </h2>
-        <table className="w-full overflow-x-auto table-auto text-sm md:text-base">
-          <thead className="bg-gray-100">
-            {tableWithData.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <th
-                    key={header.id}
-                    className="px-4 py-3 text-left whitespace-nowrap"
-                  >
-                    {flexRender(
-                      header.column.columnDef.header,
-                      header.getContext()
-                    )}
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody>
-            {tableWithData.getRowModel().rows.map((row) => (
-              <tr
-                key={row.id}
-                className="border-b border-gray-300 hover:bg-gray-50 transition-colors"
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <td key={cell.id} className="px-4 py-2 whitespace-nowrap">
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+
+        {/* Responsive table wrapper */}
+        <div className="w-full overflow-x-auto">
+          <table className="w-full table-auto text-sm md:text-base">
+            <thead className="bg-gray-100">
+              {tableWithData.getHeaderGroups().map((headerGroup) => (
+                <tr key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => (
+                    <th
+                      key={header.id}
+                      className="px-4 py-3 text-left whitespace-nowrap"
+                    >
+                      {flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
+                    </th>
+                  ))}
+                </tr>
+              ))}
+            </thead>
+            <tbody>
+              {tableWithData.getRowModel().rows.map((row) => (
+                <tr
+                  key={row.id}
+                  className="border-b border-gray-300 hover:bg-gray-50 transition-colors"
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <td key={cell.id} className="px-4 py-2 whitespace-nowrap">
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
 
         {/* Pagination */}
         <div className="flex justify-between items-center mt-4 font-semibold px-2">

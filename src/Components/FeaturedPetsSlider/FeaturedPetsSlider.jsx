@@ -25,7 +25,7 @@ const FeaturedPetsSlider = () => {
       <div className="relative max-w-7xl mx-auto px-4 py-20">
         <div className="flex absolute left-[50%] top-10 -translate-x-[50%] items-center justify-center gap-5 sm:justify-start mb-10">
           <div className="w-16 h-[3px] bg-amber-300"></div>
-          <span className="text-amber-400 font-semibold text-lg sm:text-base mr-2">
+          <span className="text-amber-400 w-full font-semibold text-lg sm:text-base mr-2">
             Available Pets
           </span>
         </div>

@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router";
 import { FcGoogle } from "react-icons/fc";
-import { FaFacebook } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaFacebook } from "react-icons/fa";
 import Lottie from "lottie-react";
 import { useState } from "react";
 import signupAnim from "../../assets/signup.json";
@@ -20,6 +20,8 @@ const SignupPage = () => {
   const [uploading, setUploading] = useState(false);
   const navigate = useNavigate();
   const [disabe, setdisable] = useState(false);
+  const [view, setView] = useState(false)
+
 
   const {
     register,
@@ -79,7 +81,7 @@ const SignupPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-tr from-blue-50 via-gray-200 to-green-50 flex justify-center items-center px-4 overflow-hidden">
-      <div className="w-full max-w-5xl bg-white/90 backdrop-blur-lg rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row items-center justify-between">
+      <div className="w-full max-w-5xl -mt-20 bg-white/90 backdrop-blur-lg rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row items-center justify-between">
         {/* Left Side - Lottie */}
         <div className="hidden md:block md:w-1/2 p-10">
           <Lottie
@@ -161,9 +163,9 @@ const SignupPage = () => {
             </div>
 
             {/* Password */}
-            <div>
+            <div className="relative">
               <input
-                type="password"
+                type={view ? 'text' : 'password'}
                 placeholder="Password"
                 className="w-full px-4 py-2 border border-blue-300 rounded-lg"
                 {...register("password", {
@@ -175,6 +177,13 @@ const SignupPage = () => {
                   },
                 })}
               />
+              <button
+                type="button"
+                onClick={() => setView((prev) => !prev)}
+                className="absolute top-[34%] right-5 -translate-y-[50%] cursor-pointer"
+              >
+                {view ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
+              </button>
               <p className="text-red-500 text-xs mt-1 min-h-[1rem]">
                 {errors.password?.message || ""}
               </p>
@@ -208,7 +217,10 @@ const SignupPage = () => {
               </span>
             </button>
 
-            <button onClick={handelFacebookLogin} className="w-full flex cursor-pointer items-center justify-center gap-3 border border-blue-700 py-2 rounded-lg text-blue-700 hover:bg-blue-100 transition">
+            <button
+              onClick={handelFacebookLogin}
+              className="w-full flex cursor-pointer items-center justify-center gap-3 border border-blue-700 py-2 rounded-lg text-blue-700 hover:bg-blue-100 transition"
+            >
               <FaFacebook size={22} />
               <span className="font-medium">Sign up with Facebook</span>
             </button>

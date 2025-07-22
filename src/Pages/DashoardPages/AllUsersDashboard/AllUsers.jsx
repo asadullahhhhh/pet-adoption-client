@@ -156,67 +156,69 @@ const AllUsers = () => {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search by email..."
-          className="mb-5 py-2 px-5 border border-gray-400 focus:outline-none focus:border-gray-600 focus:shadow rounded-xl w-full max-w-sm"
+          className="mb-5 py-2 px-5 border border-gray-400 focus:outline-none focus:border-gray-600 focus:shadow rounded-xl w-full max-w-xs"
         />
       </div>
 
       {isLoading ? (
         <Skeleton height={40} count={8} className="mb-2" />
       ) : (
-        <div className="max-w-7xl mx-auto bg-gradient-to-br from-green-100/50 via-gray-100/50 to-blue-100/50 p-8 rounded-xl border border-gray-300 shadow-xl">
-          <table className="w-full text-sm md:text-base table-auto">
-            <thead className="bg-gray-100">
-              {table.getHeaderGroups().map((headerGroup) => (
-                <tr key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => (
-                    <th key={header.id} className="px-4 py-3 text-left">
-                      {flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                    </th>
-                  ))}
-                </tr>
-              ))}
-            </thead>
-            <tbody>
-              {table.getRowModel().rows.map((row) => (
-                <tr
-                  key={row.id}
-                  className="border-b border-b-gray-300 hover:bg-gray-300 transition-colors"
+        <div className="flex justify-center items-center">
+          <div className="w-[350px] md:w-[450px] lg:w-[750px] xl:w-[1000px] 2xl:w-full transition-all duration-500  bg-gradient-to-br from-green-100/50 via-gray-100/50 to-blue-100/50 p-8 rounded-xl border border-gray-300 shadow-xl">
+            <table className="w-full text-sm md:text-base table-auto">
+              <thead className="bg-gray-100">
+                {table.getHeaderGroups().map((headerGroup) => (
+                  <tr key={headerGroup.id}>
+                    {headerGroup.headers.map((header) => (
+                      <th key={header.id} className="px-4 py-3 text-left">
+                        {flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                      </th>
+                    ))}
+                  </tr>
+                ))}
+              </thead>
+              <tbody>
+                {table.getRowModel().rows.map((row) => (
+                  <tr
+                    key={row.id}
+                    className="border-b border-b-gray-300 hover:bg-gray-300 transition-colors"
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <td key={cell.id} className="px-4 py-2">
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <div className="flex justify-between items-center mt-4">
+              <span className="text-sm font-medium text-gray-700">
+                Page {table.getState().pagination.pageIndex + 1} of{" "}
+                {table.getPageCount()}
+              </span>
+              <div className="space-x-2">
+                <button
+                  onClick={() => table.previousPage()}
+                  disabled={!table.getCanPreviousPage()}
+                  className="px-3 py-1 rounded bg-green-300 cursor-pointer font-medium text-gray-700/80 active:translate-1 duration-300 disabled:bg-gray-300"
                 >
-                  {row.getVisibleCells().map((cell) => (
-                    <td key={cell.id} className="px-4 py-2">
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <div className="flex justify-between items-center mt-4">
-            <span className="text-sm font-medium text-gray-700">
-              Page {table.getState().pagination.pageIndex + 1} of{" "}
-              {table.getPageCount()}
-            </span>
-            <div className="space-x-2">
-              <button
-                onClick={() => table.previousPage()}
-                disabled={!table.getCanPreviousPage()}
-                className="px-3 py-1 rounded bg-green-300 cursor-pointer font-medium text-gray-700/80 active:translate-1 duration-300 disabled:bg-gray-300"
-              >
-                Prev
-              </button>
-              <button
-                onClick={() => table.nextPage()}
-                disabled={!table.getCanNextPage()}
-                className="px-3 py-1 bg-green-300 cursor-pointer font-medium text-gray-700/80 active:translate-1 duration-300 rounded disabled:bg-gray-300"
-              >
-                Next
-              </button>
+                  Prev
+                </button>
+                <button
+                  onClick={() => table.nextPage()}
+                  disabled={!table.getCanNextPage()}
+                  className="px-3 py-1 bg-green-300 cursor-pointer font-medium text-gray-700/80 active:translate-1 duration-300 rounded disabled:bg-gray-300"
+                >
+                  Next
+                </button>
+              </div>
             </div>
           </div>
         </div>

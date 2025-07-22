@@ -188,13 +188,13 @@ const MyCampaign = () => {
           <div className="flex gap-2">
             <button
               onClick={() => handleViewDonators(campaign._id)}
-              className="px-3 py-1 text-white bg-blue-600 rounded hover:bg-blue-700 transition"
+              className="px-3 py-1 text-white bg-blue-600 cursor-pointer rounded hover:bg-blue-700 transition"
             >
               Donators
             </button>
             <button
               onClick={() => handlePauseToggle(campaign._id, campaign.status)}
-              className={`px-3 py-1 rounded text-white font-semibold transition ${
+              className={`px-3 py-1 rounded text-white cursor-pointer font-semibold transition ${
                 campaign.status === "paused"
                   ? "bg-green-600 hover:bg-green-700"
                   : "bg-yellow-600 hover:bg-yellow-700"
@@ -204,7 +204,7 @@ const MyCampaign = () => {
             </button>
             <button
               onClick={() => navigate(`/dashboard/edit-campaign/${campaign._id}`)}
-              className="px-3 py-1 rounded bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition"
+              className="px-3 py-1 rounded bg-indigo-600 cursor-pointer text-white font-semibold hover:bg-indigo-700 transition"
             >
               Edit
             </button>
@@ -215,28 +215,36 @@ const MyCampaign = () => {
   ];
 
   // Setup TanStack Table instance
-  const table = useReactTable({
-    data,
-    columns,
-    pageCount: Math.ceil(total / pageSize),
-    state: {
-      pagination: { pageIndex, pageSize },
-      sorting,
-    },
-    manualPagination: true,
-    manualSorting: true,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    onPaginationChange: setPageIndex,
-    onSortingChange: setSorting,
-  });
+ const table = useReactTable({
+   data,
+   columns,
+   pageCount: Math.ceil(total / pageSize),
+   state: {
+     pagination: {
+       pageIndex,
+       pageSize,
+     },
+     sorting,
+   },
+   manualPagination: true,
+   manualSorting: true,
+   getCoreRowModel: getCoreRowModel(),
+   getPaginationRowModel: getPaginationRowModel(),
+   getSortedRowModel: getSortedRowModel(),
+   onPaginationChange: (updater) => {
+     const newPagination =
+       typeof updater === "function"
+         ? updater({ pageIndex, pageSize })
+         : updater;
+     setPageIndex(newPagination.pageIndex);
+   },
+   onSortingChange: setSorting,
+ });
 
-  console.log(table.getState().pagination.page);
 
   return (
-    <div className="py-10">
-      <div className="w-[80%] mx-auto bg-gradient-to-tl from-blue-100/50 via-gray-200/50 to-green-100/50 p-4 rounded-lg shadow-md border border-gray-300">
+    <div className="p-5 lg:p-10">
+      <div className="w-[350px] md:w-[450px] lg:w-[750px] xl:w-[1000px] 2xl:w-full transition-all duration-500 mx-auto bg-gradient-to-tl from-blue-100/50 via-gray-200/50 to-green-100/50 p-4 rounded-lg shadow-md border border-gray-300">
         <h2 className="text-2xl font-semibold mb-4">My Donation Campaigns</h2>
 
         <div className="overflow-x-auto">

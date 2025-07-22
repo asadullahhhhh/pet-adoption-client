@@ -39,7 +39,7 @@ const PetCategorySection = () => {
             onClick={() => handleClick("Dog")}
             className="bg-purple-100 flex flex-col  justify-center w-[100px] md:w-[200px] cursor-pointer hover:scale-[1.01] duration-300 items-center rounded-lg shadow-lg text-center"
           >
-            <FaDog className="text-2xl text-purple-500 mb-4" />
+            <FaDog className="text-2xl md:text-4xl text-purple-500 mb-4" />
             <h3 className="text-md font-semibold text-gray-800">Dogs</h3>
           </div>
 
@@ -47,7 +47,7 @@ const PetCategorySection = () => {
             onClick={() => handleClick("Cat")}
             className="bg-purple-100 p-8 flex flex-col w-[100px] justify-center md:w-[200px] cursor-pointer hover:scale-[1.01] duration-300 items-center rounded-lg shadow-lg text-center"
           >
-            <FaCat className="text-2xl text-purple-500 mb-4" />
+            <FaCat className="text-2xl md:text-4xl text-purple-500 mb-4" />
             <h3 className="text-md font-semibold text-gray-800">Cats</h3>
           </div>
 
@@ -55,7 +55,7 @@ const PetCategorySection = () => {
             onClick={() => handleClick("Bird")}
             className="bg-purple-100 p-8 flex flex-col w-[100px] justify-center md:w-[200px] cursor-pointer hover:scale-[1.01] duration-300 items-center rounded-lg shadow-lg text-center"
           >
-            <FaKiwiBird className="text-2xl text-purple-500 mb-4" />
+            <FaKiwiBird className="text-2xl md:text-4xl text-purple-500 mb-4" />
             <h3 className="text-sm font-semibold text-gray-800">Bird</h3>
           </div>
 
@@ -63,7 +63,7 @@ const PetCategorySection = () => {
             onClick={() => handleClick("Rabbit")}
             className="bg-purple-100 p-8 flex flex-col w-[100px] justify-center md:w-[200px] cursor-pointer hover:scale-[1.01] duration-300 items-center rounded-lg shadow-lg text-center"
           >
-            <GiRabbit className="text-2xl text-purple-500 mb-4" />
+            <GiRabbit className="text-2xl md:text-4xl text-purple-500 mb-4" />
             <h3 className="text-sm font-semibold text-gray-800">Rabbit</h3>
           </div>
         </div>
