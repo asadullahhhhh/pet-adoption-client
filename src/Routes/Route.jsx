@@ -23,6 +23,8 @@ import AdminRoute from "./AdminRoute";
 import AllUsers from "../Pages/DashoardPages/AllUsersDashboard/AllUsers";
 import AllPetsPage from "../Pages/DashoardPages/AllPetsPage/AllPetsPage";
 import AllDonations from "../Pages/DashoardPages/AllDonations/AllDonations";
+import ForbiddenPage from "../Pages/ForbiddenPage/ForbiddenPage";
+import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 
 export const router = createBrowserRouter([
   {
@@ -58,6 +60,14 @@ export const router = createBrowserRouter([
         Component: DonationDetails,
       },
     ],
+  },
+  {
+    path : 'forbidden',
+    Component : ForbiddenPage
+  },
+  {
+    path : '*',
+    Component : ErrorPage
   },
   {
     path: "dashboard",

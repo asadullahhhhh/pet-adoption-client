@@ -15,14 +15,14 @@ const stripePromise = loadStripe(
 
 const DonationDetails = () => {
   const { id } = useParams();
-  const { user } = useAuth();
+  const { user, darkLight } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
 
   const { data, isLoading } = useQuery({
     queryKey: ["donation-details", id],
     queryFn: async () => {
       const res = await axios.get(
-        `http://localhost:5000/donation-campaigns/${id}`
+        `https://server-iota-henna.vercel.app/donation-campaigns/${id}`
       );
       return res.data;
     },
@@ -40,42 +40,54 @@ const DonationDetails = () => {
     status,
   } = data;
 
-
-  const isCollected = maxDonationAmount <=totalDonatedAmount
+  const isCollected = maxDonationAmount <= totalDonatedAmount;
   const isPushed = status === "paused";
-  console.log(isPushed);
-
+  const isSameUser = user?.email === data?.userEmail;
 
   return (
-    <div className="py-10 bg-gray-200 px-5 xl:px-0">
-      <div className="max-w-7xl mx-auto rounded-xl overflow-hidden mb-20 bg-gray-50 shadow-xl ">
+    <div
+      className={`py-10 bg-gray-200 ${
+        darkLight ? "dark" : ""
+      } dark:bg-gray-900 px-5 xl:px-0 transition-colors duration-300`}
+    >
+      <div className="max-w-7xl mx-auto rounded-xl overflow-hidden mb-20 bg-gray-50 dark:bg-gray-800 shadow-xl transition-colors duration-300">
         <img
           src={petImage}
           alt="Pet"
           className="w-full h-[400px] object-cover"
         />
         <div className="p-5">
-          <h2 className="text-3xl font-bold mt-4">{shortDescription}</h2>
+          <h2 className="text-3xl font-bold mt-4 text-gray-900 dark:text-gray-100">
+            {shortDescription}
+          </h2>
           <div
-            className="text-gray-700 mt-3"
+            className="text-gray-700 dark:text-gray-300 mt-3"
             dangerouslySetInnerHTML={{ __html: longDescription }}
           />
-          <div className="mt-4 text-lg">
+          <div className="mt-4 text-lg text-gray-800 dark:text-gray-200">
             <p>
-              <strong>Target:</strong> ${maxDonationAmount}
+              <strong className="text-gray-900 dark:text-gray-100">
+                Target:
+              </strong>{" "}
+              ${maxDonationAmount}
             </p>
             <p>
-              <strong>Raised:</strong> ${totalDonatedAmount}
+              <strong className="text-gray-900 dark:text-gray-100">
+                Raised:
+              </strong>{" "}
+              ${totalDonatedAmount}
             </p>
             <p>
-              <strong>Ends on:</strong>{" "}
+              <strong className="text-gray-900 dark:text-gray-100">
+                Ends on:
+              </strong>{" "}
               {new Date(lastDate).toLocaleDateString()}
             </p>
           </div>
           <button
             onClick={() => setIsOpen(true)}
-            className="mt-6 cursor-pointer bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-6 rounded-lg disabled:bg-indigo-800 disabled:cursor-not-allowed font-semibold"
-            disabled={!user || isCollected || isPushed}
+            className="mt-6 cursor-pointer bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-6 rounded-lg disabled:bg-indigo-800 disabled:cursor-not-allowed font-semibold transition-colors duration-300"
+            disabled={!user || isCollected || isPushed || isSameUser}
           >
             {!user
               ? "Login to donate"
@@ -87,18 +99,19 @@ const DonationDetails = () => {
           </button>
         </div>
       </div>
-      {/* Related */}
+
+      {/* Payment Modal */}
       <Elements stripe={stripePromise}>
         <PaymentModal
           isOpen={isOpen}
           setIsOpen={setIsOpen}
           user={user}
           data={data}
-        ></PaymentModal>
+        />
       </Elements>
 
       {/* Related Card */}
-      <RecommendedSection excludeId={data?._id}></RecommendedSection>
+      <RecommendedSection excludeId={data?._id} darkLight={darkLight} />
     </div>
   );
 };

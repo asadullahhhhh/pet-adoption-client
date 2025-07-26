@@ -15,6 +15,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import useAuth from "../../../hooks/useAuth";
 import { useNavigate } from "react-router";
 import ProgressBar from "@ramonak/react-progress-bar";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const MySwal = withReactContent(Swal);
 
@@ -26,17 +27,18 @@ const MyCampaign = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [donators, setDonators] = useState([]);
-  const { user } = useAuth();
+  const { user, darkLight } = useAuth();
   const [sorting, setSorting] = useState([]);
 
   const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure();
 
   // Fetch campaign data from backend
   const fetchCampaigns = async (page) => {
     setIsLoading(true);
     try {
-      const res = await axios.get(
-        `http://localhost:5000/my-donation-campaigns?email=${
+      const res = await axiosSecure.get(
+        `https://server-iota-henna.vercel.app/my-donation-campaigns?email=${
           user?.email
         }&page=${page + 1}&limit=${pageSize}`
       );
@@ -59,8 +61,8 @@ const MyCampaign = () => {
     try {
       setDonators([]);
       setModalOpen(true);
-      const res = await axios.get(
-        `http://localhost:5000/donation-campaigns/${campaignId}/donators`
+      const res = await axiosSecure.get(
+        `https://server-iota-henna.vercel.app/donation-campaigns/${campaignId}/donators`
       );
       setDonators(res.data.donators || []);
     } catch (error) {
@@ -69,6 +71,8 @@ const MyCampaign = () => {
       setModalOpen(false);
     }
   };
+
+  console.log(donators);
 
   // Pause/unpause campaign
   const handlePauseToggle = async (id, currentStatus) => {
@@ -87,7 +91,7 @@ const MyCampaign = () => {
     if (confirm.isConfirmed) {
       try {
         await axios.patch(
-          `http://localhost:5000/donation-campaigns/${id}/status`,
+          `https://server-iota-henna.vercel.app/donation-campaigns/${id}/status`,
           {
             status: newStatus,
           }
@@ -203,7 +207,9 @@ const MyCampaign = () => {
               {campaign.status === "paused" ? "Unpause" : "Pause"}
             </button>
             <button
-              onClick={() => navigate(`/dashboard/edit-campaign/${campaign._id}`)}
+              onClick={() =>
+                navigate(`/dashboard/edit-campaign/${campaign._id}`)
+              }
               className="px-3 py-1 rounded bg-indigo-600 cursor-pointer text-white font-semibold hover:bg-indigo-700 transition"
             >
               Edit
@@ -215,51 +221,70 @@ const MyCampaign = () => {
   ];
 
   // Setup TanStack Table instance
- const table = useReactTable({
-   data,
-   columns,
-   pageCount: Math.ceil(total / pageSize),
-   state: {
-     pagination: {
-       pageIndex,
-       pageSize,
-     },
-     sorting,
-   },
-   manualPagination: true,
-   manualSorting: true,
-   getCoreRowModel: getCoreRowModel(),
-   getPaginationRowModel: getPaginationRowModel(),
-   getSortedRowModel: getSortedRowModel(),
-   onPaginationChange: (updater) => {
-     const newPagination =
-       typeof updater === "function"
-         ? updater({ pageIndex, pageSize })
-         : updater;
-     setPageIndex(newPagination.pageIndex);
-   },
-   onSortingChange: setSorting,
- });
-
+  const table = useReactTable({
+    data,
+    columns,
+    pageCount: Math.ceil(total / pageSize),
+    state: {
+      pagination: {
+        pageIndex,
+        pageSize,
+      },
+      sorting,
+    },
+    manualPagination: true,
+    manualSorting: true,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    onPaginationChange: (updater) => {
+      const newPagination =
+        typeof updater === "function"
+          ? updater({ pageIndex, pageSize })
+          : updater;
+      setPageIndex(newPagination.pageIndex);
+    },
+    onSortingChange: setSorting,
+  });
 
   return (
-    <div className="p-5 lg:p-10">
-      <div className="w-[350px] md:w-[450px] lg:w-[750px] xl:w-[1000px] 2xl:w-full transition-all duration-500 mx-auto bg-gradient-to-tl from-blue-100/50 via-gray-200/50 to-green-100/50 p-4 rounded-lg shadow-md border border-gray-300">
-        <h2 className="text-2xl font-semibold mb-4">My Donation Campaigns</h2>
+    <div
+      className={`${
+        darkLight ? "dark" : ""
+      } p-5 lg:p-10 dark:bg-gray-900 min-h-screen`}
+    >
+      <div
+        className="w-[350px] md:w-[450px] lg:w-[750px] xl:w-[1000px] 2xl:w-full transition-all duration-500 mx-auto 
+    bg-gradient-to-tl from-blue-100/50 via-gray-200/50 to-green-100/50 
+    dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 
+    p-4 rounded-lg shadow-md border border-gray-300 dark:border-gray-700"
+      >
+        <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
+          My Donation Campaigns
+        </h2>
 
         <div className="overflow-x-auto">
           {isLoading ? (
             <table className="w-full table-auto text-sm md:text-base">
-              <thead className="bg-gray-100">
+              <thead className="bg-gray-100 dark:bg-gray-800">
                 <tr>
-                  <th className="px-4 py-3">Loading...</th>
+                  <th className="px-4 py-3 text-gray-700 dark:text-gray-300">
+                    Loading...
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {[...Array(10)].map((_, i) => (
-                  <tr key={i} className="border-b border-gray-300">
+                  <tr
+                    key={i}
+                    className="border-b border-gray-300 dark:border-gray-700"
+                  >
                     <td className="px-4 py-2 whitespace-nowrap">
-                      <Skeleton height={20} />
+                      <Skeleton
+                        height={20}
+                        baseColor="#374151"
+                        highlightColor="#4B5563"
+                      />
                     </td>
                   </tr>
                 ))}
@@ -267,13 +292,13 @@ const MyCampaign = () => {
             </table>
           ) : (
             <table className="w-full table-auto text-sm md:text-base">
-              <thead className="bg-gray-100">
+              <thead className="bg-gray-100 dark:bg-gray-800">
                 {table.getHeaderGroups().map((headerGroup) => (
                   <tr key={headerGroup.id}>
                     {headerGroup.headers.map((header) => (
                       <th
                         key={header.id}
-                        className="px-4 py-3 text-left whitespace-nowrap cursor-pointer select-none"
+                        className="px-4 py-3 text-left whitespace-nowrap cursor-pointer select-none text-gray-800 dark:text-gray-200"
                       >
                         {flexRender(
                           header.column.columnDef.header,
@@ -288,12 +313,12 @@ const MyCampaign = () => {
                 {table.getRowModel().rows.map((row) => (
                   <tr
                     key={row.id}
-                    className="border-b border-gray-300 hover:bg-gray-300 transition-colors"
+                    className="border-b border-gray-300 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
                   >
                     {row.getVisibleCells().map((cell) => (
                       <td
                         key={cell.id}
-                        className="px-4 py-5 whitespace-nowrap max-w-xs truncate"
+                        className="px-4 py-5 whitespace-nowrap max-w-xs truncate text-gray-900 dark:text-gray-100"
                         title={cell.getValue()}
                       >
                         {flexRender(
@@ -311,20 +336,20 @@ const MyCampaign = () => {
 
         {/* Pagination */}
         <div className="flex justify-between items-center mt-4 font-semibold px-2">
-          <span className="text-sm">
+          <span className="text-sm text-gray-700 dark:text-gray-300">
             Page {table.getState().pagination.pageIndex + 1} of{" "}
             {table.getPageCount()}
           </span>
           <div className="space-x-2">
             <button
-              className="px-3 py-1 bg-green-300 text-gray-700 font-semibold rounded disabled:bg-gray-300 cursor-pointer active:scale-90 duration-300"
+              className="px-3 py-1 bg-green-300 dark:bg-green-600 text-gray-700 dark:text-gray-100 font-semibold rounded disabled:bg-gray-300 dark:disabled:bg-gray-700 cursor-pointer active:scale-90 duration-300"
               onClick={() => table.previousPage()}
               disabled={!table.getCanPreviousPage()}
             >
               Prev
             </button>
             <button
-              className="px-3 py-1 cursor-pointer bg-green-300 font-semibold text-gray-700 rounded disabled:bg-gray-300 active:scale-90 duration-300"
+              className="px-3 py-1 cursor-pointer bg-green-300 dark:bg-green-600 font-semibold text-gray-700 dark:text-gray-100 rounded disabled:bg-gray-300 dark:disabled:bg-gray-700 active:scale-90 duration-300"
               onClick={() => table.nextPage()}
               disabled={!table.getCanNextPage()}
             >
@@ -363,25 +388,24 @@ const MyCampaign = () => {
                   leaveFrom="opacity-100 scale-100"
                   leaveTo="opacity-0 scale-95"
                 >
-                  <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white/80 p-6 text-left align-middle shadow-xl transition-all">
+                  <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white/80 dark:bg-gray-800/90 p-6 text-left align-middle shadow-xl transition-all">
                     <Dialog.Title
                       as="h3"
-                      className="text-lg font-medium leading-6 text-gray-900 mb-4"
+                      className="text-lg font-medium leading-6 text-gray-900 dark:text-gray-100 mb-4"
                     >
                       Donators
                     </Dialog.Title>
                     {donators.length === 0 ? (
-                      <p>No donators found.</p>
+                      <p className="text-gray-700 dark:text-gray-300">
+                        No donators found.
+                      </p>
                     ) : (
                       <ul className="space-y-2 max-h-96 overflow-y-auto">
                         {donators.map((donator) => (
                           <li
                             key={donator._id || donator.email}
-                            className="border-b border-gray-300 pb-2"
+                            className="border-b border-gray-300 dark:border-gray-700 pb-2 text-gray-800 dark:text-gray-200"
                           >
-                            <p>
-                              <strong>Name:</strong> {donator.name || "N/A"}
-                            </p>
                             <p>
                               <strong>Email:</strong> {donator.email}
                             </p>
@@ -397,7 +421,7 @@ const MyCampaign = () => {
                     <div className="mt-4">
                       <button
                         type="button"
-                        className="inline-flex justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                        className="inline-flex justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 dark:hover:bg-blue-500 focus:outline-none"
                         onClick={() => setModalOpen(false)}
                       >
                         Close

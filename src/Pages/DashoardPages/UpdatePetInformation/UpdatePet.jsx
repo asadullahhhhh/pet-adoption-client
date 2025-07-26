@@ -71,17 +71,17 @@ const traitsOptions = [
 ];
 
 const UpdatePet = () => {
+  const { id } = useParams();
 
-    const {id} = useParams()
-
-    const {data : petData = {}} = useQuery({
-        queryKey : ['pet', id],
-        queryFn : async () => {
-            const {data} = await axios.get(`http://localhost:5000/pets/${id}`);
-            return data
-        }
-    })
-
+  const { data: petData = {} } = useQuery({
+    queryKey: ["pet", id],
+    queryFn: async () => {
+      const { data } = await axios.get(
+        `https://server-iota-henna.vercel.app/pets/${id}`
+      );
+      return data;
+    },
+  });
 
   const {
     register,
@@ -94,7 +94,6 @@ const UpdatePet = () => {
 
   const [previews, setPreviews] = useState(petData?.images || []);
   const [uploading, setUploading] = useState([false, false, false]);
-
 
   const editor = useEditor({
     extensions: [StarterKit],
@@ -113,7 +112,7 @@ const UpdatePet = () => {
       category: categoryOptions.find((c) => c.value === petData?.category),
       traits: petData?.traits?.map((t) => ({ value: t, label: t })),
     });
-    setPreviews(petData?.images)
+    setPreviews(petData?.images);
   }, [petData, reset]);
 
   const handleImageChange = async (e, index) => {
@@ -154,11 +153,10 @@ const UpdatePet = () => {
             longDescription: editor.getHTML(),
           };
           const res = await axios.patch(
-            `http://localhost:5000/pets/${petData._id}`,
+            `https://server-iota-henna.vercel.app/pets/${petData._id}`,
             updatedPet
           );
           return res.data;
-
         } catch (err) {
           Swal.showValidationMessage(`Update failed: ${err.message}`);
         }
@@ -281,11 +279,7 @@ const UpdatePet = () => {
           control={control}
           rules={{ required: "Traits required" }}
           render={({ field }) => (
-            <Select
-              {...field}
-              options={traitsOptions}
-              isMulti
-            />
+            <Select {...field} options={traitsOptions} isMulti />
           )}
         />
       </div>
@@ -321,7 +315,10 @@ const UpdatePet = () => {
         </div>
       </div>
 
-      <button className="bg-gradient-to-tr bg-black text-white py-2 rounded-lg hover:bg-black/85 cursor-pointer w-full" type="submit">
+      <button
+        className="bg-gradient-to-tr bg-black text-white py-2 rounded-lg hover:bg-black/85 cursor-pointer w-full"
+        type="submit"
+      >
         Update Pet
       </button>
     </form>

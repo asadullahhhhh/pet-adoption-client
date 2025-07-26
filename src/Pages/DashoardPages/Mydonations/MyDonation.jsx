@@ -10,16 +10,18 @@ import Swal from "sweetalert2";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import useAuth from "../../../hooks/useAuth";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const MyDonation = () => {
-  const { user } = useAuth();
+  const { user, darkLight } = useAuth();
   const queryClient = useQueryClient();
+  const axiosSecure = useAxiosSecure();
 
   const { data = [], isLoading } = useQuery({
     queryKey: ["my-donated-campaigns", user?.email],
     queryFn: async () => {
-      const res = await axios.get(
-        `http://localhost:5000/donation-campaigns/donated/${user?.email}`
+      const res = await axiosSecure.get(
+        `https://server-iota-henna.vercel.app/donation-campaigns/donated/${user?.email}`
       );
       return res.data;
     },
@@ -38,7 +40,7 @@ const MyDonation = () => {
       preConfirm: async () => {
         try {
           await axios.patch(
-            `http://localhost:5000/donation-campaigns/refund/${campaignId}`,
+            `https://server-iota-henna.vercel.app/donation-campaigns/refund/${campaignId}`,
             { donorEmail: user.email }
           );
           return true;
@@ -132,28 +134,53 @@ const MyDonation = () => {
   });
 
   if (isLoading) {
-    return <Skeleton height={40} count={5} className="mb-2" />;
+    return (
+      <div
+        className={`${
+          darkLight ? "dark" : ""
+        } dark:bg-gray-900 min-h-[calc(100vh-74px)]`}
+      >
+        <Skeleton
+          height={40}
+          count={5}
+          baseColor="#1f2937"
+          highlightColor="#374151"
+          className="mb-2"
+        />
+      </div>
+    );
   }
 
   if (!data.length) {
     return (
       <div className="flex justify-center items-center min-h-[calc(100vh-72px)]">
-        <p className="text-center font-bold text-3xl">No donation campaigns found.</p>
+        <p className="text-center font-bold text-3xl">
+          No donation campaigns found.
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="p-5 lg:p-10 flex justify-center items-center">
-      <div className="p-4 overflow-x-auto w-[350px] md:w-[450px] lg:w-[750px] xl:w-[1000px] 2xl:w-full transition-all duration-500 bg-gradient-to-tl from-blue-100/50 via-gray-200/50 to-green-100/50 rounded-lg shadow-md border border-gray-300">
+    <div
+      className={`${
+        darkLight ? "dark" : ""
+      } p-5 lg:p-10 dark:bg-gray-900 min-h-[calc(100vh-74px)] flex justify-center items-start`}
+    >
+      <div
+        className="p-4 overflow-x-auto w-[350px] md:w-[450px] lg:w-[750px] xl:w-[1000px] 2xl:w-full transition-all duration-500 
+    bg-gradient-to-tl from-blue-100/50 via-gray-200/50 to-green-100/50 
+    dark:from-gray-800 dark:via-gray-900 dark:to-gray-800
+    rounded-lg shadow-md border border-gray-300 dark:border-gray-700"
+      >
         <table className="w-full table-auto text-sm md:text-base">
-          <thead className="bg-gray-100">
+          <thead className="bg-gray-100 dark:bg-gray-700">
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
                   <th
                     key={header.id}
-                    className="px-4 py-3 text-left whitespace-nowrap"
+                    className="px-4 py-3 text-left whitespace-nowrap text-gray-800 dark:text-gray-200"
                   >
                     {flexRender(
                       header.column.columnDef.header,
@@ -169,10 +196,14 @@ const MyDonation = () => {
             {table.getRowModel().rows.map((row) => (
               <tr
                 key={row.id}
-                className="border-b border-gray-300 hover:bg-gray-300 transition-colors"
+                className="border-b border-gray-300 dark:border-gray-700 
+              hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors"
               >
                 {row.getVisibleCells().map((cell) => (
-                  <td key={cell.id} className="px-4 py-2 whitespace-nowrap">
+                  <td
+                    key={cell.id}
+                    className="px-4 py-2 whitespace-nowrap text-gray-800 dark:text-gray-200"
+                  >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
                 ))}
@@ -183,7 +214,7 @@ const MyDonation = () => {
 
         {/* Pagination Controls */}
         <div className="flex justify-between items-center mt-4 font-semibold px-2">
-          <span className="text-sm">
+          <span className="text-sm text-gray-700 dark:text-gray-300">
             Page {table.getState().pagination.pageIndex + 1} of{" "}
             {table.getPageCount()}
           </span>
@@ -191,14 +222,18 @@ const MyDonation = () => {
             <button
               onClick={() => table.previousPage()}
               disabled={!table.getCanPreviousPage()}
-              className="px-3 py-1 bg-green-300 text-gray-700 font-semibold rounded disabled:bg-gray-300 cursor-pointer active:scale-90 duration-300"
+              className="px-3 py-1 bg-green-300 text-gray-700 font-semibold rounded 
+            disabled:bg-gray-300 dark:bg-green-600 dark:text-white dark:disabled:bg-gray-600
+            cursor-pointer active:scale-90 duration-300"
             >
               Prev
             </button>
             <button
               onClick={() => table.nextPage()}
               disabled={!table.getCanNextPage()}
-              className="px-3 py-1 bg-green-300 text-gray-700 font-semibold rounded disabled:bg-gray-300 cursor-pointer active:scale-90 duration-300"
+              className="px-3 py-1 bg-green-300 text-gray-700 font-semibold rounded 
+            disabled:bg-gray-300 dark:bg-green-600 dark:text-white dark:disabled:bg-gray-600
+            cursor-pointer active:scale-90 duration-300"
             >
               Next
             </button>

@@ -9,26 +9,28 @@ import {
 import { useState } from "react";
 import useAuth from "../../../hooks/useAuth";
 import { FaPen } from "react-icons/fa";
-import { MdDelete } from "react-icons/md"; 
- import Swal from "sweetalert2";
- import axios from "axios";
- import { Circles } from "react-loader-spinner";
- import ReactDOMServer from "react-dom/server";
- import { IoMdCloudUpload } from "react-icons/io";
+import { MdDelete } from "react-icons/md";
+import Swal from "sweetalert2";
+import axios from "axios";
+import { Circles } from "react-loader-spinner";
+import ReactDOMServer from "react-dom/server";
+import { IoMdCloudUpload } from "react-icons/io";
 import PetLoadingS from "./PetLoadingS";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const MyAddedPets = () => {
-  const {user} = useAuth()
+  const { user, darkLight } = useAuth();
   const navigate = useNavigate();
   const [sorting, setSorting] = useState([]);
   const [page, setPage] = useState(1);
   const limit = 10;
+  const axiosSecure = useAxiosSecure();
 
   const { data, isLoading, refetch } = useQuery({
     queryKey: ["myAddedPets", page, user?.email],
     queryFn: async () => {
-      const res = await axios.get(
-        `http://localhost:5000/my-added-pets?email=${user?.email}&page=${page}&limit=${limit}`
+      const res = await axiosSecure.get(
+        `https://server-iota-henna.vercel.app/my-added-pets?email=${user?.email}&page=${page}&limit=${limit}`
       );
       return res.data;
     },
@@ -37,51 +39,49 @@ const MyAddedPets = () => {
 
   console.log(data?.pets);
 
-// Delete methode here
- const handleDelete = (id) => {
-   Swal.fire({
-     title: "Are you sure?",
-     text: "This pet will be deleted permanently!",
-     icon: "warning",
-     showCancelButton: true,
-     confirmButtonText: "Yes, delete it!",
-   }).then(async (result) => {
-     if (result.isConfirmed) {
-       try {
-         Swal.fire({
-           title: "Deleting...",
-           allowOutsideClick: false,
-           didOpen: () => {
-             Swal.showLoading();
-           },
-         });
+  // Delete methode here
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "This pet will be deleted permanently!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          Swal.fire({
+            title: "Deleting...",
+            allowOutsideClick: false,
+            didOpen: () => {
+              Swal.showLoading();
+            },
+          });
 
-         await axios.delete(`http://localhost:5000/pet/${id}`);
+          await axios.delete(`https://server-iota-henna.vercel.app/pet/${id}`);
 
-         Swal.fire({
-           icon: "success",
-           title: "Deleted!",
-           text: "The pet has been deleted.",
-           timer: 1500,
-           showConfirmButton: false,
-         });
+          Swal.fire({
+            icon: "success",
+            title: "Deleted!",
+            text: "The pet has been deleted.",
+            timer: 1500,
+            showConfirmButton: false,
+          });
 
-         refetch();
-       } catch (error) {
-         Swal.fire({
-           icon: "error",
-           title: "Error!",
-           text: error?.response?.data?.message || "Something went wrong.",
-           confirmButtonText: "OK",
-         });
-       }
-     }
-   });
- };
+          refetch();
+        } catch (error) {
+          Swal.fire({
+            icon: "error",
+            title: "Error!",
+            text: error?.response?.data?.message || "Something went wrong.",
+            confirmButtonText: "OK",
+          });
+        }
+      }
+    });
+  };
 
-
- 
-// adopt method here
+  // adopt method here
   const handleAdopt = async (id) => {
     console.log(id);
     const result = await Swal.fire({
@@ -112,7 +112,9 @@ const MyAddedPets = () => {
       });
 
       try {
-        await axios.patch(`http://localhost:5000/pet-adopted/${id}`);
+        await axios.patch(
+          `https://server-iota-henna.vercel.app/pet-adopted/${id}`
+        );
 
         // Replace spinner with success, auto-close after 1.5s
         Swal.fire({
@@ -135,7 +137,6 @@ const MyAddedPets = () => {
     }
   };
 
-
   const columns = [
     {
       header: "SL",
@@ -144,13 +145,17 @@ const MyAddedPets = () => {
     {
       header: "Pet Name",
       cell: ({ row }) => (
-        <p className="font-semibold text-gray-700">{row.original.name}</p>
+        <p className="font-semibold text-gray-700 dark:text-gray-400">
+          {row.original.name}
+        </p>
       ),
     },
     {
       header: "Category",
       cell: ({ row }) => (
-        <p className="text-gray-700">{row.original.category}</p>
+        <p className="text-gray-700 dark:text-gray-400">
+          {row.original.category}
+        </p>
       ),
     },
     {
@@ -217,33 +222,54 @@ const MyAddedPets = () => {
 
   if (isLoading) return <PetLoadingS></PetLoadingS>;
 
-  if(data?.pets.length === 0) return (
-    <div className="flex items-center justify-center min-h-[calc(100vh-72px)]">
-      <div>
-        <p className="font-bold text-2xl">You don't post any pet yet</p>
-        <div className="flex justify-center mt-3">
-          <Link to={"/dashboard/add-pet"}>
-            <button className="px-5 flex cursor-pointer items-center gap-3 rounded-lg font-semibold text-gray-800 py-2 bg-gradient-to-tr from-green-200 via-green-300 to-green-400">
-              Post <IoMdCloudUpload size={20} color="#fff" />
-            </button>
-          </Link>
+  if (data?.pets.length === 0)
+    return (
+      <div
+        className={`${
+          darkLight ? "dark" : ""
+        } flex items-center justify-center min-h-[calc(100vh-74px)] bg-gray-50 dark:bg-gray-900`}
+      >
+        <div className="text-center">
+          <p className="font-bold text-2xl text-gray-800 dark:text-gray-100">
+            You don't post any pet yet
+          </p>
+          <div className="flex justify-center mt-3">
+            <Link to={"/dashboard/add-pet"}>
+              <button className="px-5 flex cursor-pointer items-center gap-3 rounded-lg font-semibold text-gray-800 dark:text-white py-2 bg-gradient-to-tr from-green-200 via-green-300 to-green-400 dark:from-green-600 dark:via-green-700 dark:to-green-800 shadow-md active:scale-95 duration-200">
+                Post <IoMdCloudUpload size={20} color="#fff" />
+              </button>
+            </Link>
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
 
   return (
-    <div className="p-5 flex flex-col justify-between min-h-[calc(100vh-72px)]">
-      <div className="overflow-x-auto w-[350px] md:w-[450px] lg:w-[750px] xl:w-[1000px] 2xl:w-full transition-all duration-500  mx-auto bg-gradient-to-br from-green-100/50 via-gray-200/50 to-blue-100/50 border border-gray-300 rounded-lg  backdrop-blur-3xl ">
-        <table className="table table-auto w-full ">
+    <div
+      className={`p-5 flex duration-500 flex-col justify-between min-h-[calc(100vh-72px)] ${
+        darkLight
+          ? "dark bg-gray-900 text-gray-100"
+          : "bg-gray-50 text-gray-900"
+      }`}
+    >
+      <div
+        className="overflow-x-auto w-[350px] md:w-[450px] lg:w-[750px] xl:w-[1000px] 2xl:w-full transition-all duration-500 mx-auto 
+    bg-gradient-to-br from-green-100/50 via-gray-200/50 to-blue-100/50 
+    dark:from-gray-800/60 dark:via-gray-900/60 dark:to-gray-800/60 
+    border border-gray-300 dark:border-gray-700 rounded-lg backdrop-blur-3xl"
+      >
+        <table className="table table-auto w-full">
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id} className="bg-green-100">
+              <tr
+                key={headerGroup.id}
+                className="bg-green-100 dark:bg-gray-800"
+              >
                 {headerGroup.headers.map((header) => (
                   <th
                     key={header.id}
                     onClick={header.column.getToggleSortingHandler()}
-                    className="cursor-pointer py-5 border-b-2 border-b-green-200"
+                    className="cursor-pointer py-5 border-b-2 border-b-green-200 dark:border-b-gray-700"
                   >
                     {flexRender(
                       header.column.columnDef.header,
@@ -261,7 +287,10 @@ const MyAddedPets = () => {
           </thead>
           <tbody>
             {table.getRowModel().rows.map((row) => (
-              <tr key={row.id} className="border-b border-b-neutral-300">
+              <tr
+                key={row.id}
+                className="border-b border-b-neutral-300 dark:border-b-gray-700"
+              >
                 {row.getVisibleCells().map((cell) => (
                   <td key={cell.id} className="py-3 px-5 text-center">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -271,16 +300,18 @@ const MyAddedPets = () => {
             ))}
           </tbody>
         </table>
+
         {/* Pagination Controls */}
-        <div className=" py-5 px-7 flex w-full justify-between gap-2">
+        <div className="py-5 px-7 flex w-full justify-between gap-2">
           <div>
-            <span className="self-center text-sm font-semibold text-gray-600">
+            <span className="self-center text-sm font-semibold text-gray-600 dark:text-gray-300">
               Page {data.currentPage} of {data.totalPages}
             </span>
           </div>
           <div className="space-x-3">
             <button
-              className="px-3 py-1 cursor-pointer bg-green-300 font-semibold text-gray-700 rounded disabled:bg-gray-300 active:scale-90 duration-300"
+              className="px-3 py-1 cursor-pointer bg-green-300 font-semibold text-gray-700 rounded disabled:bg-gray-300 
+            dark:bg-gray-700 dark:text-gray-200 dark:disabled:bg-gray-600 active:scale-90 duration-300"
               disabled={page === 1}
               onClick={() => setPage((prev) => prev - 1)}
             >
@@ -288,7 +319,8 @@ const MyAddedPets = () => {
             </button>
 
             <button
-              className="px-3 py-1 cursor-pointer bg-green-300 font-semibold text-gray-700 rounded disabled:bg-gray-300 active:scale-90 duration-300"
+              className="px-3 py-1 cursor-pointer bg-green-300 font-semibold text-gray-700 rounded disabled:bg-gray-300 
+            dark:bg-gray-700 dark:text-gray-200 dark:disabled:bg-gray-600 active:scale-90 duration-300"
               disabled={page >= data.totalPages}
               onClick={() => setPage((prev) => prev + 1)}
             >

@@ -14,16 +14,18 @@ import { format } from "date-fns";
 import { FaTrash } from "react-icons/fa";
 import "react-loading-skeleton/dist/skeleton.css";
 import useAuth from "../../../../hooks/useAuth";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 
-const SentRequests = () => {
+const SentRequests = ({ darkLight }) => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
+  const axiosSecure = useAxiosSecure();
 
   const { data = [], isLoading } = useQuery({
     queryKey: ["sent-requests", user?.email],
     queryFn: async () => {
-      const res = await axios.get(
-        `http://localhost:5000/adoption-requests/sent/${user?.email}`
+      const res = await axiosSecure.get(
+        `https://server-iota-henna.vercel.app/adoption-requests/sent/${user?.email}`
       );
       return res.data;
     },
@@ -40,12 +42,15 @@ const SentRequests = () => {
       showLoaderOnConfirm: true,
       preConfirm: async () => {
         try {
-          await axios.delete(`http://localhost:5000/delete/request`, {
-            data: {
-              userEmail: user?.email,
-              petId,
-            },
-          });
+          await axios.delete(
+            `https://server-iota-henna.vercel.app/delete/request`,
+            {
+              data: {
+                userEmail: user?.email,
+                petId,
+              },
+            }
+          );
           return true;
         } catch (error) {
           Swal.showValidationMessage("Cancel failed!");
@@ -65,11 +70,13 @@ const SentRequests = () => {
         header: "Pet",
         accessorKey: "petImage",
         cell: ({ row }) => (
-          <img
-            src={row.original.petImage}
-            alt="pet"
-            className="w-12 h-12 rounded object-cover"
-          />
+          <div className="flex justify-center items-center w-16">
+            <img
+              src={row.original.petImage}
+              alt="pet"
+              className="w-12 h-12 rounded object-cover"
+            />
+          </div>
         ),
       },
       {
@@ -152,16 +159,24 @@ const SentRequests = () => {
   }
 
   return (
-    <div className="flex justify-center items-center">
-      <div className="w-[350px] md:w-[450px] lg:w-[750px] xl:w-[1000px] 2xl:w-full transition-all duration-500 overflow-x-auto bg-gradient-to-br from-blue-100/50 via-gray-200/50 to-green-100/50 p-4 rounded-lg shadow-md border border-gray-300">
+    <div
+      className={`flex justify-center items-center ${darkLight ? "dark" : ""}`}
+    >
+      <div
+        className="w-[350px] md:w-[450px] lg:w-[750px] xl:w-[1000px] 2xl:w-full 
+      transition-all duration-500 overflow-x-auto 
+      bg-gradient-to-br from-blue-100/50 via-gray-200/50 to-green-100/50 
+      dark:from-gray-800 dark:via-gray-900 dark:to-gray-800
+      p-4 rounded-lg shadow-md border border-gray-300 dark:border-gray-700"
+      >
         <table className="w-full overflow-x-auto table-auto text-sm md:text-base">
-          <thead className="bg-gray-100">
+          <thead className="bg-gray-100 dark:bg-gray-700">
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
                   <th
                     key={header.id}
-                    className="px-4 py-3 text-left whitespace-nowrap"
+                    className="px-4 py-3 text-left whitespace-nowrap text-gray-800 dark:text-gray-200"
                   >
                     {flexRender(
                       header.column.columnDef.header,
@@ -176,10 +191,14 @@ const SentRequests = () => {
             {table.getRowModel().rows.map((row) => (
               <tr
                 key={row.id}
-                className="border-b border-gray-300 hover:bg-gray-50 transition-colors"
+                className="border-b border-gray-300 dark:border-gray-700 
+                       hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
               >
                 {row.getVisibleCells().map((cell) => (
-                  <td key={cell.id} className="px-4 py-2 whitespace-nowrap">
+                  <td
+                    key={cell.id}
+                    className="px-4 py-2 whitespace-nowrap text-gray-700 dark:text-gray-300"
+                  >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
                 ))}
@@ -190,20 +209,24 @@ const SentRequests = () => {
 
         {/* Pagination */}
         <div className="flex justify-between items-center mt-4 font-semibold px-2">
-          <span className="text-sm">
+          <span className="text-sm text-gray-700 dark:text-gray-300">
             Page {table.getState().pagination.pageIndex + 1} of{" "}
             {table.getPageCount()}
           </span>
           <div className="space-x-2">
             <button
-              className="px-3 py-1 bg-green-300 text-gray-700 font-semibold rounded disabled:bg-gray-300 cursor-pointer active:scale-90 duration-300"
+              className="px-3 py-1 bg-green-300 text-gray-700 font-semibold rounded 
+                     disabled:bg-gray-300 cursor-pointer active:scale-90 duration-300
+                     dark:bg-green-600 dark:text-gray-100 dark:disabled:bg-gray-600"
               onClick={() => table.previousPage()}
               disabled={!table.getCanPreviousPage()}
             >
               Prev
             </button>
             <button
-              className="px-3 py-1 cursor-pointer bg-green-300 font-semibold text-gray-700 rounded disabled:bg-gray-300 active:scale-90 duration-300"
+              className="px-3 py-1 cursor-pointer bg-green-300 font-semibold text-gray-700 rounded 
+                     disabled:bg-gray-300 active:scale-90 duration-300
+                     dark:bg-green-600 dark:text-gray-100 dark:disabled:bg-gray-600"
               onClick={() => table.nextPage()}
               disabled={!table.getCanNextPage()}
             >

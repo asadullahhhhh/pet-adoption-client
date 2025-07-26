@@ -5,10 +5,12 @@ import AboutSection from '../../Components/AboutSection/AboutSection';
 import PetCategorySection from '../../Components/PetCategorySection/PetCategorySection';
 import FeaturedPetsSlider from '../../Components/FeaturedPetsSlider/FeaturedPetsSlider';
 import ServiceSection from '../../Components/ServiceSection/ServiceSection';
+import useAuth from '../../hooks/useAuth';
 
 const HomePage = () => {
+  const { darkLight } = useAuth();
     return (
-      <section className={`bg-gray-100`}>
+      <section className={`bg-gray-100 ${darkLight ? 'dark' : ''}`}>
         {/* Banner */}
         <Banner></Banner>
         <FeatureSection></FeatureSection>
@@ -16,7 +18,6 @@ const HomePage = () => {
         <PetCategorySection></PetCategorySection>
         <ServiceSection></ServiceSection>
         <FeaturedPetsSlider></FeaturedPetsSlider>
-       
       </section>
     );
 };

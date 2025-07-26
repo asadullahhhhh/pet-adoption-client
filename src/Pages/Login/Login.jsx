@@ -9,10 +9,11 @@ import toast from "react-hot-toast";
 import { UserDB } from "../../utils/utility";
 import { useState } from "react";
 import { BeatLoader } from "react-spinners";
+import axios from "axios";
 
 const LoginPage = () => {
 
-  const { signIn, googleLogin, facebookLogin } = useAuth();
+  const { signIn, googleLogin, facebookLogin, darkLight } = useAuth();
   const navigate = useNavigate()
     const [disabe, setdisable] = useState(false);
 
@@ -34,7 +35,16 @@ const LoginPage = () => {
       };
 
       if(user){
-        await UserDB(userInfo)
+        const res = await UserDB(userInfo)
+        if(res?.data){
+          await axios.post(
+            `${import.meta.env.VITE_API_URL}/jwt`,
+            { email: user?.email },
+            {
+              withCredentials: true,
+            }
+          );
+        }
         navigate('/')
         toast.success('Login successful')
         setdisable(false)
@@ -55,8 +65,12 @@ const LoginPage = () => {
     }
 
   return (
-    <div className="min-h-screen bg-gradient-to-tr from-blue-50 via-gray-200 to-green-50 flex justify-center items-center px-4 relative">
-      <div className="w-full -mt-20 max-w-5xl relative bg-white/30 rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row items-center justify-between">
+    <div
+      className={`${
+        darkLight ? "dark" : ""
+      } min-h-screen bg-gradient-to-tr from-blue-50 via-gray-200 to-green-50 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 flex justify-center items-center px-4 relative`}
+    >
+      <div className="w-full -mt-20 max-w-5xl border dark:border-gray-800/80 relative bg-white/30 dark:bg-gray-800/50 rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row items-center justify-between">
         {/* Left Side - Lottie */}
         <div className="hidden md:block md:w-1/2">
           <Lottie
@@ -68,7 +82,7 @@ const LoginPage = () => {
 
         {/* Right Side - Form */}
         <div className="w-full md:w-1/2 p-8 space-y-6 relative">
-          <h2 className="text-2xl font-bold text-center text-gray-800">
+          <h2 className="text-2xl font-bold text-center text-gray-800 dark:text-white">
             Login to Your Account
           </h2>
 
@@ -77,18 +91,18 @@ const LoginPage = () => {
               type="email"
               name="email"
               placeholder="Email"
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200"
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring focus:ring-blue-200 dark:focus:ring-blue-500"
             />
             <input
               type="password"
               name="password"
               placeholder="Password"
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200"
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring focus:ring-blue-200 dark:focus:ring-blue-500"
             />
             <button
               type="submit"
               disabled={disabe}
-              className="w-full cursor-pointer bg-blue-500 text-white font-semibold py-2 rounded-md hover:bg-blue-600 transition"
+              className="w-full cursor-pointer bg-blue-500 text-white font-semibold py-2 rounded-md hover:bg-blue-600 dark:hover:bg-blue-700 transition"
             >
               {disabe ? <BeatLoader color="#ffffff" size={8} /> : "Login"}
             </button>
@@ -96,23 +110,25 @@ const LoginPage = () => {
 
           {/* Divider */}
           <div className="flex items-center my-4">
-            <div className="flex-grow h-px bg-gray-300"></div>
-            <span className="px-2 text-sm text-gray-500">OR</span>
-            <div className="flex-grow h-px bg-gray-300"></div>
+            <div className="flex-grow h-px bg-gray-300 dark:bg-gray-600"></div>
+            <span className="px-2 text-sm text-gray-500 dark:text-gray-400">
+              OR
+            </span>
+            <div className="flex-grow h-px bg-gray-300 dark:bg-gray-600"></div>
           </div>
 
           {/* Social Buttons */}
           <div className="space-y-3">
             <button
               onClick={handelGoogleLogin}
-              className="w-full flex cursor-pointer items-center justify-center gap-3 border py-2 rounded-md hover:bg-gray-100 transition"
+              className="w-full flex cursor-pointer items-center justify-center gap-3 border border-gray-300 dark:border-gray-600 py-2 rounded-md bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-600 transition"
             >
               <FcGoogle size={24} />
               <span>Login with Google</span>
             </button>
             <button
               onClick={handelFacebookLogin}
-              className="w-full flex cursor-pointer items-center justify-center gap-3 border py-2 rounded-md text-blue-600 hover:bg-gray-100 transition"
+              className="w-full flex cursor-pointer items-center justify-center gap-3 border border-gray-300 dark:border-gray-600 py-2 rounded-md bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-600 transition"
             >
               <FaFacebook size={24} />
               <span>Login with Facebook</span>
@@ -120,11 +136,11 @@ const LoginPage = () => {
           </div>
 
           {/* Signup redirect link */}
-          <p className="text-center text-sm text-gray-600 mt-6">
+          <p className="text-center text-sm text-gray-600 dark:text-gray-400 mt-6">
             Don't have an account?{" "}
             <Link
               to="/signup"
-              className="text-blue-600 hover:underline font-semibold"
+              className="text-blue-600 dark:text-blue-400 hover:underline font-semibold"
             >
               Sign up
             </Link>

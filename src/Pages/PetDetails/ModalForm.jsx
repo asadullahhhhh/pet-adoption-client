@@ -23,12 +23,12 @@ const ModalForm = ({ user, pet, close, refetch }) => {
       petImage: pet.images?.[0],
       adoptedAt: new Date().toISOString(),
       status: "pending", // Optional
-      ownerEmail : pet?.addedBy?.email
+      ownerEmail: pet?.addedBy?.email,
     };
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/adoptPet",
+        "https://server-iota-henna.vercel.app/adoptPet",
         adoptionData
       );
       if (res.data.insertedId) {
@@ -42,7 +42,7 @@ const ModalForm = ({ user, pet, close, refetch }) => {
           timer: 1500,
         });
         close(); // close modal
-        refetch()
+        refetch();
       }
     } catch (err) {
       Swal.fire({

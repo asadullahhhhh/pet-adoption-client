@@ -3,13 +3,13 @@ import React from 'react';
 import { FaArrowRightLong } from "react-icons/fa6";
 import { Carousel } from "react-responsive-carousel";
 
-const PetCard = ({ pet, setIsOpen, requestStatus, user, isOwner }) => {
+const PetCard = ({ pet, setIsOpen, requestStatus, user, isOwner, darkLight }) => {
   return (
-    <div>
-      <div className="bg-[#f8f8f8] relative w-full py-12 px-4 lg:px-12">
+    <div className={`${darkLight ? "dark" : ""}`}>
+      <div className="bg-[#f8f8f8] dark:bg-gray-900 relative w-full py-12 px-4 lg:px-12 transition-colors duration-300">
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-10">
           {/* Image Section */}
-          <div className="w-full lg:w-1/2 rounded-xl overflow-hidden">
+          <div className="w-full lg:w-1/2 rounded-xl overflow-hidden shadow-lg">
             <Carousel showThumbs={false} infiniteLoop showStatus={false}>
               {pet.images.map((img, index) => (
                 <div key={index}>
@@ -24,7 +24,7 @@ const PetCard = ({ pet, setIsOpen, requestStatus, user, isOwner }) => {
           </div>
 
           {/* Content Section */}
-          <div className="w-full lg:w-1/2 text-gray-800 pb-10 lg:pb-0">
+          <div className="w-full lg:w-1/2 text-gray-800 dark:text-gray-100 pb-10 lg:pb-0">
             {/* Title */}
             <h2 className="text-4xl font-bold mb-4 relative inline-block">
               Meet {pet.name}
@@ -56,20 +56,20 @@ const PetCard = ({ pet, setIsOpen, requestStatus, user, isOwner }) => {
             </div>
 
             {/* Description */}
-            <p className="text-gray-600 leading-relaxed text-sm mb-6">
+            <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-sm mb-6">
               {pet.description}
             </p>
 
             {/* Adopt Button */}
             <button
               onClick={() => setIsOpen(true)}
-              className="bg-red-500 cursor-pointer hover:bg-red-600 disabled:bg-red-700 disabled:cursor-not-allowed text-white px-6 py-3 rounded-full flex items-center gap-2 transition"
+              className="bg-red-500 hover:bg-red-600 disabled:bg-red-700 disabled:cursor-not-allowed text-white px-6 py-3 rounded-full flex items-center gap-2 font-medium transition transform hover:scale-[1.03] cursor-pointer"
               disabled={requestStatus || !user || isOwner}
             >
               {user ? (
                 requestStatus ? (
                   <>
-                    requested <FaArrowRightLong />
+                    Requested <FaArrowRightLong />
                   </>
                 ) : (
                   <>
@@ -92,7 +92,10 @@ const PetCard = ({ pet, setIsOpen, requestStatus, user, isOwner }) => {
           >
             <path
               d="M-9.31,91.41 C170.54,190.92 271.70,14.36 500.00,89.09 L500.00,150.00 L0.00,150.00 Z"
-              style={{ stroke: "none", fill: "#ffffff" }}
+              style={{
+                stroke: "none",
+                fill: darkLight ? "#1f2937" : "#ffffff",
+              }}
             ></path>
           </svg>
         </div>

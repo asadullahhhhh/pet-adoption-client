@@ -13,9 +13,10 @@ import { auth } from "../../firebase/firebase.config";
 import { BeatLoader } from "react-spinners";
 import toast from "react-hot-toast";
 import { handleSocialLogin } from "../../utils/authHelper";
+import axios from "axios";
 
 const SignupPage = () => {
-  const { signUp, googleLogin, facebookLogin } = useAuth();
+  const { signUp, googleLogin, facebookLogin, darkLight } = useAuth();
   const [preview, setPreview] = useState(null);
   const [uploading, setUploading] = useState(false);
   const navigate = useNavigate();
@@ -55,19 +56,27 @@ const SignupPage = () => {
     };
 
     const result = await signUp(data?.email, data?.password);
-    console.log(result.user);
     if (result?.user) {
       await updateProfile(auth.currentUser, {
         displayName: data?.name,
         photoURL: preview,
       });
 
-      await UserDB(userInfo);
-      navigate('/')
+      const dbRes = await UserDB(userInfo);
+      if (dbRes?.data?.insertedId){
+          await axios.post(
+            `${import.meta.env.VITE_API_URL}/jwt`,
+            { email: result?.user?.email },
+            {
+              withCredentials: true,
+            }
+          );
+      } navigate("/");
       setdisable(false);
       toast.success("Signup Successful");
     }
   };
+
 
   // google Login method
   const handelGoogleSignin = async () => {
@@ -80,8 +89,12 @@ const SignupPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-tr from-blue-50 via-gray-200 to-green-50 flex justify-center items-center px-4 overflow-hidden">
-      <div className="w-full max-w-5xl -mt-20 bg-white/90 backdrop-blur-lg rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row items-center justify-between">
+    <div
+      className={`${
+        darkLight ? "dark" : ""
+      } min-h-screen bg-gradient-to-tr from-blue-50 via-gray-200 to-green-50 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 flex justify-center items-center px-4 overflow-hidden`}
+    >
+      <div className="w-full max-w-5xl -mt-20 bg-white/90 dark:bg-gray-800/50 dark:border dark:border-gray-800 backdrop-blur-lg rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row items-center justify-between transition-colors duration-300">
         {/* Left Side - Lottie */}
         <div className="hidden md:block md:w-1/2 p-10">
           <Lottie
@@ -93,7 +106,7 @@ const SignupPage = () => {
 
         {/* Right Side - Form */}
         <div className="w-full md:w-1/2 p-8 md:p-12 space-y-6">
-          <h2 className="text-3xl font-extrabold text-center text-blue-700">
+          <h2 className="text-3xl font-extrabold text-center text-blue-700 dark:text-blue-400">
             Create Your Account
           </h2>
 
@@ -101,7 +114,7 @@ const SignupPage = () => {
           <div className="flex justify-center">
             <label
               htmlFor="imageUpload"
-              className="w-20 h-20 border-2 border-blue-300 rounded-full flex items-center justify-center cursor-pointer bg-blue-50 hover:bg-blue-100 transition"
+              className="w-20 h-20 border-2 border-blue-300 dark:border-blue-500 rounded-full flex items-center justify-center cursor-pointer bg-blue-50 dark:bg-gray-700 hover:bg-blue-100 dark:hover:bg-gray-600 transition"
             >
               {uploading ? (
                 <div className="animate-spin h-6 w-6 border-4 border-blue-400 border-t-transparent rounded-full"></div>
@@ -112,7 +125,10 @@ const SignupPage = () => {
                   className="w-full h-full object-cover rounded-full"
                 />
               ) : (
-                <LuImageUp size={24} />
+                <LuImageUp
+                  size={24}
+                  className="text-blue-500 dark:text-blue-300"
+                />
               )}
             </label>
             <input
@@ -135,7 +151,7 @@ const SignupPage = () => {
               <input
                 type="text"
                 placeholder="Full Name"
-                className="w-full px-4 py-2 border border-blue-300 rounded-lg"
+                className="w-full px-4 py-2 border border-blue-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
                 {...register("name", { required: "Full name is required" })}
               />
               <p className="text-red-500 text-xs mt-1 min-h-[1rem]">
@@ -148,7 +164,7 @@ const SignupPage = () => {
               <input
                 type="email"
                 placeholder="Email Address"
-                className="w-full px-4 py-2 border border-blue-300 rounded-lg"
+                className="w-full px-4 py-2 border border-blue-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
                 {...register("email", {
                   required: "Email is required",
                   pattern: {
@@ -165,9 +181,9 @@ const SignupPage = () => {
             {/* Password */}
             <div className="relative">
               <input
-                type={view ? 'text' : 'password'}
+                type={view ? "text" : "password"}
                 placeholder="Password"
-                className="w-full px-4 py-2 border border-blue-300 rounded-lg"
+                className="w-full px-4 py-2 border border-blue-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
                 {...register("password", {
                   required: "Password is required",
                   pattern: {
@@ -180,7 +196,7 @@ const SignupPage = () => {
               <button
                 type="button"
                 onClick={() => setView((prev) => !prev)}
-                className="absolute top-[34%] right-5 -translate-y-[50%] cursor-pointer"
+                className="absolute top-[34%] right-5 -translate-y-[50%] cursor-pointer text-gray-500 dark:text-gray-300"
               >
                 {view ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
               </button>
@@ -191,7 +207,7 @@ const SignupPage = () => {
 
             <button
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition duration-300"
+              className="w-full bg-blue-500 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-800 cursor-pointer text-white font-semibold py-2 rounded-lg transition duration-300"
               disabled={disabe}
             >
               {disabe ? <BeatLoader color="#ffffff" size={8} /> : "Sign Up"}
@@ -200,26 +216,28 @@ const SignupPage = () => {
 
           {/* OR Divider */}
           <div className="flex items-center my-4">
-            <div className="flex-grow h-px bg-blue-200" />
-            <span className="px-3 text-blue-500 font-semibold">OR</span>
-            <div className="flex-grow h-px bg-blue-200" />
+            <div className="flex-grow h-px bg-blue-200 dark:bg-gray-600" />
+            <span className="px-3 text-blue-500 dark:text-blue-300 font-semibold">
+              OR
+            </span>
+            <div className="flex-grow h-px bg-blue-200 dark:bg-gray-600" />
           </div>
 
           {/* Social Signup */}
           <div className="space-y-3">
             <button
               onClick={handelGoogleSignin}
-              className="w-full flex items-center cursor-pointer justify-center gap-3 border border-blue-500 py-2 rounded-lg hover:bg-blue-50 transition"
+              className="w-full flex items-center justify-center gap-3 border border-blue-500 dark:border-blue-400 py-2 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 transition"
             >
               <FcGoogle size={22} />
-              <span className="text-blue-700 font-medium">
+              <span className="text-blue-700 dark:text-blue-300 font-medium">
                 Sign up with Google
               </span>
             </button>
 
             <button
               onClick={handelFacebookLogin}
-              className="w-full flex cursor-pointer items-center justify-center gap-3 border border-blue-700 py-2 rounded-lg text-blue-700 hover:bg-blue-100 transition"
+              className="w-full flex items-center justify-center gap-3 border border-blue-700 dark:border-blue-500 py-2 rounded-lg text-blue-700 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-gray-700 transition"
             >
               <FaFacebook size={22} />
               <span className="font-medium">Sign up with Facebook</span>
@@ -227,7 +245,7 @@ const SignupPage = () => {
           </div>
 
           {/* Login Link */}
-          <p className="text-center text-blue-600 mt-4 text-sm">
+          <p className="text-center text-blue-600 dark:text-blue-400 mt-4 text-sm">
             Already have an account?{" "}
             <Link to="/login" className="font-bold hover:underline">
               Login

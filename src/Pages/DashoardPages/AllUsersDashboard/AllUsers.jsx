@@ -13,19 +13,20 @@ import Skeleton from "react-loading-skeleton";
 import Swal from "sweetalert2";
 import "react-loading-skeleton/dist/skeleton.css";
 import useAuth from "../../../hooks/useAuth";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const AllUsers = () => {
   const queryClient = useQueryClient();
   const [search, setSearch] = useState("");
   const [roleFilter, setRoleFilter] = useState("all");
-  const {user} = useAuth()
-
+  const { user, darkLight } = useAuth();
+  const axiosSecure = useAxiosSecure();
 
   const { data: users = [], isLoading } = useQuery({
     queryKey: ["all-users", search, user?.email],
     queryFn: async () => {
-      const res = await axios.get(
-        `http://localhost:5000/users?search=${search}&excludeEmail=${user?.email}`
+      const res = await axiosSecure.get(
+        `/users?search=${search}&excludeEmail=${user?.email}`
       );
       return res.data;
     },
@@ -41,10 +42,13 @@ const AllUsers = () => {
       showLoaderOnConfirm: true,
       preConfirm: async () => {
         try {
-          const res = await axios.patch(`http://localhost:5000/users/role`, {
-            email,
-            currentRole : role,
-          });
+          const res = await axios.patch(
+            `https://server-iota-henna.vercel.app/users/role`,
+            {
+              email,
+              currentRole: role,
+            }
+          );
           return res.data;
         } catch (err) {
           Swal.showValidationMessage("Action failed. Try again.");
@@ -101,14 +105,18 @@ const AllUsers = () => {
         header: () => (
           <button
             onClick={toggleRoleFilter}
-            className="flex cursor-pointer bg-gray-200 rounded-lg active:scale-90 duration-300 px-5 py-2 items-center gap-1"
+            className="flex cursor-pointer dark:bg-gray-600 bg-gray-200 rounded-lg active:scale-90 duration-300 px-5 py-2 items-center gap-1"
           >
             Role ({roleFilter})
           </button>
         ),
         accessorKey: "role",
         cell: ({ getValue }) => (
-          <span className={`capitalize ${getValue() === 'admin' ? 'text-blue-600': 'text-green-600'} font-medium `}>
+          <span
+            className={`capitalize ${
+              getValue() === "admin" ? "text-blue-600" : "text-green-600"
+            } font-medium `}
+          >
             {getValue()}
           </span>
         ),
@@ -149,28 +157,49 @@ const AllUsers = () => {
   });
 
   return (
-    <div className="py-5 px-5">
+    <div
+      className={`${
+        darkLight ? "dark" : ""
+      } dark:bg-gray-900 min-h-[calc(100vh-74px)] py-5 px-5`}
+    >
       <div className="flex justify-center">
         <input
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search by email..."
-          className="mb-5 py-2 px-5 border border-gray-400 focus:outline-none focus:border-gray-600 focus:shadow rounded-xl w-full max-w-xs"
+          className="mb-5 py-2 px-5 border border-gray-400 focus:outline-none focus:border-gray-600 focus:shadow 
+        rounded-xl w-full max-w-xs 
+        bg-white text-gray-800 
+        dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 dark:focus:border-gray-400"
         />
       </div>
 
       {isLoading ? (
-        <Skeleton height={40} count={8} className="mb-2" />
+        <Skeleton
+          height={40}
+          baseColor="#1f2937"
+          highlightColor="#374151"
+          count={8}
+          className="mb-2"
+        />
       ) : (
         <div className="flex justify-center items-center">
-          <div className="w-[350px] md:w-[450px] lg:w-[750px] xl:w-[1000px] 2xl:w-full transition-all duration-500  bg-gradient-to-br from-green-100/50 via-gray-100/50 to-blue-100/50 p-8 rounded-xl border border-gray-300 shadow-xl">
+          <div
+            className="w-[350px] md:w-[450px] lg:w-[750px] xl:w-[1000px] 2xl:w-full transition-all duration-500  
+        bg-gradient-to-br from-green-100/50 via-gray-100/50 to-blue-100/50 
+        dark:from-gray-800 dark:via-gray-900 dark:to-gray-800
+        p-8 rounded-xl border border-gray-300 dark:border-gray-700 shadow-xl"
+          >
             <table className="w-full text-sm md:text-base table-auto">
-              <thead className="bg-gray-100">
+              <thead className="bg-gray-100 dark:bg-gray-700">
                 {table.getHeaderGroups().map((headerGroup) => (
                   <tr key={headerGroup.id}>
                     {headerGroup.headers.map((header) => (
-                      <th key={header.id} className="px-4 py-3 text-left">
+                      <th
+                        key={header.id}
+                        className="px-4 py-3 text-left text-gray-800 dark:text-gray-200"
+                      >
                         {flexRender(
                           header.column.columnDef.header,
                           header.getContext()
@@ -184,10 +213,14 @@ const AllUsers = () => {
                 {table.getRowModel().rows.map((row) => (
                   <tr
                     key={row.id}
-                    className="border-b border-b-gray-300 hover:bg-gray-300 transition-colors"
+                    className="border-b border-b-gray-300 dark:border-gray-700 
+                  hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors"
                   >
                     {row.getVisibleCells().map((cell) => (
-                      <td key={cell.id} className="px-4 py-2">
+                      <td
+                        key={cell.id}
+                        className="px-4 py-2 text-gray-800 dark:text-gray-200"
+                      >
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext()
@@ -198,8 +231,10 @@ const AllUsers = () => {
                 ))}
               </tbody>
             </table>
+
+            {/* Pagination */}
             <div className="flex justify-between items-center mt-4">
-              <span className="text-sm font-medium text-gray-700">
+              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
                 Page {table.getState().pagination.pageIndex + 1} of{" "}
                 {table.getPageCount()}
               </span>
@@ -207,14 +242,20 @@ const AllUsers = () => {
                 <button
                   onClick={() => table.previousPage()}
                   disabled={!table.getCanPreviousPage()}
-                  className="px-3 py-1 rounded bg-green-300 cursor-pointer font-medium text-gray-700/80 active:translate-1 duration-300 disabled:bg-gray-300"
+                  className="px-3 py-1 rounded bg-green-300 text-gray-800 font-medium 
+                dark:bg-green-600 dark:text-white 
+                active:translate-1 duration-300 
+                disabled:bg-gray-300 dark:disabled:bg-gray-600"
                 >
                   Prev
                 </button>
                 <button
                   onClick={() => table.nextPage()}
                   disabled={!table.getCanNextPage()}
-                  className="px-3 py-1 bg-green-300 cursor-pointer font-medium text-gray-700/80 active:translate-1 duration-300 rounded disabled:bg-gray-300"
+                  className="px-3 py-1 rounded bg-green-300 text-gray-800 font-medium 
+                dark:bg-green-600 dark:text-white 
+                active:translate-1 duration-300 
+                disabled:bg-gray-300 dark:disabled:bg-gray-600"
                 >
                   Next
                 </button>

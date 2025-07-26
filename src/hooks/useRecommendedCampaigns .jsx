@@ -6,7 +6,7 @@ export const useRecommendedCampaigns = (excludeId) => {
     queryKey: ["recommended-campaigns", excludeId],
     queryFn: async () => {
       const res = await axios.get(
-        `http://localhost:5000/donation-campaigns/recommended?excludeId=${excludeId}`
+        `https://server-iota-henna.vercel.app/donation-campaigns/recommended?excludeId=${excludeId}`
       );
       return res.data;
     },

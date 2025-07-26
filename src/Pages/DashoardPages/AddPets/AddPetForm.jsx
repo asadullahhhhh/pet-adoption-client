@@ -70,9 +70,7 @@ const traitsOptions = [
   { value: "Loves music and whistling", label: "Loves music and whistling" },
 ];
 
-const AddPetForm = () => {
-  const { user } = useAuth();
-
+const AddPetForm = ({ darkLight, user }) => {
   const {
     register,
     handleSubmit,
@@ -86,7 +84,7 @@ const AddPetForm = () => {
   const [preview, setPrrview] = useState(null);
   const [preview1, setPrrview1] = useState(null);
   const [preview2, setPrrview2] = useState(null);
-  const [imageError, setImageError] = useState(null)
+  const [imageError, setImageError] = useState(null);
 
   const editor = useEditor({
     extensions: [StarterKit],
@@ -108,8 +106,8 @@ const AddPetForm = () => {
       : setPrrview(null);
     try {
       const data = await imageUpload(file);
-      if(data) {
-        setImageError(null)
+      if (data) {
+        setImageError(null);
       }
       s === 2
         ? setPrrview2(data)
@@ -129,7 +127,8 @@ const AddPetForm = () => {
   // Handel form submit
   const onSubmit = async (data) => {
     console.log(preview, preview1, preview2);
-    if(preview === null && preview1 === null && preview2 === null) return setImageError('Must upload an Image')
+    if (preview === null && preview1 === null && preview2 === null)
+      return setImageError("Must upload an Image");
 
     const result = await Swal.fire({
       title: "Add this pet?",
@@ -141,21 +140,23 @@ const AddPetForm = () => {
         try {
           const pet = {
             ...data,
-            images: [preview, preview1, preview2].filter(img => img !== null),
-            gender : data.gender.value,
+            images: [preview, preview1, preview2].filter((img) => img !== null),
+            gender: data.gender.value,
             traits: data.traits.map((t) => t.value),
             category: data.category.value,
-            longDescription: editor.getHTML() || '',
+            longDescription: editor.getHTML() || "",
             addedBy: {
               name: user?.displayName,
               email: user?.email,
-            }
+            },
           };
 
-          const res = await axios.post(`http://localhost:5000/pets`, pet);
+          const res = await axios.post(
+            `https://server-iota-henna.vercel.app/pets`,
+            pet
+          );
           console.log(res.data);
           return res.data;
-
         } catch (err) {
           Swal.showValidationMessage(`Request failed: ${err.message}`);
         }
@@ -170,17 +171,20 @@ const AddPetForm = () => {
 
   return (
     <div
-      className="max-w-4xl mx-auto p-6 
+      className={`${darkLight ? "dark" : ""} max-w-4xl mx-auto p-6 
   bg-gradient-to-br from-green-100/30 via-gray-200/30 to-blue-100/30 
-  backdrop-blur-xl shadow-2xl border border-white/20 rounded-3xl"
+  dark:from-gray-900 dark:via-gray-800 dark:to-gray-900
+  backdrop-blur-xl shadow-2xl border border-white/20 dark:border-gray-700 rounded-3xl`}
     >
-      <h2 className="text-3xl font-semibold text-gray-800 mb-6 text-center">
+      <h2 className="text-3xl font-semibold text-gray-800 dark:text-gray-100 mb-6 text-center">
         Add a New Pet
       </h2>
 
       {/* Image section */}
       <div className="mb-7">
-        <h2 className="mb-3 font-semibold text-md">Select pet images</h2>
+        <h2 className="mb-3 font-semibold text-md text-gray-800 dark:text-gray-200">
+          Select pet images
+        </h2>
         <div className="flex gap-4">
           {[...Array(3)].map((_, index) => {
             const previews = [preview, preview1, preview2];
@@ -190,7 +194,9 @@ const AddPetForm = () => {
               <div key={index}>
                 <label
                   htmlFor={`imageUpload-${index}`}
-                  className="w-20 h-20 border-2 border-dashed border-blue-300 flex items-center justify-center cursor-pointer bg-blue-50 hover:bg-blue-100 transition rounded"
+                  className="w-20 h-20 border-2 border-dashed border-blue-300 dark:border-blue-600 
+              flex items-center justify-center cursor-pointer 
+              bg-blue-50 hover:bg-blue-100 dark:bg-gray-800 dark:hover:bg-gray-700 transition rounded"
                 >
                   {uploadings?.[index] ? (
                     <div className="animate-spin h-6 w-6 border-4 border-blue-400 border-t-transparent rounded-full"></div>
@@ -202,8 +208,11 @@ const AddPetForm = () => {
                     />
                   ) : (
                     <div className="flex flex-col items-center">
-                      <LuImageUp size={24} />
-                      <span className="text-[12px] text-gray-500">
+                      <LuImageUp
+                        size={24}
+                        className="text-gray-600 dark:text-gray-300"
+                      />
+                      <span className="text-[12px] text-gray-500 dark:text-gray-400">
                         Image-{index + 1}
                       </span>
                     </div>
@@ -226,22 +235,28 @@ const AddPetForm = () => {
       {/* Details form section */}
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {/* pet Name */}
+          {/* Pet Name */}
           <div>
-            <label className="block font-medium mb-1">Pet Name</label>
+            <label className="block font-medium mb-1 text-gray-800 dark:text-gray-200">
+              Pet Name
+            </label>
             <input
               {...register("name", { required: "Name is required" })}
               placeholder="Pet name"
-              className="input input-bordered w-full border py-2 px-5 rounded-md border-gray-300 focus:outline-gray-400"
+              className="w-full border py-2 px-5 rounded-md 
+          border-gray-300 focus:outline-gray-400 
+          dark:bg-gray-800 dark:border-gray-700 dark:text-white"
             />
             {errors.name && (
               <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
             )}
           </div>
 
-          {/* pet age */}
+          {/* Pet Age */}
           <div>
-            <label className="block font-medium mb-1">Pet Age</label>
+            <label className="block font-medium mb-1 text-gray-800 dark:text-gray-200">
+              Pet Age
+            </label>
             <input
               {...register("age", {
                 required: "Age is required",
@@ -251,34 +266,44 @@ const AddPetForm = () => {
                 },
               })}
               placeholder="Pet age"
-              className="input input-bordered w-full border py-2 px-5 rounded-md border-gray-300 focus:outline-gray-400"
+              className="w-full border py-2 px-5 rounded-md 
+          border-gray-300 focus:outline-gray-400 
+          dark:bg-gray-800 dark:border-gray-700 dark:text-white"
             />
             {errors.age && (
               <p className="text-red-500 text-sm mt-1">{errors.age.message}</p>
             )}
           </div>
 
-          {/* pet gender */}
+          {/* Gender */}
           <div>
-            <label className="block font-medium mb-1">Gender</label>
+            <label className="block font-medium mb-1 text-gray-800 dark:text-gray-200">
+              Gender
+            </label>
             <Controller
               control={control}
               name="gender"
               rules={{ required: "Select gender" }}
               render={({ field }) => (
-                <Select {...field} options={gender}></Select>
+                <Select
+                  {...field}
+                  options={gender}
+                  classNamePrefix="react-select-dark"
+                />
               )}
-            ></Controller>
-            {errors.category && (
+            />
+            {errors.gender && (
               <p className="text-red-500 text-sm mt-1">
-                {errors.gender?.message}
+                {errors.gender.message}
               </p>
             )}
           </div>
 
-          {/* pet category */}
+          {/* Pet Category */}
           <div>
-            <label className="block font-medium mb-1">Pet Category</label>
+            <label className="block font-medium mb-1 text-gray-800 dark:text-gray-200">
+              Pet Category
+            </label>
             <Controller
               control={control}
               name="category"
@@ -292,27 +317,39 @@ const AddPetForm = () => {
             )}
           </div>
 
-          {/* breed */}
+          {/* Breed */}
           <div>
-            <label className="block font-medium mb-1">Breed</label>
+            <label className="block font-medium mb-1 text-gray-800 dark:text-gray-200">
+              Breed
+            </label>
             <input
               {...register("breed", { required: "Breed is required" })}
-              className="input input-bordered w-full border py-2 px-5 rounded-md border-gray-300 focus:outline-gray-400"
+              className="w-full border py-2 px-5 rounded-md 
+          border-gray-300 focus:outline-gray-400 
+          dark:bg-gray-800 dark:border-gray-700 dark:text-white"
             />
           </div>
 
-          {/* pet size */}
+          {/* Size */}
           <div>
-            <label className="block font-medium mb-1">Size</label>
+            <label className="block font-medium mb-1 text-gray-800 dark:text-gray-200">
+              Size
+            </label>
             <input
               {...register("size")}
-              className="input input-bordered w-full border py-2 px-5 rounded-md border-gray-300 focus:outline-gray-400"
+              className="w-full border py-2 px-5 rounded-md 
+          border-gray-300 focus:outline-gray-400 
+          dark:bg-gray-800 dark:border-gray-700 dark:text-white"
             />
           </div>
 
+          {/* Toggles */}
           <div>
             <div className="flex items-center gap-[30px]">
-              <label htmlFor="tt" className="block font-medium mb-1">
+              <label
+                htmlFor="tt"
+                className="block font-medium mb-1 text-gray-800 dark:text-gray-200"
+              >
                 Neutered
               </label>
               <input
@@ -322,9 +359,11 @@ const AddPetForm = () => {
                 className="toggle toggle-success ml-2"
               />
             </div>
-
             <div className="flex items-center gap-5">
-              <label htmlFor="ss" className="block font-medium mb-1">
+              <label
+                htmlFor="ss"
+                className="block font-medium mb-1 text-gray-800 dark:text-gray-200"
+              >
                 Vaccinated
               </label>
               <input
@@ -336,13 +375,15 @@ const AddPetForm = () => {
             </div>
           </div>
 
-          {/* pet Traits */}
+          {/* Traits */}
           <div className="md:col-span-2">
-            <label className="block font-medium mb-1">Traits</label>
+            <label className="block font-medium mb-1 text-gray-800 dark:text-gray-200">
+              Traits
+            </label>
             <Controller
               control={control}
               name="traits"
-              rules={{ required: "Select atleast one traits" }}
+              rules={{ required: "Select at least one trait" }}
               render={({ field }) => (
                 <Select
                   {...field}
@@ -350,18 +391,8 @@ const AddPetForm = () => {
                   options={traitsOptions}
                   value={field.value}
                   onChange={(selected) => {
-                    // Limit to max 3
-                    if (selected.length <= 3) {
-                      field.onChange(selected);
-                    }
+                    if (selected.length <= 3) field.onChange(selected);
                   }}
-                  isOptionDisabled={(option) =>
-                    field.value &&
-                    field.value.length >= 3 &&
-                    !field.value.find(
-                      (selectedOption) => selectedOption.value === option.value
-                    )
-                  }
                   placeholder="Select up to 3 traits"
                 />
               )}
@@ -373,17 +404,24 @@ const AddPetForm = () => {
             )}
           </div>
 
+          {/* Pickup Location */}
           <div className="md:col-span-2">
-            <label className="block font-medium mb-1">Pickup Location</label>
+            <label className="block font-medium mb-1 text-gray-800 dark:text-gray-200">
+              Pickup Location
+            </label>
             <input
               {...register("location", { required: true })}
-              className="input input-bordered w-full border py-2 px-5 rounded-md border-gray-300 focus:outline-gray-400"
+              className="w-full border py-2 px-5 rounded-md 
+          border-gray-300 focus:outline-gray-400 
+          dark:bg-gray-800 dark:border-gray-700 dark:text-white"
             />
           </div>
 
-          {/* sort dicription */}
+          {/* Short Description */}
           <div className="md:col-span-2">
-            <label className="block font-medium mb-1">Short Description</label>
+            <label className="block font-medium mb-1 text-gray-800 dark:text-gray-200">
+              Short Description
+            </label>
             <input
               {...register("description", {
                 required: "Short description is required",
@@ -393,25 +431,26 @@ const AddPetForm = () => {
                 },
               })}
               maxLength={100}
-              className="input input-bordered w-full border py-2 px-5 rounded-md border-gray-300 focus:outline-gray-400"
+              className="w-full border py-2 px-5 rounded-md 
+          border-gray-300 focus:outline-gray-400 
+          dark:bg-gray-800 dark:border-gray-700 dark:text-white"
             />
-
-            <div className="flex justify-between items-center mt-1">
-              {errors.description && (
-                <p className="text-red-500 text-sm">
-                  {errors.description.message}
-                </p>
-              )}
-            </div>
+            {errors.description && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.description.message}
+              </p>
+            )}
           </div>
 
-          {/* long discription */}
+          {/* Long Description */}
           <div className="md:col-span-2">
-            <label className="block font-medium mb-1">Long Description</label>
-            <div className="border border-gray-300 rounded-md w-full h-[150px]">
+            <label className="block font-medium mb-1 text-gray-800 dark:text-gray-200">
+              Long Description
+            </label>
+            <div className="border border-gray-300 dark:border-gray-700 rounded-md w-full h-[150px] bg-white dark:bg-gray-800">
               <EditorContent
                 editor={editor}
-                className="w-full h-full prose-editor"
+                className="w-full h-full prose-editor dark:text-white"
               />
             </div>
           </div>
@@ -419,7 +458,8 @@ const AddPetForm = () => {
 
         <button
           type="submit"
-          className="btn btn-primary bg-black text-white py-2 rounded-lg font-semibold hover:bg-black/85 cursor-pointer w-full mt-6 text-lg"
+          className="btn btn-primary bg-black text-white py-2 rounded-lg font-semibold hover:bg-black/85 cursor-pointer w-full mt-6 text-lg 
+      dark:bg-blue-600 dark:hover:bg-blue-700"
         >
           Post
         </button>

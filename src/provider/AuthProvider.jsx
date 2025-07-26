@@ -11,13 +11,15 @@ import React, { createContext, useEffect, useState } from "react";
 import { auth } from "../firebase/firebase.config";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { getElement } from "../utils/utility";
 
 export const AuthContext = createContext(null);
 
 const AuthProvider = ({ children }) => {
-
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const [darkLight, setDarkLight] = useState(null);
 
   const gProvider = new GoogleAuthProvider();
   const fProvider = new FacebookAuthProvider();
@@ -39,35 +41,46 @@ const AuthProvider = ({ children }) => {
   };
 
   const logOut = () => {
-    return signOut(auth)
-  }
+    return signOut(auth);
+  };
 
   useEffect(() => {
-    const unSubsCribe = onAuthStateChanged(auth, currenUser => {
-        if(currenUser){
-          setUser(currenUser);
-          setLoading(false);
-        }else{
-          setLoading(false)
-        }
+    const unSubsCribe = onAuthStateChanged(auth, async (currenUser) => {
+      if (currenUser) {
+        setUser(currenUser);
+        setLoading(false);
+        await axios.post(
+          `${import.meta.env.VITE_API_URL}/jwt`,
+          { email: currenUser?.email },
+          {
+            withCredentials: true,
+          }
+        );
+      } else {
+        setLoading(false);
+      }
     });
 
     return () => {
-        return unSubsCribe()
-    }
-  }, []);
+      return unSubsCribe();
+    };
+  }, [user]);
+
+  useEffect(() => {
+    const lit = getElement();
+    setDarkLight(lit);
+  }, [darkLight]);
 
   const { data: roleData, isLoading: roleLoading } = useQuery({
     queryKey: ["role", user?.email],
     enabled: !!user?.email, // ensures query only runs when email exists
     queryFn: async () => {
       const res = await axios.get(
-        `http://localhost:5000/user-role?email=${user?.email}`
+        `https://server-iota-henna.vercel.app/user-role?email=${user?.email}`
       );
       return res.data;
     },
   });
-
 
   const info = {
     user,
@@ -78,8 +91,10 @@ const AuthProvider = ({ children }) => {
     googleLogin,
     facebookLogin,
     logOut,
-    role : roleData,
-    roleLoading
+    role: roleData,
+    roleLoading,
+    darkLight,
+    setDarkLight,
   };
 
   return <AuthContext.Provider value={info}>{children}</AuthContext.Provider>;

@@ -17,12 +17,13 @@ import axios from "axios";
 
 const COLORS = ["#4ade80", "#facc15", "#f87171"];
 
-const DashboardHome = () => {
-
+const DashboardHome = ({ darkLight }) => {
   const { data: overview, isLoading: loadingOverview } = useQuery({
     queryKey: ["dashboard-overview"],
     queryFn: async () => {
-      const res = await axios.get("http://localhost:5000/dashboard/overviews");
+      const res = await axios.get(
+        "https://server-iota-henna.vercel.app/dashboard/overviews"
+      );
       return res.data;
     },
   });
@@ -31,7 +32,7 @@ const DashboardHome = () => {
     queryKey: ["adoption-stats"],
     queryFn: async () => {
       const res = await axios.get(
-        "http://localhost:5000/dashboard/adoption-stats"
+        "https://server-iota-henna.vercel.app/dashboard/adoption-stats"
       );
       return res.data;
     },
@@ -41,7 +42,7 @@ const DashboardHome = () => {
     queryKey: ["donation-stats"],
     queryFn: async () => {
       const res = await axios.get(
-        "http://localhost:5000/dashboard/donation-stats"
+        "https://server-iota-henna.vercel.app/dashboard/donation-stats"
       );
       return res.data;
     },
@@ -51,7 +52,7 @@ const DashboardHome = () => {
     queryKey: ["new-users-3days"],
     queryFn: async () => {
       const res = await axios.get(
-        "http://localhost:5000/new-users-last3days"
+        "https://server-iota-henna.vercel.app/new-users-last3days"
       );
       return res.data;
     },
@@ -61,7 +62,7 @@ const DashboardHome = () => {
     queryKey: ["recent-activity"],
     queryFn: async () => {
       const res = await axios.get(
-        "http://localhost:5000/dashboard/recent-activity"
+        "https://server-iota-henna.vercel.app/dashboard/recent-activity"
       );
       return res.data;
     },
@@ -74,7 +75,17 @@ const DashboardHome = () => {
     loadingUsers3 ||
     loadingRecent
   )
-    return <Skeleton height={200} count={5} className="mb-4" />;
+    return (
+      <div className={`${darkLight ? "dark" : ""} p-5 dark:bg-gray-900`}>
+        <Skeleton
+          height={200}
+          baseColor="#1f2937"
+          highlightColor="#374151"
+          count={5}
+          className="mb-4"
+        />
+      </div>
+    );
 
   const adoptionPie = [
     { name: "Adopted", value: adoptionStats.adoptedCount },
@@ -86,9 +97,12 @@ const DashboardHome = () => {
     { name: "Remaining", value: donationStats.remaining },
   ];
 
-
   return (
-    <div className="p-6 space-y-8">
+    <div
+      className={`${
+        darkLight ? "dark" : ""
+      } p-6 space-y-8 bg-gray-50 dark:bg-gray-900 duration-500 min-h-screen`}
+    >
       {/* Overview Cards */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         <Card title="Total Users" value={overview.totalUsers} />
@@ -150,9 +164,11 @@ const DashboardHome = () => {
         <ChartCard title="New Users: Last 3 Days">
           <ResponsiveContainer width="100%" height={250}>
             <LineChart data={newUsers3}>
-              <XAxis dataKey="_id" />
-              <YAxis />
-              <Tooltip />
+              <XAxis dataKey="_id" stroke="#9ca3af" />
+              <YAxis stroke="#9ca3af" />
+              <Tooltip
+                contentStyle={{ backgroundColor: "#1f2937", color: "#fff" }}
+              />
               <Line
                 type="monotone"
                 dataKey="count"
@@ -199,29 +215,40 @@ const DashboardHome = () => {
 
 export default DashboardHome;
 
-// Reusable Components
+/// ✅ Reusable Components with Dark Mode
 const Card = ({ title, value }) => (
-  <div className="bg-white p-5 rounded-lg shadow flex flex-col">
-    <span className="text-gray-500 text-sm">{title}</span>
-    <span className="text-3xl font-bold mt-2">{value}</span>
+  <div className="bg-white dark:bg-gray-800 p-5 rounded-lg shadow flex flex-col transition-colors duration-300">
+    <span className="text-gray-500 dark:text-gray-400 text-sm">{title}</span>
+    <span className="text-3xl font-bold mt-2 text-gray-900 dark:text-white">
+      {value}
+    </span>
   </div>
 );
 
 const ChartCard = ({ title, children }) => (
-  <div className="bg-white p-5 rounded-lg shadow">
-    <h3 className="text-lg font-semibold mb-4">{title}</h3>
+  <div className="bg-white dark:bg-gray-800 p-5 rounded-lg shadow transition-colors duration-300">
+    <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
+      {title}
+    </h3>
     {children}
   </div>
 );
 
 const RecentList = ({ title, items }) => (
-  <div className="bg-white p-5 rounded-lg shadow">
-    <h3 className="text-lg font-semibold mb-4">{title}</h3>
+  <div className="bg-white dark:bg-gray-800 p-5 rounded-lg shadow transition-colors duration-300">
+    <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
+      {title}
+    </h3>
     <ul className="space-y-3">
       {items?.map((item) => (
-        <li key={item.id} className="flex justify-between items-center">
-          <span>{item.label}</span>
-          <span className="text-sm text-gray-500">{item.sub}</span>
+        <li
+          key={item.id}
+          className="flex justify-between items-center border-b border-gray-100 dark:border-gray-700 pb-2 last:border-none"
+        >
+          <span className="text-gray-800 dark:text-gray-100">{item.label}</span>
+          <span className="text-sm text-gray-500 dark:text-gray-400">
+            {item.sub}
+          </span>
         </li>
       ))}
     </ul>

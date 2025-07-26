@@ -17,14 +17,12 @@ import SideBar from "./SideBar";
 import MobileSideBar from "./MobileSideBar";
 import Navbar from "./Navbar";
 import { useState } from "react";
+import { getElement, setElement } from "../../utils/utility";
 
 const Dashboard = () => {
-  const { user, logOut, setUser, role } = useAuth();
+  const { user, logOut, setUser, role, darkLight, setDarkLight } = useAuth();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true); // For large screen
   const [isMobileOpen, setIsMobileOpen] = useState(false); // For small screen
-
-
- 
 
   const handleToggle = () => {
     if (window.innerWidth < 768) {
@@ -36,12 +34,19 @@ const Dashboard = () => {
 
   const handelLogout = () => {
     try {
-      logOut()
-      setUser(null)
+      logOut();
+      setUser(null);
       toast.success("User sign out successful");
     } catch (err) {
       toast.error(err.message);
     }
+  };
+
+  // handel darkmood
+  const handelDarkMood = () => {
+    setElement(!darkLight);
+    const getData = getElement;
+    setDarkLight(getData);
   };
 
   const navLinks = [
@@ -104,10 +109,23 @@ const Dashboard = () => {
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
-      <SideBar isSidebarOpen={isSidebarOpen} role={role} handleToggle={handleToggle} FaAngleLeft={FaAngleLeft} navLinks={navLinks}></SideBar>
+      <SideBar
+        isSidebarOpen={isSidebarOpen}
+        role={role}
+        handleToggle={handleToggle}
+        FaAngleLeft={FaAngleLeft}
+        navLinks={navLinks}
+        darkLight={darkLight}
+      ></SideBar>
 
       {/* Mobile Sidebar Drawer */}
-      <MobileSideBar navLinks={navLinks} handleToggle={handleToggle} isMobileOpen={isMobileOpen} isSidebarOpen={isSidebarOpen}></MobileSideBar>
+      <MobileSideBar
+        navLinks={navLinks}
+        handleToggle={handleToggle}
+        isMobileOpen={isMobileOpen}
+        isSidebarOpen={isSidebarOpen}
+        darkLight={darkLight}
+      ></MobileSideBar>
 
       {/* Mobile Overlay */}
       {isMobileOpen && (
@@ -124,10 +142,18 @@ const Dashboard = () => {
         }`}
       >
         {/* Navbar */}
-        <Navbar setIsMobileOpen={setIsMobileOpen} navLinks={navLinks} user={user} handelLogout={handelLogout} FaAngleLeft={FaAngleLeft}></Navbar>
+        <Navbar
+          setIsMobileOpen={setIsMobileOpen}
+          navLinks={navLinks}
+          user={user}
+          handelLogout={handelLogout}
+          FaAngleLeft={FaAngleLeft}
+          handelDarkMood={handelDarkMood}
+          darkLight={darkLight}
+        ></Navbar>
 
         {/* Main Content */}
-        <div className="overflow-auto h-full bg-gray-200">
+        <div className="overflow-auto h-full bg-gray-200 dark:bg-gray-900">
           <Outlet />
         </div>
       </div>

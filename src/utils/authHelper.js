@@ -1,5 +1,6 @@
 import { toast } from "react-hot-toast";
 import { UserDB } from "./utility";
+import axios from "axios";
 
 export const handleSocialLogin = async (
   providerFn,
@@ -16,8 +17,17 @@ export const handleSocialLogin = async (
     };
 
     if (user) {
-      await UserDB(userInfo);
-      toast.success(successMsg)
+      const dbRes = await UserDB(userInfo);
+      if (dbRes?.data) {
+        await axios.post(
+          `${import.meta.env.VITE_API_URL}/jwt`,
+          { email: user?.email },
+          {
+            withCredentials: true,
+          }
+        );
+      }
+      toast.success(successMsg);
       navigate("/");
     }
   } catch (err) {

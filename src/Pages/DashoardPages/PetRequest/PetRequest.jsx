@@ -4,10 +4,12 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { motion, AnimatePresence } from "framer-motion";
 import ReceivedRequests from "./Tabs/ReceivedRequests";
 import SentRequests from "./Tabs/SentRequests";
+import useAuth from "../../../hooks/useAuth";
 
 const PetRequest = () => {
   const [activeTab, setActiveTab] = useState("received");
   const [loading, setLoading] = useState(true);
+  const {darkLight} = useAuth()
 
   // Simulate loading delay when tab switches
   useEffect(() => {
@@ -22,18 +24,25 @@ const PetRequest = () => {
   ];
 
   return (
-    <div className="px-4 py-6 max-w-7xl mx-auto">
+    <div
+      className={`${
+        darkLight
+          ? "dark bg-gray-900 text-gray-100"
+          : "bg-gray-50 text-gray-900"
+      } px-4 py-6 min-h-screen`}
+    >
       {/* Tab Buttons */}
       <div className="flex flex-wrap gap-3 mb-6">
         {tabs.map((tab) => (
           <button
             key={tab.value}
             onClick={() => setActiveTab(tab.value)}
-            className={`px-4 py-2 rounded-full font-medium transition duration-300 ${
-              activeTab === tab.value
-                ? "bg-green-600 text-white"
-                : "bg-gray-300 text-gray-800"
-            }`}
+            className={`px-4 py-2 rounded-full font-medium transition duration-300 
+          ${
+            activeTab === tab.value
+              ? "bg-green-600 text-white"
+              : "bg-gray-300 text-gray-800 dark:bg-gray-700 dark:text-gray-200"
+          }`}
           >
             {tab.name}
           </button>
@@ -49,7 +58,13 @@ const PetRequest = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            <Skeleton height={40} count={6} className="mb-2" />
+            <Skeleton
+              height={40}
+              count={6}
+              baseColor="#1f2937"
+              highlightColor="#374151"
+              className="mb-2 dark:bg-gray-700 dark:highlight-gray-600"
+            />
           </motion.div>
         ) : (
           <motion.div
@@ -59,11 +74,21 @@ const PetRequest = () => {
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.3 }}
           >
-            <Suspense fallback={<Skeleton height={40} count={5} />}>
+            <Suspense
+              fallback={
+                <Skeleton
+                  height={40}
+                  count={5}
+                  baseColor="#1f2937"
+                  highlightColor="#374151"
+                  className="dark:bg-gray-700 dark:highlight-gray-600"
+                />
+              }
+            >
               {activeTab === "received" ? (
-                <ReceivedRequests />
+                <ReceivedRequests darkLight={darkLight} />
               ) : (
-                <SentRequests />
+                <SentRequests darkLight={darkLight} />
               )}
             </Suspense>
           </motion.div>

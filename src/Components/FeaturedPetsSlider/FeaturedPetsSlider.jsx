@@ -5,9 +5,11 @@ import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import useAuth from "../../hooks/useAuth";
 
 const FeaturedPetsSlider = () => {
   const [pets, setPets] = useState([]);
+  const { darkLight } = useAuth();
 
   // Refs for custom buttons
   const prevRef = useRef(null);
@@ -15,27 +17,35 @@ const FeaturedPetsSlider = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/featured") // API replace as needed
+      .get("https://server-iota-henna.vercel.app/featured") // API replace as needed
       .then((res) => setPets(res.data))
       .catch((err) => console.error(err));
   }, []);
 
   return (
-    <div className="bg-gray-50">
+    <div
+      className={`${
+        darkLight ? "dark" : ""
+      } bg-gray-50 duration-500 dark:bg-gray-900`}
+    >
       <div className="relative max-w-7xl mx-auto px-4 py-20">
-        <div className="flex absolute left-[50%] top-10 -translate-x-[50%] items-center justify-center gap-5 sm:justify-start mb-10">
+        {/* Section header */}
+        <div className="flex absolute left-1/2 top-10 -translate-x-1/2 items-center justify-center gap-5 sm:justify-start mb-10">
           <div className="w-16 h-[3px] bg-amber-300"></div>
           <span className="text-amber-400 w-full font-semibold text-lg sm:text-base mr-2">
             Available Pets
           </span>
         </div>
-        <h2 className="text-4xl font-bold text-center mb-8">Featured Pets</h2>
+
+        <h2 className="text-4xl font-bold text-center mb-8 text-gray-900 dark:text-white">
+          Featured Pets
+        </h2>
 
         {/* Custom navigation buttons */}
         <div className="absolute top-1/2 left-3 z-10 transform -translate-y-1/2">
           <button
             ref={prevRef}
-            className="bg-white text-red-500 hover:text-white hover:-translate-x-1 duration-300 hover:bg-red-500 border border-red-500 rounded-full p-3 shadow-lg transition"
+            className="bg-white dark:bg-gray-800 text-red-500 hover:text-white hover:-translate-x-1 duration-300 hover:bg-red-500 border border-red-500 rounded-full p-3 shadow-lg transition"
           >
             <FaArrowLeft />
           </button>
@@ -43,12 +53,13 @@ const FeaturedPetsSlider = () => {
         <div className="absolute top-1/2 right-2 z-10 transform -translate-y-1/2">
           <button
             ref={nextRef}
-            className="bg-white text-red-500 hover:text-white hover:translate-x-1 duration-300 hover:bg-red-500 border border-red-500 rounded-full p-3 shadow-lg transition"
+            className="bg-white dark:bg-gray-800 text-red-500 hover:text-white hover:translate-x-1 duration-300 hover:bg-red-500 border border-red-500 rounded-full p-3 shadow-lg transition"
           >
             <FaArrowRight />
           </button>
         </div>
 
+        {/* Swiper Carousel */}
         <Swiper
           modules={[Navigation]}
           spaceBetween={30}
@@ -70,7 +81,7 @@ const FeaturedPetsSlider = () => {
         >
           {pets.map((pet, index) => (
             <SwiperSlide key={index}>
-              <div className="bg-white rounded-2xl shadow-md overflow-hidden">
+              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-md overflow-hidden">
                 <div className="relative">
                   <img
                     src={pet.images[0]}
@@ -82,8 +93,10 @@ const FeaturedPetsSlider = () => {
                   </span>
                 </div>
                 <div className="p-5">
-                  <h3 className="text-xl font-semibold mb-2">{pet.name}</h3>
-                  <p className="text-gray-600 text-sm mb-4">
+                  <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
+                    {pet.name}
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
                     {pet.shortDescription}
                   </p>
                   <button className="bg-red-500 text-white px-4 py-2 rounded-full text-sm hover:bg-red-600 transition">

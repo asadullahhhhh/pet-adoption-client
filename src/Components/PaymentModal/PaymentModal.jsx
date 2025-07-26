@@ -52,7 +52,7 @@ export default function PaymentModal({ isOpen, setIsOpen, data, user }) {
     try {
       setError("");
       const res = await axios.post(
-        "http://localhost:5000/create-payment-intent",
+        "https://server-iota-henna.vercel.app/create-payment-intent",
         {
           amountInSents,
         }
@@ -79,7 +79,7 @@ export default function PaymentModal({ isOpen, setIsOpen, data, user }) {
         });
       } else if (result.paymentIntent.status === "succeeded") {
         await axios.patch(
-          `http://localhost:5000/donations/${data._id}/donate`,
+          `https://server-iota-henna.vercel.app/donations/${data._id}/donate`,
           {
             donorEmail: user.email,
             donatedAmount: parseFloat(amount),

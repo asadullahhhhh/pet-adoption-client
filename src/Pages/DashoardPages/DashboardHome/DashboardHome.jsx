@@ -4,28 +4,27 @@ import axios from "axios";
 import useAuth from "../../../hooks/useAuth";
 import HomeUser from "./HomeUser";
 import AdminHome from "./AdminHome";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const DashboardHome = () => {
   const [overview, setOverview] = useState([]);
   const [recentPets, setRecentPets] = useState([]);
   const [recentDonations, setRecentDonations] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { user, role } = useAuth();
-
+  const { user, role, darkLight } = useAuth();
+  const axiosSecure = useAxiosSecure();
 
   useEffect(() => {
     const fetchDashboardData = async () => {
       setLoading(true);
       try {
         const [overviewRes, petsRes, donationsRes] = await Promise.all([
-          axios.get(
-            `http://localhost:5000/dashboard/overview?email=${user?.email}`
+          axiosSecure.get(`/dashboard/overview?email=${user?.email}`),
+          axiosSecure.get(
+            `/dashboard/recent-pets?email=${user?.email}`
           ),
-          axios.get(
-            `http://localhost:5000/dashboard/recent-pets?email=${user?.email}`
-          ),
-          axios.get(
-            `http://localhost:5000/dashboard/recent-donations?email=${user?.email}`
+          axiosSecure.get(
+            `/dashboard/recent-donations?email=${user?.email}`
           ),
         ]);
 
@@ -40,7 +39,6 @@ const DashboardHome = () => {
     };
     if (user?.email) fetchDashboardData();
   }, [user]);
-
 
   const pieData = [
     { name: "Adopted", value: overview?.totalPetsAdopted || 0 },
@@ -58,9 +56,10 @@ const DashboardHome = () => {
       recentPets={recentPets}
       recentDonations={recentDonations}
       loading={loading}
+      darkLight={darkLight}
     ></HomeUser>
   ) : (
-    <AdminHome></AdminHome>
+    <AdminHome darkLight={darkLight}></AdminHome>
   );
 };
 

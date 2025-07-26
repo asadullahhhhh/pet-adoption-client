@@ -16,7 +16,7 @@ export default function EditCampain() {
   const { id } = useParams();
   const { user } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation()
+  const location = useLocation();
 
   console.log(location);
 
@@ -45,7 +45,7 @@ export default function EditCampain() {
     const fetchCampaign = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:5000/donation-campaigns/${id}`
+          `https://server-iota-henna.vercel.app/donation-campaigns/${id}`
         );
         const data = res.data;
         setCampaign(data);
@@ -111,7 +111,7 @@ export default function EditCampain() {
       };
 
       await axios.patch(
-        `http://localhost:5000/donation-campaigns/${id}`,
+        `https://server-iota-henna.vercel.app/donation-campaigns/${id}`,
         payload
       );
 
@@ -125,7 +125,9 @@ export default function EditCampain() {
         clearErrors();
         setErr(null);
         navigate(
-          location?.state ? "/dashboard/all-donations" : "/dashboard/my-campaigns"
+          location?.state
+            ? "/dashboard/all-donations"
+            : "/dashboard/my-campaigns"
         );
       }, 800);
     } catch (err) {
@@ -136,7 +138,6 @@ export default function EditCampain() {
       });
     }
   };
-
 
   if (loading) {
     return (
