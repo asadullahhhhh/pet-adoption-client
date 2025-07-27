@@ -42,13 +42,10 @@ const AllUsers = () => {
       showLoaderOnConfirm: true,
       preConfirm: async () => {
         try {
-          const res = await axios.patch(
-            `https://server-iota-henna.vercel.app/users/role`,
-            {
-              email,
-              currentRole: role,
-            }
-          );
+          const res = await axios.patch(`http://localhost:5000/users/role`, {
+            email,
+            currentRole: role,
+          });
           return res.data;
         } catch (err) {
           Swal.showValidationMessage("Action failed. Try again.");

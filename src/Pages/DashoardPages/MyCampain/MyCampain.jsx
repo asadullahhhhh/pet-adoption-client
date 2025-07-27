@@ -38,7 +38,7 @@ const MyCampaign = () => {
     setIsLoading(true);
     try {
       const res = await axiosSecure.get(
-        `https://server-iota-henna.vercel.app/my-donation-campaigns?email=${
+        `http://localhost:5000/my-donation-campaigns?email=${
           user?.email
         }&page=${page + 1}&limit=${pageSize}`
       );
@@ -62,7 +62,7 @@ const MyCampaign = () => {
       setDonators([]);
       setModalOpen(true);
       const res = await axiosSecure.get(
-        `https://server-iota-henna.vercel.app/donation-campaigns/${campaignId}/donators`
+        `http://localhost:5000/donation-campaigns/${campaignId}/donators`
       );
       setDonators(res.data.donators || []);
     } catch (error) {
@@ -91,7 +91,7 @@ const MyCampaign = () => {
     if (confirm.isConfirmed) {
       try {
         await axios.patch(
-          `https://server-iota-henna.vercel.app/donation-campaigns/${id}/status`,
+          `http://localhost:5000/donation-campaigns/${id}/status`,
           {
             status: newStatus,
           }

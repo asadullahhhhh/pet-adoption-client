@@ -76,9 +76,7 @@ const UpdatePet = () => {
   const { data: petData = {} } = useQuery({
     queryKey: ["pet", id],
     queryFn: async () => {
-      const { data } = await axios.get(
-        `https://server-iota-henna.vercel.app/pets/${id}`
-      );
+      const { data } = await axios.get(`http://localhost:5000/pets/${id}`);
       return data;
     },
   });
@@ -153,7 +151,7 @@ const UpdatePet = () => {
             longDescription: editor.getHTML(),
           };
           const res = await axios.patch(
-            `https://server-iota-henna.vercel.app/pets/${petData._id}`,
+            `http://localhost:5000/pets/${petData._id}`,
             updatedPet
           );
           return res.data;

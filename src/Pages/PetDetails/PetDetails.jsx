@@ -10,9 +10,7 @@ import useAuth from "../../hooks/useAuth";
 import PetDetailsSkeleton from "./PetDetailsSkeleton";
 
 const fetchPet = async (id) => {
-  const { data } = await axios.get(
-    `https://server-iota-henna.vercel.app/pets/${id}`
-  );
+  const { data } = await axios.get(`http://localhost:5000/pets/${id}`);
   return data;
 };
 
@@ -37,7 +35,7 @@ export default function PetDetails() {
     queryFn: async () => {
       if (!user?.uid) return { requested: false };
       const { data } = await axios.get(
-        `https://server-iota-henna.vercel.app/adoptPet/requested?email=${user?.email}&petId=${id}`
+        `http://localhost:5000/adoptPet/requested?email=${user?.email}&petId=${id}`
       );
       return data;
     },

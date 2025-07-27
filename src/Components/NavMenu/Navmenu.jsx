@@ -6,7 +6,7 @@ import { AiFillHome } from "react-icons/ai";
 import { FaPaw } from "react-icons/fa";    
 import { RiHandHeartFill } from "react-icons/ri";  
 
-const Navmenu = () => {
+const Navmenu = ({darkLight}) => {
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -61,11 +61,13 @@ const Navmenu = () => {
           <motion.path
             {...path1Variants.closed}
             animate={path1Control}
+            stroke={darkLight ? "white" : "black"}
             transition={{ duration: 0.2 }}
           />
           <motion.path
             {...path2Variants.closed}
             animate={path2Control}
+            stroke={darkLight ? "white" : "black"}
             transition={{ duration: 0.2 }}
           />
         </svg>
@@ -79,12 +81,16 @@ const Navmenu = () => {
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0, opacity: 0 }}
             transition={{ duration: 0.5, type: "spring" }}
-            className="absolute -top-2 -left-2 w-48 min-h-64 rounded-md bg-neutral-50 py-8 px-2 z-10 flex flex-col shadow-md origin-top-left"
+            className={`absolute -top-2 -left-2 w-48 min-h-64 rounded-md bg-neutral-50 py-8 px-2 z-10 flex flex-col shadow-md origin-top-left ${
+              darkLight ? "dark" : ""
+            } dark:bg-gray-900`}
           >
             <ul className="flex flex-col flex-1 mt-3 font-semibold text-sm">
               <NavLink
                 className={({ isActive }) =>
-                  isActive ? "bg-gray-200 text-amber-500 p-2 flex gap-2" : "p-2 flex gap-2"
+                  isActive
+                    ? "bg-gray-200 text-amber-500 dark:bg-gray-800 p-2 flex gap-2"
+                    : "p-2 flex gap-2 dark:text-gray-400"
                 }
                 to="/"
               >
@@ -96,8 +102,8 @@ const Navmenu = () => {
                 to="pet-listing"
                 className={({ isActive }) =>
                   isActive
-                    ? "bg-gray-200 text-amber-500 p-2 flex gap-2"
-                    : "p-2 flex gap-2"
+                    ? "bg-gray-200 text-amber-500 dark:bg-gray-800  p-2 flex gap-2"
+                    : "p-2 flex dark:text-gray-400 gap-2"
                 }
               >
                 <FaPaw></FaPaw>
@@ -108,8 +114,8 @@ const Navmenu = () => {
                 to="/donation-campaign"
                 className={({ isActive }) =>
                   isActive
-                    ? "bg-gray-200 text-amber-500 p-2 text-[13px] flex gap-2"
-                    : "p-2 text-[13px] flex gap-2"
+                    ? "bg-gray-200 text-amber-500 p-2 dark:bg-gray-800  text-[13px] flex gap-2"
+                    : "p-2 text-[13px] dark:text-gray-400 flex gap-2"
                 }
               >
                 <RiHandHeartFill></RiHandHeartFill>

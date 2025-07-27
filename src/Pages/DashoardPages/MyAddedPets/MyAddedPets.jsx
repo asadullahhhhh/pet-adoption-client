@@ -30,7 +30,7 @@ const MyAddedPets = () => {
     queryKey: ["myAddedPets", page, user?.email],
     queryFn: async () => {
       const res = await axiosSecure.get(
-        `https://server-iota-henna.vercel.app/my-added-pets?email=${user?.email}&page=${page}&limit=${limit}`
+        `http://localhost:5000/my-added-pets?email=${user?.email}&page=${page}&limit=${limit}`
       );
       return res.data;
     },
@@ -58,7 +58,7 @@ const MyAddedPets = () => {
             },
           });
 
-          await axios.delete(`https://server-iota-henna.vercel.app/pet/${id}`);
+          await axios.delete(`http://localhost:5000/pet/${id}`);
 
           Swal.fire({
             icon: "success",
@@ -112,9 +112,7 @@ const MyAddedPets = () => {
       });
 
       try {
-        await axios.patch(
-          `https://server-iota-henna.vercel.app/pet-adopted/${id}`
-        );
+        await axios.patch(`http://localhost:5000/pet-adopted/${id}`);
 
         // Replace spinner with success, auto-close after 1.5s
         Swal.fire({

@@ -151,10 +151,7 @@ const AddPetForm = ({ darkLight, user }) => {
             },
           };
 
-          const res = await axios.post(
-            `https://server-iota-henna.vercel.app/pets`,
-            pet
-          );
+          const res = await axios.post(`http://localhost:5000/pets`, pet);
           console.log(res.data);
           return res.data;
         } catch (err) {

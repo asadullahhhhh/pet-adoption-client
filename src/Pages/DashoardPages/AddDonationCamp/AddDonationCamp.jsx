@@ -94,7 +94,7 @@ export default function AddDonationCamp() {
       console.log(payload);
 
       const res = await axios.post(
-        "https://server-iota-henna.vercel.app/donation-campain",
+        "http://localhost:5000/donation-campain",
         payload
       );
       console.log(res);

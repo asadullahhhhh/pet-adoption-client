@@ -21,7 +21,7 @@ const MyDonation = () => {
     queryKey: ["my-donated-campaigns", user?.email],
     queryFn: async () => {
       const res = await axiosSecure.get(
-        `https://server-iota-henna.vercel.app/donation-campaigns/donated/${user?.email}`
+        `http://localhost:5000/donation-campaigns/donated/${user?.email}`
       );
       return res.data;
     },
@@ -40,7 +40,7 @@ const MyDonation = () => {
       preConfirm: async () => {
         try {
           await axios.patch(
-            `https://server-iota-henna.vercel.app/donation-campaigns/refund/${campaignId}`,
+            `http://localhost:5000/donation-campaigns/refund/${campaignId}`,
             { donorEmail: user.email }
           );
           return true;

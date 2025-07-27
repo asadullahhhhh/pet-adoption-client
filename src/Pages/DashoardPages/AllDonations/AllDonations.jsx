@@ -64,9 +64,7 @@ const AllDonations = () => {
       showLoaderOnConfirm: true,
       preConfirm: async () => {
         try {
-          await axios.delete(
-            `https://server-iota-henna.vercel.app/donations/${id}`
-          );
+          await axios.delete(`http://localhost:5000/donations/${id}`);
           return true;
         } catch (error) {
           Swal.showValidationMessage("Delete failed!");
@@ -93,7 +91,7 @@ const AllDonations = () => {
       preConfirm: async () => {
         try {
           await axios.patch(
-            `https://server-iota-henna.vercel.app/donation-campaigns/${id}/status`,
+            `http://localhost:5000/donation-campaigns/${id}/status`,
             { status: newStatus }
           );
           return true;

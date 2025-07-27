@@ -21,9 +21,7 @@ const DashboardHome = ({ darkLight }) => {
   const { data: overview, isLoading: loadingOverview } = useQuery({
     queryKey: ["dashboard-overview"],
     queryFn: async () => {
-      const res = await axios.get(
-        "https://server-iota-henna.vercel.app/dashboard/overviews"
-      );
+      const res = await axios.get("http://localhost:5000/dashboard/overviews");
       return res.data;
     },
   });
@@ -32,7 +30,7 @@ const DashboardHome = ({ darkLight }) => {
     queryKey: ["adoption-stats"],
     queryFn: async () => {
       const res = await axios.get(
-        "https://server-iota-henna.vercel.app/dashboard/adoption-stats"
+        "http://localhost:5000/dashboard/adoption-stats"
       );
       return res.data;
     },
@@ -42,7 +40,7 @@ const DashboardHome = ({ darkLight }) => {
     queryKey: ["donation-stats"],
     queryFn: async () => {
       const res = await axios.get(
-        "https://server-iota-henna.vercel.app/dashboard/donation-stats"
+        "http://localhost:5000/dashboard/donation-stats"
       );
       return res.data;
     },
@@ -51,9 +49,7 @@ const DashboardHome = ({ darkLight }) => {
   const { data: newUsers3, isLoading: loadingUsers3 } = useQuery({
     queryKey: ["new-users-3days"],
     queryFn: async () => {
-      const res = await axios.get(
-        "https://server-iota-henna.vercel.app/new-users-last3days"
-      );
+      const res = await axios.get("http://localhost:5000/new-users-last3days");
       return res.data;
     },
   });
@@ -62,7 +58,7 @@ const DashboardHome = ({ darkLight }) => {
     queryKey: ["recent-activity"],
     queryFn: async () => {
       const res = await axios.get(
-        "https://server-iota-henna.vercel.app/dashboard/recent-activity"
+        "http://localhost:5000/dashboard/recent-activity"
       );
       return res.data;
     },

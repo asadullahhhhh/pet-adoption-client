@@ -25,7 +25,7 @@ const SentRequests = ({ darkLight }) => {
     queryKey: ["sent-requests", user?.email],
     queryFn: async () => {
       const res = await axiosSecure.get(
-        `https://server-iota-henna.vercel.app/adoption-requests/sent/${user?.email}`
+        `http://localhost:5000/adoption-requests/sent/${user?.email}`
       );
       return res.data;
     },
@@ -42,15 +42,12 @@ const SentRequests = ({ darkLight }) => {
       showLoaderOnConfirm: true,
       preConfirm: async () => {
         try {
-          await axios.delete(
-            `https://server-iota-henna.vercel.app/delete/request`,
-            {
-              data: {
-                userEmail: user?.email,
-                petId,
-              },
-            }
-          );
+          await axios.delete(`http://localhost:5000/delete/request`, {
+            data: {
+              userEmail: user?.email,
+              petId,
+            },
+          });
           return true;
         } catch (error) {
           Swal.showValidationMessage("Cancel failed!");

@@ -60,22 +60,22 @@ const Navbar = () => {
 
   return (
     <div
-      className={`fixed top-0 left-0 w-full backdrop-blur-md h-[72px] border-b duration-500 z-50 transition-colors
+      className={`fixed top-0 left-0 w-full backdrop-blur-md lg:h-[72px] border-b duration-500 z-50 transition-colors
     bg-white/60 border-white/30 shadow-sm
     dark:bg-[#0f172a]/70 dark:border-gray-700 ${darkLight ? 'dark' : ''}`}
     >
-      <nav className="max-w-7xl mx-auto px-5 py-3 flex justify-between items-center transition-colors">
+      <nav className="max-w-7xl mx-auto px-5 py-1 lg:py-3 flex justify-between items-center transition-colors">
         {/* Logo and Mobile menu */}
         <div className="flex items-center gap-4">
-          <Navmenu />
+          <Navmenu darkLight={darkLight} />
           <Link to="/">
-            <img src={darkLight ? logo2 : logo} className="w-[80px] md:w-[100px]" alt="Logo" />
+            <img src={darkLight ? logo2 : logo} className="w-[80px] lg:w-[100px]" alt="Logo" />
           </Link>
         </div>
 
         {/* Nav items */}
         <div className="hidden sm:flex">
-          <ul className="flex font-semibold text-gray-800 dark:text-gray-200 transition-colors">
+          <ul className="flex font-semibold text-sm lg:text-base mt-2 lg:mt-0 text-gray-800 dark:text-gray-200 transition-colors">
             <li className="hover:bg-amber-50 dark:hover:bg-amber-900/20 rounded-lg cursor-pointer transition-colors">
               <NavLink
                 to="/"
@@ -116,19 +116,19 @@ const Navbar = () => {
         </div>
 
         {/* Login / Logout */}
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-2 lg:gap-4">
           {/* Dark mode toggle */}
           <div
             onClick={handelDarkMood}
             className="flex justify-center items-center"
           >
             {darkLight ? (
-              <button className="bg-gray-300 dark:bg-amber-500/30 p-3 rounded-full cursor-pointer duration-500 border border-transparent dark:border-amber-500/50 transition-colors">
-                <MdDarkMode className="text-amber-400" size={22} />
+              <button className="bg-gray-300 mt-1 lg:mt-0 dark:bg-amber-500/30 p-1 rounded-full cursor-pointer duration-500 border border-transparent dark:border-amber-500/50 transition-colors">
+                <MdDarkMode className="text-amber-400" size={21} />
               </button>
             ) : (
-              <button className="bg-gray-300 p-3 rounded-full cursor-pointer duration-500 transition-colors">
-                <MdOutlineLightMode className="text-gray-700" size={22} />
+              <button className="bg-gray-300 p-2 mt-1 lg:p-3 lg:mt-0 rounded-full cursor-pointer duration-500 transition-colors">
+                <MdOutlineLightMode className="text-gray-700" size={20} />
               </button>
             )}
           </div>
@@ -137,9 +137,9 @@ const Navbar = () => {
             <div
               ref={dropdownRef}
               onClick={() => setOpen(!open)}
-              className="flex relative items-center gap-2 bg-gray-400/30 dark:bg-gray-800/50 px-2 py-1 rounded-3xl transition-colors"
+              className="flex relative items-center gap-2 cursor-pointer mt-1 lg:mt-0 bg-gray-400/30 dark:bg-gray-800/50 px-2 py-1 rounded-3xl transition-colors"
             >
-              <div className="h-10 w-10 overflow-hidden rounded-full border border-gray-300 dark:border-gray-600">
+              <div className="h-8 w-8 lg:h-10 lg:w-10 overflow-hidden rounded-full border border-gray-400 dark:border-gray-600">
                 <img src={user?.photoURL || userImg} alt="" />
               </div>
               <div className="hidden lg:block text-gray-600 dark:text-gray-200 text-[14px] font-semibold">

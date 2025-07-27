@@ -10,7 +10,7 @@ import useAuth from "../../hooks/useAuth";
 
 const fetchPets = async ({ pageParam = 1, queryKey }) => {
   const [_key, { name, category }] = queryKey;
-  const res = await axios.get(`https://server-iota-henna.vercel.app/pets`, {
+  const res = await axios.get(`http://localhost:5000/pets`, {
     params: {
       page: pageParam,
       limit: 9,

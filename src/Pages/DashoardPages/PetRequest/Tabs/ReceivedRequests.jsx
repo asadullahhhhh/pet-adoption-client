@@ -25,7 +25,7 @@ const ReceivedRequests = ({ darkLight }) => {
     queryKey: ["received-requests", user?.email],
     queryFn: async () => {
       const res = await asiosSecure.get(
-        `https://server-iota-henna.vercel.app/adoption-requests/received/${user?.email}`
+        `http://localhost:5000/adoption-requests/received/${user?.email}`
       );
       return res.data;
     },
@@ -41,12 +41,9 @@ const ReceivedRequests = ({ darkLight }) => {
       allowOutsideClick: false,
       preConfirm: async () => {
         try {
-          await axios.patch(
-            `https://server-iota-henna.vercel.app/adoption-requests/${id}`,
-            {
-              status,
-            }
-          );
+          await axios.patch(`http://localhost:5000/adoption-requests/${id}`, {
+            status,
+          });
           return true;
         } catch (err) {
           Swal.showValidationMessage(

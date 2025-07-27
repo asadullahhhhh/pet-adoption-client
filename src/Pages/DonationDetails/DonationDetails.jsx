@@ -22,7 +22,7 @@ const DonationDetails = () => {
     queryKey: ["donation-details", id],
     queryFn: async () => {
       const res = await axios.get(
-        `https://server-iota-henna.vercel.app/donation-campaigns/${id}`
+        `http://localhost:5000/donation-campaigns/${id}`
       );
       return res.data;
     },

@@ -9,7 +9,7 @@ import useAuth from "../../hooks/useAuth";
 
 const fetchCampaigns = async ({ pageParam = 1 }) => {
   const res = await axios.get(
-    `https://server-iota-henna.vercel.app/donation-campaigns?page=${pageParam}&limit=9`
+    `http://localhost:5000/donation-campaigns?page=${pageParam}&limit=9`
   );
   return res.data;
 };

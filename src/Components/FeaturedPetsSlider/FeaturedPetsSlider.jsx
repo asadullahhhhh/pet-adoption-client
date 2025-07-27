@@ -17,7 +17,7 @@ const FeaturedPetsSlider = () => {
 
   useEffect(() => {
     axios
-      .get("https://server-iota-henna.vercel.app/featured") // API replace as needed
+      .get("http://localhost:5000/featured") // API replace as needed
       .then((res) => setPets(res.data))
       .catch((err) => console.error(err));
   }, []);

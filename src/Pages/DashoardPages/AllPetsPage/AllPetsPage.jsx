@@ -46,9 +46,7 @@ const AllPetsPage = () => {
       showLoaderOnConfirm: true,
       preConfirm: async () => {
         try {
-          const res = await axios.delete(
-            `https://server-iota-henna.vercel.app/pets/${petId}`
-          );
+          const res = await axios.delete(`http://localhost:5000/pets/${petId}`);
           return res.data;
         } catch (err) {
           Swal.showValidationMessage("Action failed. Try again.");
@@ -77,7 +75,7 @@ const AllPetsPage = () => {
       preConfirm: async () => {
         try {
           const res = await axios.patch(
-            `https://server-iota-henna.vercel.app/pets/${petId}/adopt`,
+            `http://localhost:5000/pets/${petId}/adopt`,
             {
               status: newStatus,
             }
