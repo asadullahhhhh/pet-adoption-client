@@ -64,7 +64,9 @@ const AllDonations = () => {
       showLoaderOnConfirm: true,
       preConfirm: async () => {
         try {
-          await axios.delete(`http://localhost:5000/donations/${id}`);
+          await axios.delete(
+            `https://server-roan-one.vercel.app/donations/${id}`
+          );
           return true;
         } catch (error) {
           Swal.showValidationMessage("Delete failed!");
@@ -91,7 +93,7 @@ const AllDonations = () => {
       preConfirm: async () => {
         try {
           await axios.patch(
-            `http://localhost:5000/donation-campaigns/${id}/status`,
+            `https://server-roan-one.vercel.app/donation-campaigns/${id}/status`,
             { status: newStatus }
           );
           return true;
@@ -234,8 +236,8 @@ const AllDonations = () => {
       >
         <Skeleton
           height={40}
-          baseColor="#1f2937"
-          highlightColor="#374151"
+          baseColor={darkLight ? "#1f2937" : undefined}
+          highlightColor={darkLight ? "#374151" : undefined}
           count={8}
           className="mb-2"
         />

@@ -21,7 +21,7 @@ const MyDonation = () => {
     queryKey: ["my-donated-campaigns", user?.email],
     queryFn: async () => {
       const res = await axiosSecure.get(
-        `http://localhost:5000/donation-campaigns/donated/${user?.email}`
+        `https://server-roan-one.vercel.app/donation-campaigns/donated/${user?.email}`
       );
       return res.data;
     },
@@ -40,7 +40,7 @@ const MyDonation = () => {
       preConfirm: async () => {
         try {
           await axios.patch(
-            `http://localhost:5000/donation-campaigns/refund/${campaignId}`,
+            `https://server-roan-one.vercel.app/donation-campaigns/refund/${campaignId}`,
             { donorEmail: user.email }
           );
           return true;
@@ -138,13 +138,13 @@ const MyDonation = () => {
       <div
         className={`${
           darkLight ? "dark" : ""
-        } dark:bg-gray-900 min-h-[calc(100vh-74px)]`}
+        } dark:bg-gray-900 min-h-[calc(100vh-74px)] p-5`}
       >
         <Skeleton
           height={40}
           count={5}
-          baseColor="#1f2937"
-          highlightColor="#374151"
+          baseColor={darkLight ? "#1f2937" : undefined}
+          highlightColor={darkLight ? "#374151" : undefined}
           className="mb-2"
         />
       </div>
@@ -153,8 +153,12 @@ const MyDonation = () => {
 
   if (!data.length) {
     return (
-      <div className="flex justify-center items-center min-h-[calc(100vh-72px)]">
-        <p className="text-center font-bold text-3xl">
+      <div
+        className={`${
+          darkLight ? "dark" : ""
+        } flex justify-center items-center min-h-[calc(100vh-72px)] duration-300 dark:bg-gray-900`}
+      >
+        <p className="text-center font-bold text-3xl dark:text-gray-200">
           No donation campaigns found.
         </p>
       </div>

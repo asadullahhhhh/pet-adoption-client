@@ -21,7 +21,9 @@ const DashboardHome = ({ darkLight }) => {
   const { data: overview, isLoading: loadingOverview } = useQuery({
     queryKey: ["dashboard-overview"],
     queryFn: async () => {
-      const res = await axios.get("http://localhost:5000/dashboard/overviews");
+      const res = await axios.get(
+        "https://server-roan-one.vercel.app/dashboard/overviews"
+      );
       return res.data;
     },
   });
@@ -30,7 +32,7 @@ const DashboardHome = ({ darkLight }) => {
     queryKey: ["adoption-stats"],
     queryFn: async () => {
       const res = await axios.get(
-        "http://localhost:5000/dashboard/adoption-stats"
+        "https://server-roan-one.vercel.app/dashboard/adoption-stats"
       );
       return res.data;
     },
@@ -40,7 +42,7 @@ const DashboardHome = ({ darkLight }) => {
     queryKey: ["donation-stats"],
     queryFn: async () => {
       const res = await axios.get(
-        "http://localhost:5000/dashboard/donation-stats"
+        "https://server-roan-one.vercel.app/dashboard/donation-stats"
       );
       return res.data;
     },
@@ -49,7 +51,9 @@ const DashboardHome = ({ darkLight }) => {
   const { data: newUsers3, isLoading: loadingUsers3 } = useQuery({
     queryKey: ["new-users-3days"],
     queryFn: async () => {
-      const res = await axios.get("http://localhost:5000/new-users-last3days");
+      const res = await axios.get(
+        "https://server-roan-one.vercel.app/new-users-last3days"
+      );
       return res.data;
     },
   });
@@ -58,7 +62,7 @@ const DashboardHome = ({ darkLight }) => {
     queryKey: ["recent-activity"],
     queryFn: async () => {
       const res = await axios.get(
-        "http://localhost:5000/dashboard/recent-activity"
+        "https://server-roan-one.vercel.app/dashboard/recent-activity"
       );
       return res.data;
     },
@@ -75,8 +79,8 @@ const DashboardHome = ({ darkLight }) => {
       <div className={`${darkLight ? "dark" : ""} p-5 dark:bg-gray-900`}>
         <Skeleton
           height={200}
-          baseColor="#1f2937"
-          highlightColor="#374151"
+          baseColor={darkLight ? "#1f2937" : undefined}
+          highlightColor={darkLight ? "#374151" : undefined}
           count={5}
           className="mb-4"
         />

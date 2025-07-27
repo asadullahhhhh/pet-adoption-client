@@ -46,7 +46,9 @@ const AllPetsPage = () => {
       showLoaderOnConfirm: true,
       preConfirm: async () => {
         try {
-          const res = await axios.delete(`http://localhost:5000/pets/${petId}`);
+          const res = await axios.delete(
+            `https://server-roan-one.vercel.app/pets/${petId}`
+          );
           return res.data;
         } catch (err) {
           Swal.showValidationMessage("Action failed. Try again.");
@@ -75,7 +77,7 @@ const AllPetsPage = () => {
       preConfirm: async () => {
         try {
           const res = await axios.patch(
-            `http://localhost:5000/pets/${petId}/adopt`,
+            `https://server-roan-one.vercel.app/pets/${petId}/adopt`,
             {
               status: newStatus,
             }
@@ -231,8 +233,8 @@ const AllPetsPage = () => {
       {(isLoading || isFetching) && (
         <Skeleton
           count={8}
-          baseColor="#1f2937"
-          highlightColor="#374151"
+          baseColor={darkLight ? "#1f2937" : undefined}
+          highlightColor={darkLight ? "#374151" : undefined}
           height={40}
           className="mb-2"
         />

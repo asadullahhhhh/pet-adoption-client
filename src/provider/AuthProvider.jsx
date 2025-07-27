@@ -76,7 +76,7 @@ const AuthProvider = ({ children }) => {
     enabled: !!user?.email, // ensures query only runs when email exists
     queryFn: async () => {
       const res = await axios.get(
-        `http://localhost:5000/user-role?email=${user?.email}`
+        `https://server-roan-one.vercel.app/user-role?email=${user?.email}`
       );
       return res.data;
     },

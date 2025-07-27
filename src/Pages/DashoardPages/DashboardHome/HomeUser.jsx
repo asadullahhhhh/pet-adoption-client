@@ -18,8 +18,8 @@ const HomeUser = ({loading, overview, pieData, recentPets, recentDonations, dark
             [...Array(3)].map((_, i) => (
               <Skeleton
                 key={i}
-                baseColor="#1f2937"
-                highlightColor="#374151"
+                baseColor={darkLight ? "#1f2937" : undefined}
+                highlightColor={darkLight ? "#374151" : undefined}
                 height={80}
               />
             ))
@@ -65,8 +65,8 @@ const HomeUser = ({loading, overview, pieData, recentPets, recentDonations, dark
           {loading ? (
             <Skeleton
               height={200}
-              baseColor="#1f2937"
-              highlightColor="#374151"
+              baseColor={darkLight ? "#1f2937" : undefined}
+              highlightColor={darkLight ? "#374151" : undefined}
             />
           ) : (
             <ResponsiveContainer width="100%" height={250}>
@@ -104,8 +104,8 @@ const HomeUser = ({loading, overview, pieData, recentPets, recentDonations, dark
             {loading ? (
               <Skeleton
                 count={5}
-                baseColor="#1f2937"
-                highlightColor="#374151"
+                baseColor={darkLight ? "#1f2937" : undefined}
+                highlightColor={darkLight ? "#374151" : undefined}
               />
             ) : recentPets.length > 0 ? (
               <ul className="space-y-2">
@@ -141,8 +141,8 @@ const HomeUser = ({loading, overview, pieData, recentPets, recentDonations, dark
             {loading ? (
               <Skeleton
                 count={3}
-                baseColor="#1f2937"
-                highlightColor="#374151"
+                baseColor={darkLight ? "#1f2937" : undefined}
+                highlightColor={darkLight ? "#374151" : undefined}
               />
             ) : recentDonations.length > 0 ? (
               <ul className="space-y-2">

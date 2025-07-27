@@ -10,15 +10,16 @@ import useAuth from '../../hooks/useAuth';
 const HomePage = () => {
   const { darkLight } = useAuth();
     return (
-      <section className={`bg-gray-100 ${darkLight ? 'dark' : ''}`}>
-        {/* Banner */}
-        <Banner></Banner>
-        <FeatureSection></FeatureSection>
-        <AboutSection></AboutSection>
-        <PetCategorySection></PetCategorySection>
-        <ServiceSection></ServiceSection>
-        <FeaturedPetsSlider></FeaturedPetsSlider>
-      </section>
+      <>
+        <section className={`bg-gray-100 ${darkLight ? "dark" : ""}`}>
+          <Banner></Banner>
+          <FeatureSection></FeatureSection>
+          <AboutSection></AboutSection>
+          <PetCategorySection></PetCategorySection>
+          <ServiceSection></ServiceSection>
+          <FeaturedPetsSlider></FeaturedPetsSlider>
+        </section>
+      </>
     );
 };
 

@@ -10,7 +10,15 @@ import axios from "axios";
 import { Fragment, useState } from "react";
 import Swal from "sweetalert2";
 
-export default function PaymentModal({ isOpen, setIsOpen, data, user }) {
+export default function PaymentModal({
+  isOpen,
+  setIsOpen,
+  data,
+  user,
+  darkLight,
+  queryClient,
+  id,
+}) {
   function close() {
     setIsOpen(false);
   }
@@ -52,7 +60,7 @@ export default function PaymentModal({ isOpen, setIsOpen, data, user }) {
     try {
       setError("");
       const res = await axios.post(
-        "http://localhost:5000/create-payment-intent",
+        "https://server-roan-one.vercel.app/create-payment-intent",
         {
           amountInSents,
         }
@@ -79,7 +87,7 @@ export default function PaymentModal({ isOpen, setIsOpen, data, user }) {
         });
       } else if (result.paymentIntent.status === "succeeded") {
         await axios.patch(
-          `http://localhost:5000/donations/${data._id}/donate`,
+          `https://server-roan-one.vercel.app/donations/${data._id}/donate`,
           {
             donorEmail: user.email,
             donatedAmount: parseFloat(amount),
@@ -93,6 +101,8 @@ export default function PaymentModal({ isOpen, setIsOpen, data, user }) {
           timer: 2000,
           showConfirmButton: false,
         });
+
+        queryClient.invalidateQueries(["donation-details", id]);
 
         setTimeout(() => {
           close();
@@ -115,7 +125,9 @@ export default function PaymentModal({ isOpen, setIsOpen, data, user }) {
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog
         as="div"
-        className="relative z-10 focus:outline-none"
+        className={`${
+          darkLight ? "dark" : ""
+        } relative z-10 focus:outline-none mt-[72px]`}
         onClose={close}
       >
         <Transition.Child
@@ -141,7 +153,7 @@ export default function PaymentModal({ isOpen, setIsOpen, data, user }) {
               leaveFrom="opacity-100 scale-100 translate-y-0"
               leaveTo="opacity-0 scale-95 translate-y-4"
             >
-              <DialogPanel className="w-full text-white max-w-md rounded-xl shadow-2xl bg-gray-500/90 p-6 backdrop-blur-2xl">
+              <DialogPanel className="w-full text-white max-w-md rounded-xl shadow-2xl bg-gray-500/90 dark:bg-gray-800/90 p-6 backdrop-blur-2xl">
                 <DialogTitle
                   as="h3"
                   className="text-3xl text-center mb-5 font-semibold text-white"
@@ -150,18 +162,18 @@ export default function PaymentModal({ isOpen, setIsOpen, data, user }) {
                 </DialogTitle>
                 <form
                   onSubmit={handelPayment}
-                  className="w-full max-w-md p-5 rounded-lg bg-gray-50 shadow"
+                  className="w-full max-w-md p-5 rounded-lg bg-gray-50 dark:bg-gray-900 shadow"
                 >
-                  <label className="font-medium text-gray-700 mb-2 block">
+                  <label className="font-medium text-gray-700 dark:text-gray-200 mb-2 block">
                     Card information
                   </label>
-                  <div className="border border-gray-300 rounded-md p-4 focus-within:border-indigo-600 transition">
+                  <div className="border border-gray-300 dark:border-gray-600 rounded-md p-4 focus-within:border-indigo-600 transition">
                     <CardElement
                       options={{
                         style: {
                           base: {
                             fontSize: "16px",
-                            color: "#333",
+                            color: darkLight ? "#fff" : "#333",
                             "::placeholder": {
                               color: "#a0aec0",
                             },
@@ -176,14 +188,14 @@ export default function PaymentModal({ isOpen, setIsOpen, data, user }) {
                   {error && <p className="text-red-400 text-sm">{error}</p>}
 
                   <div className="mt-5">
-                    <label className="font-medium text-gray-700 mb-2 block">
+                    <label className="font-medium text-gray-700 dark:text-gray-200 mb-2 block">
                       Amount
                     </label>
                     <input
                       onChange={(e) => setAmount(e.target.value)}
                       value={amount}
                       type="number"
-                      className="border border-gray-300 rounded-md p-3 w-full text-black focus:outline-none"
+                      className="border border-gray-300 dark:border-gray-600 rounded-md p-3 w-full text-black dark:text-white dark:bg-gray-800 focus:outline-none"
                       placeholder="Enter amount"
                     />
                   </div>
@@ -192,7 +204,7 @@ export default function PaymentModal({ isOpen, setIsOpen, data, user }) {
                   <button
                     type="submit"
                     disabled={processing}
-                    className={`mt-5 w-full font-semibold py-2 px-4 rounded-md transition ${
+                    className={`mt-5 w-full font-semibold py-2 px-4 cursor-pointer rounded-md transition ${
                       processing
                         ? "bg-indigo-400 cursor-not-allowed"
                         : "bg-indigo-600 hover:bg-indigo-700 text-white"

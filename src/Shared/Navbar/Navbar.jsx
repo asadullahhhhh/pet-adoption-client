@@ -116,14 +116,14 @@ const Navbar = () => {
         </div>
 
         {/* Login / Logout */}
-        <div className="flex items-center gap-2 lg:gap-4">
+        <div className="flex items-center justify-end gap-4">
           {/* Dark mode toggle */}
           <div
             onClick={handelDarkMood}
             className="flex justify-center items-center"
           >
             {darkLight ? (
-              <button className="bg-gray-300 mt-1 lg:mt-0 dark:bg-amber-500/30 p-1 rounded-full cursor-pointer duration-500 border border-transparent dark:border-amber-500/50 transition-colors">
+              <button className="bg-gray-300 mt-1 lg:mt-0 dark:bg-amber-500/30 p-1 lg:p-3 rounded-full cursor-pointer duration-500 border border-transparent dark:border-amber-500/50 transition-colors">
                 <MdDarkMode className="text-amber-400" size={21} />
               </button>
             ) : (
@@ -162,7 +162,7 @@ const Navbar = () => {
                     animate={{ scale: 1, opacity: 1 }}
                     exit={{ scale: 0, opacity: 0 }}
                     transition={{ duration: 0.3, type: "spring" }}
-                    className="absolute right-0 top-[130%] origin-top border border-gray-300 dark:border-gray-600 shadow-xl bg-gradient-to-tr from-gray-200 via-gray-300 to-gray-200 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 rounded-xl overflow-hidden transition-colors"
+                    className="absolute right-0 top-[130%] px-2 lg:px-0 origin-top border border-gray-300 dark:border-gray-600 shadow-xl bg-gradient-to-tr from-gray-200 via-gray-300 to-gray-200 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 rounded-xl overflow-hidden transition-colors"
                   >
                     <ul className="flex flex-col w-28 lg:w-48 text-center">
                       <li className="py-2 font-semibold text-gray-600 dark:text-gray-200">
@@ -189,9 +189,9 @@ const Navbar = () => {
               </AnimatePresence>
             </div>
           ) : (
-            <div className="min-h-[48px] min-w-[152px] flex justify-end items-center">
+            <div className="flex items-center mt-1">
               <Link to={"/login"}>
-                <button className="px-8 py-2 bg-blue-500 font-semibold hover:bg-blue-600 cursor-pointer active:scale-[1.05] duration-300 text-white rounded-md shadow-sm transition">
+                <button className="px-5 lg:px-8 lg:text-lg py-2 bg-blue-500 text-sm font-semibold w-full hover:bg-blue-600 cursor-pointer active:scale-[1.05] duration-300 text-white rounded-md shadow-sm transition">
                   Login
                 </button>
               </Link>

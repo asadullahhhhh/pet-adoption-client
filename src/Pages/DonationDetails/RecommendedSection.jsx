@@ -6,7 +6,13 @@ const RecommendedSection = ({ excludeId, darkLight }) => {
   const { data: campaigns, isLoading } = useRecommendedCampaigns(excludeId);
   console.log(campaigns);
 
-  if (isLoading) return <Skeleton count={3} />;
+  if (isLoading) return (
+    <Skeleton
+      baseColor={darkLight ? "#1f2937" : undefined}
+      highlightColor={darkLight ? "#374151" : undefined}
+      count={3}
+    />
+  );
 
   return (
     <div

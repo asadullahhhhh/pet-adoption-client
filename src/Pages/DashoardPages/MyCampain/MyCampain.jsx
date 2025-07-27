@@ -38,7 +38,7 @@ const MyCampaign = () => {
     setIsLoading(true);
     try {
       const res = await axiosSecure.get(
-        `http://localhost:5000/my-donation-campaigns?email=${
+        `https://server-roan-one.vercel.app/my-donation-campaigns?email=${
           user?.email
         }&page=${page + 1}&limit=${pageSize}`
       );
@@ -62,7 +62,7 @@ const MyCampaign = () => {
       setDonators([]);
       setModalOpen(true);
       const res = await axiosSecure.get(
-        `http://localhost:5000/donation-campaigns/${campaignId}/donators`
+        `https://server-roan-one.vercel.app/donation-campaigns/${campaignId}/donators`
       );
       setDonators(res.data.donators || []);
     } catch (error) {
@@ -91,7 +91,7 @@ const MyCampaign = () => {
     if (confirm.isConfirmed) {
       try {
         await axios.patch(
-          `http://localhost:5000/donation-campaigns/${id}/status`,
+          `https://server-roan-one.vercel.app/donation-campaigns/${id}/status`,
           {
             status: newStatus,
           }
@@ -282,8 +282,8 @@ const MyCampaign = () => {
                     <td className="px-4 py-2 whitespace-nowrap">
                       <Skeleton
                         height={20}
-                        baseColor="#374151"
-                        highlightColor="#4B5563"
+                        baseColor={darkLight ? "#1f2937" : undefined}
+                        highlightColor={darkLight ? "#374151" : undefined}
                       />
                     </td>
                   </tr>

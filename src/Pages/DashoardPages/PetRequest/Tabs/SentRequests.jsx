@@ -25,7 +25,7 @@ const SentRequests = ({ darkLight }) => {
     queryKey: ["sent-requests", user?.email],
     queryFn: async () => {
       const res = await axiosSecure.get(
-        `http://localhost:5000/adoption-requests/sent/${user?.email}`
+        `https://server-roan-one.vercel.app/adoption-requests/sent/${user?.email}`
       );
       return res.data;
     },
@@ -42,12 +42,15 @@ const SentRequests = ({ darkLight }) => {
       showLoaderOnConfirm: true,
       preConfirm: async () => {
         try {
-          await axios.delete(`http://localhost:5000/delete/request`, {
-            data: {
-              userEmail: user?.email,
-              petId,
-            },
-          });
+          await axios.delete(
+            `https://server-roan-one.vercel.app/delete/request`,
+            {
+              data: {
+                userEmail: user?.email,
+                petId,
+              },
+            }
+          );
           return true;
         } catch (error) {
           Swal.showValidationMessage("Cancel failed!");
@@ -152,7 +155,15 @@ const SentRequests = ({ darkLight }) => {
   });
 
   if (isLoading) {
-    return <Skeleton height={40} count={8} className="mb-2" />;
+    return (
+      <Skeleton
+        baseColor={darkLight ? "#1f2937" : undefined}
+        highlightColor={darkLight ? "#374151" : undefined}
+        height={40}
+        count={8}
+        className="mb-2"
+      />
+    );
   }
 
   return (

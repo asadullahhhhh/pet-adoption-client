@@ -45,7 +45,7 @@ export default function EditCampain() {
     const fetchCampaign = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:5000/donation-campaigns/${id}`
+          `https://server-roan-one.vercel.app/donation-campaigns/${id}`
         );
         const data = res.data;
         setCampaign(data);
@@ -111,7 +111,7 @@ export default function EditCampain() {
       };
 
       await axios.patch(
-        `http://localhost:5000/donation-campaigns/${id}`,
+        `https://server-roan-one.vercel.app/donation-campaigns/${id}`,
         payload
       );
 

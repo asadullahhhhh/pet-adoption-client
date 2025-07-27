@@ -91,13 +91,11 @@ export default function AddDonationCamp() {
         longDescription: editor?.getHTML(),
         createdAt: new Date(),
       };
-      console.log(payload);
 
       const res = await axios.post(
-        "http://localhost:5000/donation-campain",
+        "https://server-roan-one.vercel.app/donation-campain",
         payload
       );
-      console.log(res);
 
       setTimeout(() => {
         Swal.fire({

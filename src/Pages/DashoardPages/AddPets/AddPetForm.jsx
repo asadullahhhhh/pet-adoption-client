@@ -75,6 +75,7 @@ const AddPetForm = ({ darkLight, user }) => {
     register,
     handleSubmit,
     control,
+    reset,
     formState: { errors },
   } = useForm();
 
@@ -151,8 +152,28 @@ const AddPetForm = ({ darkLight, user }) => {
             },
           };
 
-          const res = await axios.post(`http://localhost:5000/pets`, pet);
-          console.log(res.data);
+          const res = await axios.post(
+            `https://server-roan-one.vercel.app/pets`,
+            pet
+          );
+          if (res?.data?.insertedId) {
+            reset({
+              name: "",
+              age: "",
+              breed: "",
+              neutered: "",
+              vaccinated: "",
+              location: "",
+              description: "",
+              gender: [], // default gender
+              category: [], // default category
+              traits: [], // empty for multi-select
+            });
+            setPrrview1(null);
+            setPrrview2(null);
+            setPrrview(null);
+            editor?.commands?.setContent("");
+          }
           return res.data;
         } catch (err) {
           Swal.showValidationMessage(`Request failed: ${err.message}`);

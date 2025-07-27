@@ -25,7 +25,7 @@ const ReceivedRequests = ({ darkLight }) => {
     queryKey: ["received-requests", user?.email],
     queryFn: async () => {
       const res = await asiosSecure.get(
-        `http://localhost:5000/adoption-requests/received/${user?.email}`
+        `https://server-roan-one.vercel.app/adoption-requests/received/${user?.email}`
       );
       return res.data;
     },
@@ -41,9 +41,12 @@ const ReceivedRequests = ({ darkLight }) => {
       allowOutsideClick: false,
       preConfirm: async () => {
         try {
-          await axios.patch(`http://localhost:5000/adoption-requests/${id}`, {
-            status,
-          });
+          await axios.patch(
+            `https://server-roan-one.vercel.app/adoption-requests/${id}`,
+            {
+              status,
+            }
+          );
           return true;
         } catch (err) {
           Swal.showValidationMessage(
@@ -165,7 +168,15 @@ const ReceivedRequests = ({ darkLight }) => {
   });
 
   if (isLoading) {
-    return <Skeleton height={40} count={8} className="mb-2" />;
+    return (
+      <Skeleton
+        baseColor={darkLight ? "#1f2937" : undefined}
+        highlightColor={darkLight ? "#374151" : undefined}
+        height={40}
+        count={8}
+        className="mb-2"
+      />
+    );
   }
 
   return (

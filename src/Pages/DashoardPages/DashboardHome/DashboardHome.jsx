@@ -28,9 +28,9 @@ const DashboardHome = () => {
           ),
         ]);
 
-        setOverview(overviewRes.data);
-        setRecentPets(petsRes.data);
-        setRecentDonations(donationsRes.data);
+        setOverview(overviewRes?.data);
+        setRecentPets(petsRes?.data);
+        setRecentDonations(donationsRes?.data);
       } catch (err) {
         console.error(err);
       } finally {
@@ -59,7 +59,7 @@ const DashboardHome = () => {
       darkLight={darkLight}
     ></HomeUser>
   ) : (
-    <AdminHome darkLight={darkLight}></AdminHome>
+    <AdminHome darkLight={darkLight}></AdminHome> 
   );
 };
 

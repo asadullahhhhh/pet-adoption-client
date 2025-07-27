@@ -10,7 +10,9 @@ import useAuth from "../../hooks/useAuth";
 import PetDetailsSkeleton from "./PetDetailsSkeleton";
 
 const fetchPet = async (id) => {
-  const { data } = await axios.get(`http://localhost:5000/pets/${id}`);
+  const { data } = await axios.get(
+    `https://server-roan-one.vercel.app/pets/${id}`
+  );
   return data;
 };
 
@@ -35,14 +37,15 @@ export default function PetDetails() {
     queryFn: async () => {
       if (!user?.uid) return { requested: false };
       const { data } = await axios.get(
-        `http://localhost:5000/adoptPet/requested?email=${user?.email}&petId=${id}`
+        `https://server-roan-one.vercel.app/adoptPet/requested?email=${user?.email}&petId=${id}`
       );
       return data;
     },
     enabled: !!user?.email && !!id,
   });
 
-  if (isLoading) return <PetDetailsSkeleton></PetDetailsSkeleton>;
+  if (isLoading)
+    return <PetDetailsSkeleton darkLight={darkLight}></PetDetailsSkeleton>;
   if (isError) return <div>Error loading pet.</div>;
 
   return (

@@ -6,10 +6,12 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import useAuth from "../../hooks/useAuth";
+import { useNavigate } from "react-router";
 
 const FeaturedPetsSlider = () => {
   const [pets, setPets] = useState([]);
   const { darkLight } = useAuth();
+  const navigate = useNavigate();
 
   // Refs for custom buttons
   const prevRef = useRef(null);
@@ -17,7 +19,7 @@ const FeaturedPetsSlider = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/featured") // API replace as needed
+      .get("https://server-roan-one.vercel.app/featured") // API replace as needed
       .then((res) => setPets(res.data))
       .catch((err) => console.error(err));
   }, []);
@@ -81,7 +83,7 @@ const FeaturedPetsSlider = () => {
         >
           {pets.map((pet, index) => (
             <SwiperSlide key={index}>
-              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-md overflow-hidden">
+              <div className="bg-gray-200 dark:bg-gray-800 rounded-2xl overflow-hidden">
                 <div className="relative">
                   <img
                     src={pet.images[0]}
@@ -99,7 +101,10 @@ const FeaturedPetsSlider = () => {
                   <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
                     {pet.shortDescription}
                   </p>
-                  <button className="bg-red-500 text-white px-4 py-2 rounded-full text-sm hover:bg-red-600 transition">
+                  <button
+                    onClick={() => navigate(`/pet-details/${pet?._id}`)}
+                    className="bg-red-500 cursor-pointer active:scale-[1.1] duration-300 text-white px-4 py-2 rounded-full text-sm hover:bg-red-600 transition"
+                  >
                     Learn More →
                   </button>
                 </div>

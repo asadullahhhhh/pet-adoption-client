@@ -30,7 +30,7 @@ const MyAddedPets = () => {
     queryKey: ["myAddedPets", page, user?.email],
     queryFn: async () => {
       const res = await axiosSecure.get(
-        `http://localhost:5000/my-added-pets?email=${user?.email}&page=${page}&limit=${limit}`
+        `https://server-roan-one.vercel.app/my-added-pets?email=${user?.email}&page=${page}&limit=${limit}`
       );
       return res.data;
     },
@@ -58,7 +58,7 @@ const MyAddedPets = () => {
             },
           });
 
-          await axios.delete(`http://localhost:5000/pet/${id}`);
+          await axios.delete(`https://server-roan-one.vercel.app/pet/${id}`);
 
           Swal.fire({
             icon: "success",
@@ -112,7 +112,9 @@ const MyAddedPets = () => {
       });
 
       try {
-        await axios.patch(`http://localhost:5000/pet-adopted/${id}`);
+        await axios.patch(
+          `https://server-roan-one.vercel.app/pet-adopted/${id}`
+        );
 
         // Replace spinner with success, auto-close after 1.5s
         Swal.fire({
@@ -218,7 +220,7 @@ const MyAddedPets = () => {
     getSortedRowModel: getSortedRowModel(),
   });
 
-  if (isLoading) return <PetLoadingS></PetLoadingS>;
+  if (isLoading) return <PetLoadingS darkLight={darkLight}></PetLoadingS>;
 
   if (data?.pets.length === 0)
     return (

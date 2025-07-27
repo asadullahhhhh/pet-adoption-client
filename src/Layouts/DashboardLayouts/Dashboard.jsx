@@ -18,6 +18,7 @@ import MobileSideBar from "./MobileSideBar";
 import Navbar from "./Navbar";
 import { useState } from "react";
 import { getElement, setElement } from "../../utils/utility";
+import { Helmet } from "react-helmet-async";
 
 const Dashboard = () => {
   const { user, logOut, setUser, role, darkLight, setDarkLight } = useAuth();
@@ -107,57 +108,64 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="flex h-screen overflow-hidden">
-      {/* Sidebar */}
-      <SideBar
-        isSidebarOpen={isSidebarOpen}
-        role={role}
-        handleToggle={handleToggle}
-        FaAngleLeft={FaAngleLeft}
-        navLinks={navLinks}
-        darkLight={darkLight}
-      ></SideBar>
-
-      {/* Mobile Sidebar Drawer */}
-      <MobileSideBar
-        navLinks={navLinks}
-        handleToggle={handleToggle}
-        isMobileOpen={isMobileOpen}
-        isSidebarOpen={isSidebarOpen}
-        darkLight={darkLight}
-      ></MobileSideBar>
-
-      {/* Mobile Overlay */}
-      {isMobileOpen && (
-        <div
-          onClick={() => setIsMobileOpen(false)}
-          className="fixed inset-0 bg-black opacity-20 z-40 md:hidden"
-        />
-      )}
-
-      {/* Content Area */}
-      <div
-        className={`flex flex-col flex-1 transition-all duration-300 ease-in-out ${
-          isSidebarOpen ? "md:ml-64" : "md:ml-16"
-        }`}
-      >
-        {/* Navbar */}
-        <Navbar
-          setIsMobileOpen={setIsMobileOpen}
-          navLinks={navLinks}
-          user={user}
-          handelLogout={handelLogout}
+    <>
+    <Helmet>
+      <title>
+        Dashboard
+      </title>
+    </Helmet>
+      <div className="flex h-screen overflow-hidden">
+        {/* Sidebar */}
+        <SideBar
+          isSidebarOpen={isSidebarOpen}
+          role={role}
+          handleToggle={handleToggle}
           FaAngleLeft={FaAngleLeft}
-          handelDarkMood={handelDarkMood}
+          navLinks={navLinks}
           darkLight={darkLight}
-        ></Navbar>
+        ></SideBar>
 
-        {/* Main Content */}
-        <div className="overflow-auto h-full bg-gray-200 dark:bg-gray-900">
-          <Outlet />
+        {/* Mobile Sidebar Drawer */}
+        <MobileSideBar
+          navLinks={navLinks}
+          handleToggle={handleToggle}
+          isMobileOpen={isMobileOpen}
+          isSidebarOpen={isSidebarOpen}
+          darkLight={darkLight}
+        ></MobileSideBar>
+
+        {/* Mobile Overlay */}
+        {isMobileOpen && (
+          <div
+            onClick={() => setIsMobileOpen(false)}
+            className="fixed inset-0 bg-black opacity-20 z-40 md:hidden"
+          />
+        )}
+
+        {/* Content Area */}
+        <div
+          className={`flex flex-col flex-1 transition-all duration-300 ease-in-out ${
+            isSidebarOpen ? "md:ml-64" : "md:ml-16"
+          }`}
+        >
+          {/* Navbar */}
+          <Navbar
+            setIsMobileOpen={setIsMobileOpen}
+            navLinks={navLinks}
+            user={user}
+            handelLogout={handelLogout}
+            FaAngleLeft={FaAngleLeft}
+            handelDarkMood={handelDarkMood}
+            darkLight={darkLight}
+          ></Navbar>
+
+          {/* Main Content */}
+          <div className="overflow-auto h-full bg-gray-200 dark:bg-gray-900">
+            <Outlet />
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

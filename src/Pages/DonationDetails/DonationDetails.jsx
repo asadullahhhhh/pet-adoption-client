@@ -1,5 +1,5 @@
 import { useParams } from "react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
 import RecommendedSection from "./RecommendedSection";
@@ -7,6 +7,7 @@ import PaymentModal from "../../Components/PaymentModal/PaymentModal";
 import useAuth from "../../hooks/useAuth";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
+import DonationSectionSkeleton from "./DonationSectionSkeleton";
 // import DonationModal from "../components/DonationModal";
 
 const stripePromise = loadStripe(
@@ -17,18 +18,22 @@ const DonationDetails = () => {
   const { id } = useParams();
   const { user, darkLight } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
+  const queryClient = useQueryClient();
 
   const { data, isLoading } = useQuery({
     queryKey: ["donation-details", id],
     queryFn: async () => {
       const res = await axios.get(
-        `http://localhost:5000/donation-campaigns/${id}`
+        `https://server-roan-one.vercel.app/donation-campaigns/${id}`
       );
       return res.data;
     },
   });
 
-  if (isLoading) return <p className="text-center">Loading...</p>;
+  if (isLoading)
+    return (
+      <DonationSectionSkeleton darkLight={darkLight}></DonationSectionSkeleton>
+    );
 
   const {
     petImage,
@@ -107,6 +112,9 @@ const DonationDetails = () => {
           setIsOpen={setIsOpen}
           user={user}
           data={data}
+          darkLight={darkLight}
+          queryClient={queryClient}
+          id={id}
         />
       </Elements>
 

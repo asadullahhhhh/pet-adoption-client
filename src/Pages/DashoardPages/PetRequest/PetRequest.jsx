@@ -61,8 +61,8 @@ const PetRequest = () => {
             <Skeleton
               height={40}
               count={6}
-              baseColor="#1f2937"
-              highlightColor="#374151"
+              baseColor={darkLight ? "#1f2937" : undefined}
+              highlightColor={darkLight ? "#374151" : undefined}
               className="mb-2 dark:bg-gray-700 dark:highlight-gray-600"
             />
           </motion.div>

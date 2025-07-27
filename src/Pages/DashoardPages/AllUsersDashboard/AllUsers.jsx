@@ -42,10 +42,13 @@ const AllUsers = () => {
       showLoaderOnConfirm: true,
       preConfirm: async () => {
         try {
-          const res = await axios.patch(`http://localhost:5000/users/role`, {
-            email,
-            currentRole: role,
-          });
+          const res = await axios.patch(
+            `https://server-roan-one.vercel.app/users/role`,
+            {
+              email,
+              currentRole: role,
+            }
+          );
           return res.data;
         } catch (err) {
           Swal.showValidationMessage("Action failed. Try again.");
@@ -175,8 +178,8 @@ const AllUsers = () => {
       {isLoading ? (
         <Skeleton
           height={40}
-          baseColor="#1f2937"
-          highlightColor="#374151"
+          baseColor={darkLight ? "#1f2937" : undefined}
+          highlightColor={darkLight ? "#374151" : undefined}
           count={8}
           className="mb-2"
         />
