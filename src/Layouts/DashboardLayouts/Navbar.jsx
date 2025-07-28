@@ -41,7 +41,7 @@ const Navbar = ({
     <div
       className={`backdrop-blur-lg ${
         darkLight ? "dark" : ""
-      } bg-white/60 dark:bg-gray-900/70 backdrop-blur-2xl border duration-500 border-white/30 dark:border-gray-700/50 shadow-sm py-3 px-5 md:px-10 flex justify-between items-center sticky top-0 z-20 transition-all`}
+      } bg-white/60 dark:bg-gray-900/70 backdrop-blur-2xl border duration-500 border-white/30 dark:border-gray-700/50 shadow-sm py-1.5 lg:py-2 px-5 md:px-10 flex justify-between items-center sticky top-0 z-20 transition-all`}
     >
       <div className="flex items-center gap-3">
         <button className="md:hidden" onClick={() => setIsMobileOpen(true)}>
@@ -51,23 +51,23 @@ const Navbar = ({
           />
         </button>
         <Link to="/">
-          <img src={darkLight ? logo2 : logo} className="w-[80px] md:w-[100px]" alt="Logo" />
+          <img src={darkLight ? logo2 : logo} className="w-[80px] lg:w-[100px]" alt="Logo" />
         </Link>
       </div>
 
       {/* Right Section */}
-      <div className="flex items-center gap-5">
+      <div className="flex items-center gap-2 lg:gap-4">
         {/* Dark Mode Toggle */}
         <div
           onClick={handelDarkMood}
           className="flex justify-center items-center"
         >
           {darkLight ? (
-            <button className="bg-gray-300 dark:bg-amber-500/30 p-2.5 rounded-full cursor-pointer duration-500 border border-transparent dark:border-amber-500/50 transition-colors">
+            <button className="bg-gray-300 dark:bg-amber-500/30 p-1.5 lg:p-2.5 rounded-full cursor-pointer duration-500 border border-transparent dark:border-amber-500/50 transition-colors">
               <MdDarkMode className="text-amber-400" size={22} />
             </button>
           ) : (
-            <button className="bg-gray-300 p-2.5 rounded-full cursor-pointer duration-500 transition-colors">
+            <button className="bg-gray-300 p-1.5 lg:p-2.5 rounded-full cursor-pointer duration-500 transition-colors">
               <MdOutlineLightMode className="text-gray-700" size={22} />
             </button>
           )}
@@ -81,7 +81,7 @@ const Navbar = ({
               onClick={() => setOpen(!open)}
               className="flex relative items-center gap-2 bg-gray-200/30 dark:bg-gray-800/50 px-2 py-1 rounded-3xl cursor-pointer transition-colors duration-300"
             >
-              <div className="h-10 w-10 overflow-hidden rounded-full border border-gray-300 dark:border-gray-600">
+              <div className="h-8 w-8 lg:h-10 lg:w-10 overflow-hidden rounded-full border border-gray-300 dark:border-gray-600">
                 <img src={user?.photoURL || userImg} alt="" />
               </div>
               <div className="hidden lg:block text-gray-600 dark:text-gray-200 text-[14px] font-semibold">
@@ -110,7 +110,7 @@ const Navbar = ({
                     transition={{ duration: 0.3, type: "spring" }}
                     className="absolute right-0 top-[130%] origin-top bg-gradient-to-tr from-gray-200 via-gray-300 to-gray-200 dark:from-gray-800 dark:via-gray-700 dark:to-gray-800 backdrop-blur-2xl rounded-xl overflow-hidden shadow-lg"
                   >
-                    <ul className="flex flex-col w-28 lg:w-48 text-center">
+                    <ul className="flex flex-col w-32 lg:w-48 text-center">
                       <li className="py-2 font-semibold text-gray-600 dark:text-gray-200 hover:text-amber-500 transition-colors">
                         <Link
                           to={"/dashboard"}

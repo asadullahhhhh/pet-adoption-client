@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { FaExclamationTriangle } from "react-icons/fa";
 import useAuth from "../../hooks/useAuth";
 

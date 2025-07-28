@@ -189,7 +189,7 @@ const AllUsers = () => {
             className="w-[350px] md:w-[450px] lg:w-[750px] xl:w-[1000px] 2xl:w-full transition-all duration-500  
         bg-gradient-to-br from-green-100/50 via-gray-100/50 to-blue-100/50 
         dark:from-gray-800 dark:via-gray-900 dark:to-gray-800
-        p-8 rounded-xl border border-gray-300 dark:border-gray-700 shadow-xl"
+        p-8 rounded-xl border border-gray-300 dark:border-gray-700 overflow-x-auto shadow-xl"
           >
             <table className="w-full text-sm md:text-base table-auto">
               <thead className="bg-gray-100 dark:bg-gray-700">

@@ -8,6 +8,7 @@ const MobileSideBar = ({
   navLinks,
   isSidebarOpen,
   darkLight,
+  role,
 }) => {
   const location = useLocation();
 
@@ -31,26 +32,31 @@ const MobileSideBar = ({
       </div>
       <nav className="p-4 space-y-4">
         <ul className="space-y-2 mt-4">
-          {navLinks.map(({ to, label, icon }) => (
-            <li key={to}>
-              <NavLink
-                to={to}
-                className={`
-              flex items-center gap-3 px-4 py-2 rounded-md transition-all duration-200 
-              hover:bg-emerald-100 dark:hover:bg-emerald-800/40 
-              ${
-                location.pathname === to
-                  ? "bg-emerald-200 dark:bg-emerald-600/50 font-semibold"
-                  : ""
-              }
-              text-gray-800 dark:text-gray-200
-            `}
-              >
-                <span className="text-xl">{icon}</span>
-                {isSidebarOpen && <span className="text-sm">{label}</span>}
-              </NavLink>
-            </li>
-          ))}
+          {navLinks
+            .filter((link) => {
+              if (link.adminOnly && role?.role !== "admin") return false;
+              return true;
+            })
+            .map(({ to, label, icon }) => (
+              <li key={to}>
+                <NavLink
+                  to={to}
+                  className={`
+                         flex items-center gap-3 px-4 py-2 rounded-md transition-all duration-200
+                         hover:bg-emerald-100 dark:hover:bg-emerald-500/40
+                         ${
+                           location.pathname === to
+                             ? "bg-emerald-200 dark:bg-emerald-400/50 font-semibold"
+                             : ""
+                         }
+                         text-gray-700 dark:text-gray-300
+                       `}
+                >
+                  <span className="text-xl">{icon}</span>
+                  {isSidebarOpen && <span className="text-sm">{label}</span>}
+                </NavLink>
+              </li>
+            ))}
         </ul>
       </nav>
     </div>

@@ -116,7 +116,7 @@ const Navbar = () => {
         </div>
 
         {/* Login / Logout */}
-        <div className="flex items-center justify-end gap-4">
+        <div className="flex items-center justify-end gap-2 lg:gap-4">
           {/* Dark mode toggle */}
           <div
             onClick={handelDarkMood}

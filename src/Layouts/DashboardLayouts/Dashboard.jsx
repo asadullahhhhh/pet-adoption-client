@@ -35,8 +35,8 @@ const Dashboard = () => {
 
   const handelLogout = () => {
     try {
-      logOut();
       setUser(null);
+      logOut();
       toast.success("User sign out successful");
     } catch (err) {
       toast.error(err.message);
@@ -132,6 +132,7 @@ const Dashboard = () => {
           isMobileOpen={isMobileOpen}
           isSidebarOpen={isSidebarOpen}
           darkLight={darkLight}
+          role={role}
         ></MobileSideBar>
 
         {/* Mobile Overlay */}

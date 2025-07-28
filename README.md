@@ -6,9 +6,7 @@ A **MERN stack** platform that connects people with pets for adoption, allows cr
 
 ## 🚀 Live URLs
 
-- **Client:** [Live Link](https://your-client-url.com)
-- **Server:** [Live Link](https://your-server-url.com)
-
+- **Client:** [Live Link](https://pet-adoption-tailwag.surge.sh/)
 ---
 
 ## ✨ Key Features

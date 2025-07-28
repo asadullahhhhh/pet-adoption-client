@@ -69,11 +69,9 @@ const MyDonation = () => {
       header: "Pet",
       accessorKey: "petImage",
       cell: ({ row }) => (
-        <img
-          src={row.original.petImage}
-          alt="pet"
-          className="w-16 h-16 rounded object-cover"
-        />
+        <div className="w-16 h-16 rounded">
+          <img src={row.original.petImage} alt="pet" className="object-cover" />
+        </div>
       ),
     },
     {
