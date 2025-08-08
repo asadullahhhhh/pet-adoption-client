@@ -38,12 +38,12 @@ A responsive, user-friendly single-page application (SPA) built with React that 
 ## Environment Variables (Client)
 -Create a `.env.local` file at the project root (do NOT commit this file):
 
--REACT_APP_FIREBASE_API_KEY=your_firebase_api_key
--REACT_APP_FIREBASE_AUTH_DOMAIN=your_firebase_auth_domain
--REACT_APP_FIREBASE_PROJECT_ID=your_project_id
--REACT_APP_FIREBASE_APP_ID=your_app_id
--REACT_APP_API_BASE_URL=https://your-server-domain.com
--REACT_APP_STRIPE_PUBLISHABLE_KEY=pk_test_XXXX
+- REACT_APP_FIREBASE_API_KEY=your_firebase_api_key
+- REACT_APP_FIREBASE_AUTH_DOMAIN=your_firebase_auth_domain
+- REACT_APP_FIREBASE_PROJECT_ID=your_project_id
+- REACT_APP_FIREBASE_APP_ID=your_app_id
+- REACT_APP_API_BASE_URL=https://your-server-domain.com
+- REACT_APP_STRIPE_PUBLISHABLE_KEY=pk_test_XXXX
 
 
 **Security note:** Never expose sensitive keys in the repo. Use environment variables and keep `.env*` files in `.gitignore`.
