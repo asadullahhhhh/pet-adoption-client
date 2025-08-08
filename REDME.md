@@ -19,6 +19,7 @@ A responsive, user-friendly single-page application (SPA) built with React that 
 - TanStack Query for all GET data fetching (with React Query patterns).
 
 ## Tech Stack / Packages (Client)
+
 - React 
 - React Router 
 - TanStack Query 
