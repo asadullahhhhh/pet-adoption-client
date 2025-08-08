@@ -36,7 +36,7 @@ A responsive, user-friendly single-page application (SPA) built with React that 
 - jwt
 
 ## Environment Variables (Client)
-Create a `.env.local` file at the project root (do NOT commit this file):
+-Create a `.env.local` file at the project root (do NOT commit this file):
 
 -REACT_APP_FIREBASE_API_KEY=your_firebase_api_key
 -REACT_APP_FIREBASE_AUTH_DOMAIN=your_firebase_auth_domain
