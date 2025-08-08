@@ -69,7 +69,7 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const lit = getElement();
     setDarkLight(lit);
-  }, [darkLight]);
+  }, []);
 
   const { data: roleData, isLoading: roleLoading } = useQuery({
     queryKey: ["role", user?.email],

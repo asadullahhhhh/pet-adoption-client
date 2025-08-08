@@ -87,10 +87,11 @@ const DashboardHome = ({ darkLight }) => {
       </div>
     );
 
-  const adoptionPie = [
-    { name: "Adopted", value: adoptionStats.adoptedCount },
-    { name: "Pending", value: adoptionStats.pendingCount },
-  ];
+ const adoptionPie = adoptionStats ? [
+  { name: "Adopted", value: adoptionStats.adoptedCount || 0 },
+  { name: "Pending", value: adoptionStats.pendingCount || 0 },
+] : [];
+
 
   const donationPie = [
     { name: "Raised", value: donationStats.totalRaised },
@@ -105,15 +106,15 @@ const DashboardHome = ({ darkLight }) => {
     >
       {/* Overview Cards */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        <Card title="Total Users" value={overview.totalUsers} />
-        <Card title="Total Pets" value={overview.totalPets} />
+        <Card title="Total Users" value={overview?.totalUsers} />
+        <Card title="Total Pets" value={overview?.totalPets} />
         <Card
           title="Adoption Requests"
-          value={overview.totalAdoptionRequests}
+          value={overview?.totalAdoptionRequests}
         />
         <Card
           title="Donation Campaigns"
-          value={overview.totalDonationCampaigns}
+          value={overview?.totalDonationCampaigns}
         />
       </div>
 
@@ -163,7 +164,7 @@ const DashboardHome = ({ darkLight }) => {
 
         <ChartCard title="New Users: Last 3 Days">
           <ResponsiveContainer width="100%" height={250}>
-            <LineChart data={newUsers3}>
+            <LineChart data={newUsers3 || []}>
               <XAxis dataKey="_id" stroke="#9ca3af" />
               <YAxis stroke="#9ca3af" />
               <Tooltip
@@ -184,7 +185,7 @@ const DashboardHome = ({ darkLight }) => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <RecentList
           title="New Users"
-          items={recent.latestUsers?.map((u) => ({
+          items={(recent?.latestAdoptions || []).map((u) => ({
             id: u.email,
             label: u.name,
             sub: new Date(u.created_At).toLocaleDateString(),
@@ -193,7 +194,7 @@ const DashboardHome = ({ darkLight }) => {
 
         <RecentList
           title="Recent Adoptions"
-          items={recent.latestAdoptions?.map((a) => ({
+          items={(recent?.latestAdoptions || []).map((a) => ({
             id: a.petId,
             label: a.petImage ? a.petImage.split("/").pop() : a.petId,
             sub: status(a.status),
@@ -202,7 +203,7 @@ const DashboardHome = ({ darkLight }) => {
 
         <RecentList
           title="Recent Donations"
-          items={recent.latestDonations?.map((d) => ({
+          items={(recent?.latestAdoptions || []).map((d) => ({
             id: d._id,
             label: d.shortDescription,
             sub: `${d.totalDonatedAmount}/${d.maxDonationAmount}৳`,
@@ -242,7 +243,7 @@ const RecentList = ({ title, items }) => (
     <ul className="space-y-3">
       {items?.map((item) => (
         <li
-          key={item.id}
+          key={item._id}
           className="flex justify-between items-center border-b border-gray-100 dark:border-gray-700 pb-2 last:border-none"
         >
           <span className="text-gray-800 dark:text-gray-100">{item.label}</span>

@@ -252,7 +252,7 @@ const AllDonations = () => {
       } p-5 lg:p-10 flex justify-center items-start dark:bg-gray-900 min-h-[calc(100vh-74px)]`}
     >
       <div
-        className="w-[350px] md:w-[450px] lg:w-[750px] xl:w-[1000px] 2xl:w-full transition-all duration-500 
+        className="w-[350px] md:w-[450px] lg:w-[750px] xl:w-[1000px] 2xl:w-[1520px] transition-all duration-500 
       bg-gradient-to-br from-green-100/50 via-gray-100/50 to-blue-100/50 
       dark:from-gray-800 dark:via-gray-900 dark:to-gray-800
       p-4 rounded-lg border shadow-lg border-gray-300 dark:border-gray-700"

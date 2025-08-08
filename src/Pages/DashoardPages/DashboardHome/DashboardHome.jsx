@@ -7,7 +7,7 @@ import AdminHome from "./AdminHome";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const DashboardHome = () => {
-  const [overview, setOverview] = useState([]);
+  const [overview, setOverview] = useState({});
   const [recentPets, setRecentPets] = useState([]);
   const [recentDonations, setRecentDonations] = useState([]);
   const [loading, setLoading] = useState(true);
