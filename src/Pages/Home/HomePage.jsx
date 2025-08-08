@@ -6,6 +6,7 @@ import PetCategorySection from '../../Components/PetCategorySection/PetCategoryS
 import FeaturedPetsSlider from '../../Components/FeaturedPetsSlider/FeaturedPetsSlider';
 import ServiceSection from '../../Components/ServiceSection/ServiceSection';
 import useAuth from '../../hooks/useAuth';
+import Divider from '../../Components/Divider/Divider';
 
 const HomePage = () => {
   const { darkLight } = useAuth();
@@ -16,7 +17,8 @@ const HomePage = () => {
           <FeatureSection></FeatureSection>
           <AboutSection></AboutSection>
           <PetCategorySection></PetCategorySection>
-          <ServiceSection></ServiceSection>
+          <Divider></Divider>
+          {/* <ServiceSection></ServiceSection> */}
           <FeaturedPetsSlider></FeaturedPetsSlider>
         </section>
       </>

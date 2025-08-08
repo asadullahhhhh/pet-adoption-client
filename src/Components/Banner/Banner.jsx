@@ -1,12 +1,12 @@
 import { motion } from "framer-motion";
 import useAuth from "../../hooks/useAuth";
+import banner from '../../../src/assets/banner.jpeg'
 
 const Banner = () => {
 
   const {darkLight} = useAuth()
 
-  const bgUrl =
-    "https://tailwag.progressionstudios.com/wp-content/uploads/2022/04/its-breakfast-time-dog-wrapped-in-a-blue-knitted-blanket-on-an-early-morning-sitting-at-the-table_t20_ZV4Gak.jpg";
+  const bgUrl = banner
 
 
   return (

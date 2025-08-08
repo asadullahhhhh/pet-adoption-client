@@ -7,6 +7,7 @@ import {
 import { GiRabbit } from "react-icons/gi"; // from Game Icons
 import { useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
+import about from '../../../src/assets/about.jpg'
 
 const PetCategorySection = () => {
 
@@ -21,9 +22,9 @@ const PetCategorySection = () => {
     <section
       className={`${
         darkLight ? "dark" : ""
-      } py-16 relative bg-cover h-[400px] bg-center mb-[220px] md:mb-[250px] 2xl:mb-[100px]`}
+      } py-16 relative bg-cover h-[400px] bg-center`}
       style={{
-        backgroundImage: `url('https://tailwag.progressionstudios.com/wp-content/uploads/2022/04/guy-holding-smiling-puppy_t20_JaNme9.jpg')`,
+        backgroundImage: `url(${about})`,
       }}
     >
       <div className="absolute inset-0 bg-black opacity-30"></div>
